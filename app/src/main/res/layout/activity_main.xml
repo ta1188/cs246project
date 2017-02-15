@@ -13,6 +13,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dan's World IV" />
+        android:text="This is the Greatest APP ever!!!!" />
 
 </RelativeLayout>
