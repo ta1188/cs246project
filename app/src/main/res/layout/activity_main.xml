@@ -13,6 +13,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="This is the Greatest APP ever!!!!" />
+        android:text="This is the Greatest APP ever!!!!"
+        android:id="@+id/textView" />
+
+    <Button
+        android:text="Word Selectable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="101dp"
+        android:id="@+id/wordSelectableBtn"
+        android:onClick="sendToWordSelectable" />
 
 </RelativeLayout>
