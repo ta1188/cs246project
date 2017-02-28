@@ -26,4 +26,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getBaseContext(), WordSelectable.class);
         startActivity(intent);
     }
+
+    public void sendToNameSelectable(View view) {
+        Intent intent = new Intent(getBaseContext(), NameSelectable.class);
+        startActivity(intent);
+    }
+
+    public void sendToCountSelectable(View view) {
+        Intent intent = new Intent(getBaseContext(), CountSelectable.class);
+        startActivity(intent);
+    }
 }
