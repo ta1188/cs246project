@@ -18,7 +18,8 @@
         <activity android:name=".TraceActivity" />
         <activity android:name=".WordSelectable" />
         <activity android:name=".NameSelectable" />
-        <activity android:name=".CountSelectable"></activity>
+        <activity android:name=".CountSelectable" />
+        <activity android:name=".MenuActivity"></activity>
     </application>
 
 </manifest>
