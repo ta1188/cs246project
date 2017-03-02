@@ -48,8 +48,22 @@ public class DrawView extends View {
         _paint.setAntiAlias(true);
         _paint.setColor(Color.RED);
         _paint.setStyle(Paint.Style.STROKE);
-        //_paint.setStrokeJoin(Paint.Join.ROUND);
-        _paint.setStrokeWidth(5f);
+        _paint.setStrokeWidth(10f);
+    }
+
+    // Constructs a DrawView
+    public DrawView(Context context) {
+        super(context);
+
+        _path = new Path();
+
+        _paint = new Paint();
+        _paint.setAntiAlias(true);
+        _paint.setColor(Color.RED);
+        _paint.setStyle(Paint.Style.STROKE);
+        _paint.setStrokeWidth(10f);
+
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
