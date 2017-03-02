@@ -8,8 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 /**
- * The main (menu) Activity where the user can select an tracing or selection "activity" to help
- * them prepare for Kindergarten by enhancing their reading, writing, and comprehension skills.
+ * The Login Activity where the user will enter their name to be used in the app's "activities".
  * <p>
  * @author  Micheal Lucero, Trevor Adams, & Dan Rix
  * @version 1.0
