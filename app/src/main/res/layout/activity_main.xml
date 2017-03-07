@@ -10,17 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.cs246project.kindergartenprepapp.MainActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="89dp"
-        android:id="@+id/editTextName"
-        android:hint="Name" />
-
     <Button
         android:text="Go"
         android:layout_width="wrap_content"
@@ -30,4 +19,14 @@
         android:layout_marginBottom="31dp"
         android:id="@+id/button"
         android:onClick="goToMainMenu"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/editTextName"
+        android:hint="Player Name"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
