@@ -15,9 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LetterTraceActivity" />
-        <activity android:name=".NumberTraceActivity" />
-        <activity android:name=".NameTraceActivity" />
+        <activity android:name=".LetterTraceActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".NumberTraceActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".NameTraceActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".WordSelectable" />
         <activity android:name=".NameSelectable" />
         <activity android:name=".CountSelectable" />
