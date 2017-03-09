@@ -1,6 +1,14 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import java.util.List;
 
 /**
  * An Activity that allows the user to trace letters in the alphabet, numbers, or words (including
@@ -12,28 +20,16 @@ import android.os.Bundle;
  * @since   2017-02-20
  */
 
-public class LetterTraceActivity extends TraceActivity {
+public class LetterTraceActivity extends CharacterTraceActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void instantiateModel() {
+        _model = new LetterTraceModel();
     }
 
-    /**
-     * Initialize Trace Characters
-     * Initializes or sets the traceCharacters
-     */
     @Override
-    public void initializeTraceCharacters() {
-        _traceCharacters = "Aa";
+    protected void setLayoutParamStartPoint(FrameLayout.LayoutParams layoutParams, int startPoint) {
+        layoutParams.setMarginStart(startPoint);
     }
 
-    /**
-     * Initialize Layout Index
-     * Initializes or sets the _layoutIndex.
-     */
-    @Override
-    public void initializeLayoutIndex() {
-        _layoutIndex = R.layout.character_activity_trace;
-    }
 }
