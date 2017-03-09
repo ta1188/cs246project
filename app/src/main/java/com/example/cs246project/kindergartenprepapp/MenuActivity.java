@@ -78,7 +78,7 @@ public class MenuActivity extends AppCompatActivity {
      * @param view the button that called this action.
      */
     public void sendToNumberTraceActivity(View view) {
-        Intent intent = new Intent(getBaseContext(), LetterTraceActivity.class);
+        Intent intent = new Intent(getBaseContext(), NumberTraceActivity.class);
         startActivity(intent);
     }
 }
