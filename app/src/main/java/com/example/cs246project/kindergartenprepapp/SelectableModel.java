@@ -1,0 +1,158 @@
+package com.example.cs246project.kindergartenprepapp;
+
+import android.app.Application;
+import android.content.Context;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * <p>
+ * @author  Michael Lucero
+ * @version 1.0
+ * @since   2017-03-15
+ */
+
+/**
+ * SELECTABLEMODEL: Class will build a list of random values used with the selectable activities.
+ * The class will create the specified number of values of which will have the following
+ * properties: they are unique with no duplicates, options are reduced as the user gets a
+ * question right, The first generated value is assigned to be the answer. The class will
+ * have a function that will return a list of value back.
+ */
+abstract class SelectableModel<T> extends Application {
+
+    /* Member Variables */
+
+    public Context _context;
+    protected List<T> _questionBank;
+    protected List<T> _answerBank;
+    protected T _answer;
+    protected Boolean _isActivityDone;
+    protected int _optionCount;
+    protected List<T> randomValues;
+
+    private static final String TAG = "SelectableModel";
+
+    /* METHODS */
+
+    /**
+     * ISCORRECT will tell if the value is the correct answer and update the question bank if
+     * already correct
+     * @param value what has been selected by the user
+     */
+    public Boolean isCorrect(T value) {
+
+        if(!_isActivityDone) {
+            // find value in list and then remove it from the possibilities
+            Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
+            _answerBank.remove(value);
+        }
+
+        // check if all questions have now been answered
+        if (_answerBank.size() == 0) {
+            _isActivityDone = true;
+        }
+        return (_answer == value);
+    }
+
+    /**
+     * ISACTIVITYDONE will tell if the activity is over and all values in the question
+     */
+    public Boolean isActivityDone() { return _isActivityDone; }
+
+    /**
+     * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
+     */
+    int getAnswerResoureIndex() {
+
+        int resourceIndex = this.getResources().getIdentifier("object_" + _answerBank, "drawable",
+                this.getPackageName());
+        return resourceIndex;
+    }
+
+    /**
+     * GETPROGRESS will tell if the activity is over
+     */
+    public int getProgress() {
+        return _answerBank.size();
+    }
+
+    /**
+     * BUILDINITIALQUESTIONANSWERBANKS will build a question bank
+     */
+    abstract protected void buildInitialQuestionAnswerBanks();
+
+    /**
+     * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
+     */
+    public List<T> generateValueList() {
+
+        // make sure the activity is not over because all values have been selected correctly
+        //    otherwise would result in endless loop in random activity
+        if (!_isActivityDone) {
+            // get random values with is parameters
+            randomValues = randomValuesGenerator();
+        }
+        else {
+            Log.w(TAG, "generateButtonList: able to generate random values " +
+                    _answerBank.size() + " > 0");
+            return null;
+        }
+
+        // shuffle list to make is random
+        Collections.shuffle(randomValues);
+
+        /////////////////////// Convert values to Filenames and associate files
+        //List<MBMODEL> genValues (int Count)
+        //MB Model <T>
+        // -imgresource int
+        // -audioresource List <int>
+        // -value T
+
+
+        return randomValues;
+    }
+
+    /**
+     * RANDOMBUTTONGENERATOR will generate an array of random values to be used for the buttons.
+     * Will be unique values that are not used again if already answered
+     */
+    private List<T> randomValuesGenerator() {
+
+        List<T> valueList = new ArrayList<>();
+        Random randomValueRetriever = new Random();
+
+        // get random first value with conditions based on available answer bank questions
+        _answer = _answerBank.get(randomValueRetriever.nextInt(_answerBank.size()));
+
+        // check if random number already exists where -1 means it doesn't exists
+        valueList.add(_answer);
+
+        // generate the rest of the buttons with random values that don't match button 1st
+        //    button made
+        while (valueList.size() < _optionCount) {
+
+            // get random value
+            T randomNum = _questionBank.get(randomValueRetriever.nextInt(_questionBank.size()));
+
+            // check if number already added, not added if -1 is returned
+            if (valueList.indexOf(randomNum) == -1)
+                valueList.add(randomNum);
+
+            // once the right size array has been made then we have a randomized list
+        }
+
+        return valueList;
+    }
+
+    // used to get access to shared preferences
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        _context = getApplicationContext();
+    }
+}

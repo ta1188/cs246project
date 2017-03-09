@@ -64,4 +64,13 @@
         android:layout_below="@+id/numberTraceButton"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:id="@+id/aboutAppButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About App"
+        android:onClick="sendToAboutActivity"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
