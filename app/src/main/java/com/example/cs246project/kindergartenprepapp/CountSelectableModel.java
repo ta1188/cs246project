@@ -1,5 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -25,8 +26,8 @@ public class CountSelectableModel extends SelectableModel {
     /**
      * @param optionCount how many values are need to be generated
      */
-    public CountSelectableModel(int optionCount) {
-
+    public CountSelectableModel(Context context, int optionCount) {
+        super(context);
         if((optionCount > 0) && (optionCount <= 10)) {
             _optionCount = optionCount;
             _isActivityDone = false;

@@ -1,5 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import java.util.ArrayList;
 
@@ -19,8 +20,8 @@ public class NameSelectableModel extends SelectableModel {
 
     /************ Constructors *************/
 
-    public NameSelectableModel() {
-
+    public NameSelectableModel(Context context) {
+        super(context);
         _isActivityDone = false;
 
         // initialize question bank

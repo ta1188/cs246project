@@ -1,5 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.Context;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,26 +21,19 @@ import static android.content.ContentValues.TAG;
  */
 public class WordSelectableModel extends SelectableModel {
 
-
-    protected List<String> randomValues;
-    protected List<MediaModel> results;
-
     /************ Constructors *************/
 
     /**
      * @param optionCount how many values are need to be generated
      */
-    public WordSelectableModel(int optionCount) {
-
+    public WordSelectableModel(Context context, int optionCount) {
+        super(context);
         if((optionCount > 0) && (optionCount <= 26)) {
-        _optionCount = optionCount;
-        _isActivityDone = false;
-
-    }
-        else {
-        Log.i(TAG, "CountSelectableModel: 0 < option count <= 26; out of possible range");
-
-    }
+            _optionCount = optionCount;
+            _isActivityDone = false;
+        } else {
+            Log.i(TAG, "CountSelectableModel: 0 < option count <= 26; out of possible range");
+        }
 
         // initialize question bank
         buildInitialQuestionAnswerBanks();
@@ -55,8 +49,8 @@ public class WordSelectableModel extends SelectableModel {
         _questionBank = new ArrayList<>();
 
         for (char i = 'a' ; i <= 'z'; i++) {
-            _questionBank.add(i);
-            _answerBank.add(i);
+            _questionBank.add(Character.toString(i));
+            _answerBank.add(Character.toString(i));
         }
     }
 
@@ -65,6 +59,9 @@ public class WordSelectableModel extends SelectableModel {
      * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
      */
     public List<MediaModel> generateValueList() {
+
+        List<String> randomValues = new ArrayList<>();
+        List<MediaModel> results = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly
         //    otherwise would result in endless loop in random activity
@@ -89,21 +86,21 @@ public class WordSelectableModel extends SelectableModel {
         // -value T
 
         for (String value : randomValues) {
-            int imageFileResourceIndex = getResources().getIdentifier(value, "drawable", getPackageName());
+            int imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value, "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
-            int audioFileResourceIndex1 = getResources().getIdentifier(value, "raw", getPackageName());
+            int audioFileResourceIndex1 = _context.getResources().getIdentifier(value, "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex1);
 
             // letter sound
-            int audioFileResourceIndex3 = getResources().getIdentifier("letter_sound_" + value, "raw", getPackageName());
+            int audioFileResourceIndex3 = _context.getResources().getIdentifier("letter_sound_" + value, "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex3);
 
             // correct answer
             if (value == _answer) {
-                int audioFileResourceIndex2 = getResources().getIdentifier("motivate_great_job", "raw", getPackageName());
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier("motivate_great_job", "raw", _context.getPackageName());
                 audioFileResourceIndexes.add(audioFileResourceIndex2);
             } else { // incorrect
-                int audioFileResourceIndex2 = getResources().getIdentifier("upper", "raw", getPackageName());
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier("upper", "raw", _context.getPackageName());
                 audioFileResourceIndexes.add(audioFileResourceIndex2);
             }
             MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);

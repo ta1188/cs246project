@@ -36,6 +36,11 @@ abstract class SelectableModel<T> extends Application {
 
     private static final String TAG = "SelectableModel";
 
+    public SelectableModel (Context context){
+        _context = context;
+        _isActivityDone = false;
+    }
+
     /* METHODS */
 
     /**
@@ -68,8 +73,7 @@ abstract class SelectableModel<T> extends Application {
      */
     int getAnswerResoureIndex() {
 
-        int resourceIndex = this.getResources().getIdentifier("object_" + _answerBank, "drawable",
-                this.getPackageName());
+        int resourceIndex = _context.getResources().getIdentifier("object_" + _answer, "drawable", _context.getPackageName());
         return resourceIndex;
     }
 
@@ -116,12 +120,5 @@ abstract class SelectableModel<T> extends Application {
         }
 
         return valueList;
-    }
-
-    // used to get access to shared preferences
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        _context = getApplicationContext();
     }
 }
