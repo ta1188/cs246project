@@ -13,7 +13,7 @@ import java.util.Random;
  * <p>
  * @author  Michael Lucero
  * @version 1.0
- * @since   2017-03-15
+ * @since   2017-03-09
  */
 
 /**
@@ -33,7 +33,6 @@ abstract class SelectableModel<T> extends Application {
     protected T _answer;
     protected Boolean _isActivityDone;
     protected int _optionCount;
-    protected List<T> randomValues;
 
     private static final String TAG = "SelectableModel";
 
@@ -86,42 +85,12 @@ abstract class SelectableModel<T> extends Application {
      */
     abstract protected void buildInitialQuestionAnswerBanks();
 
-    /**
-     * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
-     */
-    public List<T> generateValueList() {
-
-        // make sure the activity is not over because all values have been selected correctly
-        //    otherwise would result in endless loop in random activity
-        if (!_isActivityDone) {
-            // get random values with is parameters
-            randomValues = randomValuesGenerator();
-        }
-        else {
-            Log.w(TAG, "generateButtonList: able to generate random values " +
-                    _answerBank.size() + " > 0");
-            return null;
-        }
-
-        // shuffle list to make is random
-        Collections.shuffle(randomValues);
-
-        /////////////////////// Convert values to Filenames and associate files
-        //List<MBMODEL> genValues (int Count)
-        //MB Model <T>
-        // -imgresource int
-        // -audioresource List <int>
-        // -value T
-
-
-        return randomValues;
-    }
 
     /**
      * RANDOMBUTTONGENERATOR will generate an array of random values to be used for the buttons.
      * Will be unique values that are not used again if already answered
      */
-    private List<T> randomValuesGenerator() {
+    protected List<T> randomValuesGenerator() {
 
         List<T> valueList = new ArrayList<>();
         Random randomValueRetriever = new Random();

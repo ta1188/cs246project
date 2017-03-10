@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:text="About App"
         android:onClick="sendToAboutActivity"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/nameTraceButton"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
