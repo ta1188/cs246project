@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Dan on 3/8/2017.
+ * The model class associated with a name tracing activity which handles all of the logic of
+ * building the image resource files and tracking values.
+ * <p>
+ * @author  Dan Rix
+ * @version 1.0
+ * @since   2017-03-09
  */
 
 public class NameTraceModel {
