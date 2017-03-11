@@ -21,6 +21,21 @@ import static android.content.ContentValues.TAG;
  */
 public class WordSelectableModel extends SelectableModel {
 
+    // for changing up the motivational messages
+    static final List<String> correct = new ArrayList<String>(){{
+        add("motivate_great_job");
+        add("motivate_you_did_it");
+        add("motivate_you_found_the_letter");
+        add("sound_correct");
+    }};
+
+    // for changing up the motivational messages
+    static final List<String> incorrect = new ArrayList<String>(){{
+        add("motivate_try_again");
+        add("sound_incorrect");
+    }};
+
+
     /************ Constructors *************/
 
     /**
@@ -54,7 +69,6 @@ public class WordSelectableModel extends SelectableModel {
         }
     }
 
-
     /**
      * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
      */
@@ -78,14 +92,11 @@ public class WordSelectableModel extends SelectableModel {
         // shuffle list to make is random
         Collections.shuffle(randomValues);
 
-        /////////////////////// Convert values to Filenames and associate files
-        //List<MBMODEL> genValues (int Count)
-        //MB Model <T>
-        // -imgresource int
-        // -audioresource List <int>
-        // -value T
-
+        // Useing the random values now associate the images and sounds to buttons to be used
+        //    by the calling activity
         for (String value : randomValues) {
+
+            // set the picture to match the letter sound
             int imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value, "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
             int audioFileResourceIndex1 = _context.getResources().getIdentifier(value, "raw", _context.getPackageName());
@@ -95,12 +106,18 @@ public class WordSelectableModel extends SelectableModel {
             int audioFileResourceIndex3 = _context.getResources().getIdentifier("letter_sound_" + value, "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex3);
 
+            // used to make the motivations different each time
+            Collections.shuffle(correct);
+
+            // used to make the motivations different each time
+            Collections.shuffle(incorrect);
+
             // correct answer
             if (value == _answer) {
-                int audioFileResourceIndex2 = _context.getResources().getIdentifier("motivate_great_job", "raw", _context.getPackageName());
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier(correct.get(0), "raw", _context.getPackageName());
                 audioFileResourceIndexes.add(audioFileResourceIndex2);
             } else { // incorrect
-                int audioFileResourceIndex2 = _context.getResources().getIdentifier("upper", "raw", _context.getPackageName());
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier(incorrect.get(0), "raw", _context.getPackageName());
                 audioFileResourceIndexes.add(audioFileResourceIndex2);
             }
             MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
