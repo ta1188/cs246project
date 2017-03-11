@@ -81,4 +81,9 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(getBaseContext(), NumberTraceActivity.class);
         startActivity(intent);
     }
+
+    public void sendToAboutActivity (View view) {
+        Intent intent = new Intent(getBaseContext(), AboutActivity.class);
+        startActivity(intent);
+    }
 }
