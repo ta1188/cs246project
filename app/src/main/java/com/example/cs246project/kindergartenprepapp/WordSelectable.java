@@ -65,17 +65,6 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
 
-                            // Set up runnable for handler to reference
-                            Runnable myRunnable = new Runnable() {
-                                public void run() {
-                                    resetActivity();
-                                }
-                            };
-
-                            // Run on new thread...
-                            _handler = new Handler();
-                            _handler.postDelayed(myRunnable, 3000);
-
                         } else {
                             Log.d("WordSelectable", "------- WRONG --------");
 
@@ -149,7 +138,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
     @Override
     public void onAudioComplete() {
-
+        Log.d("WordSelectable", "AUDIO SHOULD BE COMPLETE");
     }
 
 }
