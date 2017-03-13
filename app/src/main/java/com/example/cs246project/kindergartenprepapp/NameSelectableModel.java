@@ -2,7 +2,13 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * <p>
@@ -17,6 +23,18 @@ import java.util.ArrayList;
  */
 public class NameSelectableModel extends SelectableModel {
 
+
+    // for changing up the motivational messages
+    static final List<String> correct = new ArrayList<String>(){{
+        add("motivate_great_job");
+        add("motivate_you_did_it");
+        add("motivate_you_found_the_letter");
+    }};
+
+    // for changing up the motivational messages
+    static final List<String> incorrect = new ArrayList<String>(){{
+        add("motivate_try_again");
+    }};
 
     /************ Constructors *************/
 
@@ -47,5 +65,77 @@ public class NameSelectableModel extends SelectableModel {
         for (char i = 0 ; i < usersName.length(); i++) {
             _questionBank.add((int) usersName.charAt(i));
         }
+    }
+
+    /**
+     * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
+     */
+    public List<MediaModel> generateValueList() {
+
+        List<String> randomValues = new ArrayList<>();
+        List<MediaModel> results = new ArrayList<>();
+
+        // make sure the activity is not over because all values have been selected correctly
+        //    otherwise would result in endless loop in random activity
+        if (!_isActivityDone) {
+            // get random values with is parameters
+            randomValues = randomValuesGenerator();
+        }
+        else {
+            Log.w(TAG, "generateButtonList: able to generate random values " +
+                    _answerBank.size() + " > 0");
+            return null;
+        }
+
+        // shuffle list to make is random
+        Collections.shuffle(randomValues);
+
+        // Useing the random values now associate the images and sounds to buttons to be used
+        //    by the calling activity
+        for (String value : randomValues) {
+
+            List<Integer> audioFileResourceIndexes = new ArrayList<>();
+            int imageFileResourceIndex;
+
+            //check if upper case letter is input
+            char[] tempLetter = value.toCharArray();
+            if (Character.isUpperCase(tempLetter[0])) {
+               // get the image resource for name
+               imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value.toLowerCase(), "drawable", _context.getPackageName());
+
+            } else { // lowercase
+                // get the image resource for name
+                imageFileResourceIndex = _context.getResources().getIdentifier("lower_" + value.toLowerCase(), "drawable", _context.getPackageName());
+            }
+
+            // get the audio resource for name
+            int audioFileResourceIndex1 = _context.getResources().getIdentifier(value.toLowerCase(), "raw", _context.getPackageName());
+            audioFileResourceIndexes.add(audioFileResourceIndex1);
+
+            // letter sound
+            int audioFileResourceIndex3 = _context.getResources().getIdentifier("letter_sound_" + value.toLowerCase(), "raw", _context.getPackageName());
+            audioFileResourceIndexes.add(audioFileResourceIndex3);
+
+            // used to make the motivations different each time
+            Collections.shuffle(correct);
+
+            // used to make the motivations different each time
+            Collections.shuffle(incorrect);
+
+            // correct answer
+            if (value == _answer) {
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier(correct.get(0), "raw", _context.getPackageName());
+                audioFileResourceIndexes.add(audioFileResourceIndex2);
+            } else { // incorrect
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier(incorrect.get(0), "raw", _context.getPackageName());
+                audioFileResourceIndexes.add(audioFileResourceIndex2);
+            }
+
+            // retrieve and associate buttons with image and audio
+            MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
+            results.add(mediaModel);
+        }
+
+        return results;
     }
 }

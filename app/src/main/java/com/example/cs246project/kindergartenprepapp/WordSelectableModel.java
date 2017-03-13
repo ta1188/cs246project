@@ -26,13 +26,11 @@ public class WordSelectableModel extends SelectableModel {
         add("motivate_great_job");
         add("motivate_you_did_it");
         add("motivate_you_found_the_letter");
-        add("sound_correct");
     }};
 
     // for changing up the motivational messages
     static final List<String> incorrect = new ArrayList<String>(){{
         add("motivate_try_again");
-        add("sound_incorrect");
     }};
 
 
@@ -99,6 +97,8 @@ public class WordSelectableModel extends SelectableModel {
             // set the picture to match the letter sound
             int imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value, "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
+
+            // retrieve letter audio
             int audioFileResourceIndex1 = _context.getResources().getIdentifier(value, "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex1);
 
@@ -120,6 +120,8 @@ public class WordSelectableModel extends SelectableModel {
                 int audioFileResourceIndex2 = _context.getResources().getIdentifier(incorrect.get(0), "raw", _context.getPackageName());
                 audioFileResourceIndexes.add(audioFileResourceIndex2);
             }
+
+            // retrieve and associate buttons with image and audio
             MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
             results.add(mediaModel);
         }

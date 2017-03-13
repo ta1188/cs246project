@@ -115,8 +115,6 @@ abstract class SelectableModel<T> extends Application {
             // check if number already added, not added if -1 is returned
             if (valueList.indexOf(randomNum) == -1)
                 valueList.add(randomNum);
-
-            // once the right size array has been made then we have a randomized list
         }
 
         return valueList;
