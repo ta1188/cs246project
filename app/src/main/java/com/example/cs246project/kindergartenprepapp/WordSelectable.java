@@ -46,6 +46,9 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         layout = (LinearLayout) findViewById(R.id.layout_word);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
         _model = new WordSelectableModel(this, 4);
+
+        viewSetUp();
+        setMainImage();
     }
 
     public void viewSetUp() {
