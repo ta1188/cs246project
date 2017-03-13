@@ -138,7 +138,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
     @Override
     public void onAudioComplete() {
-        Log.d("WordSelectable", "AUDIO SHOULD BE COMPLETE");
+        resetActivity();
     }
 
 }
