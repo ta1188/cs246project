@@ -29,4 +29,16 @@
         android:layout_marginTop="10dp"
         android:layout_below="@+id/editTextName"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editTextName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="37dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="Enter your name below to get started"
+        android:textSize="20sp" />
 </RelativeLayout>

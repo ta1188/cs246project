@@ -30,6 +30,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
     ProgressBar _progBar;
     private Handler _handler;
+    private boolean wasTrue = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         if(_model.isCorrect(((MediaButton) v).getValue())) {
+                            wasTrue = true;
                             _progBar.incrementProgressBy(1);
                             Log.d("WordSelectable", "------- CORRECT --------");
                             CharSequence text = "Correct!";
@@ -138,7 +140,8 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
     @Override
     public void onAudioComplete() {
-        resetActivity();
+        if (wasTrue)
+            resetActivity();
     }
 
 }
