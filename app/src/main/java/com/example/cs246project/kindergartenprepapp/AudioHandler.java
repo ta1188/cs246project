@@ -7,7 +7,7 @@ package com.example.cs246project.kindergartenprepapp;
 public interface AudioHandler {
 
     /**
-     * 
+     *
      */
     public void onAudioComplete();
 }

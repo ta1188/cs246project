@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountSelectable extends AppCompatActivity {
+public class CountSelectable extends AppCompatActivity implements AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
     ArrayList<String> myImages = new ArrayList<String>();
@@ -51,10 +51,15 @@ public class CountSelectable extends AppCompatActivity {
             MediaModel<Integer> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, 1);
 
             // THIS SECTION WILL BE HANDLED HERE IN THE "Selectable" ACTIVITIES
-            MediaButton<Integer> mediaButton = new MediaButton<>(this, mediaModel);
+            MediaButton<Integer> mediaButton = new MediaButton<>(this, mediaModel, this);
             layout.addView(mediaButton);
             /**************************************************************************************/
         }
+    }
+
+    @Override
+    public void onAudioComplete() {
+
     }
 
     /* TO DO...
