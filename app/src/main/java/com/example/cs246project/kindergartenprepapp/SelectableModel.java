@@ -121,4 +121,9 @@ abstract class SelectableModel<T> extends Application {
 
         return valueList;
     }
+
+
+    public String getAnswer() {
+        return (String) _answer;
+    }
 }

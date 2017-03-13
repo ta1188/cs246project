@@ -1,12 +1,21 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,7 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static android.os.Environment.getExternalStorageDirectory;
 
 public class WordSelectable extends AppCompatActivity implements View.OnTouchListener {
 
@@ -34,10 +46,6 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         layout = (LinearLayout) findViewById(R.id.layout_word);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
         _model = new WordSelectableModel(this, 4);
-
-        viewSetUp();
-
-        setMainImage();
     }
 
     public void viewSetUp() {
@@ -47,7 +55,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         * then it will update the image for each button.
         * */
         for (MediaModel item : _model.generateValueList()) {
-            MediaButton btn = new MediaButton(this, item);
+            final MediaButton btn = new MediaButton(this, item);
             btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -55,7 +63,6 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                         if(_model.isCorrect(((MediaButton) v).getValue())) {
                             _progBar.incrementProgressBy(1);
                             Log.d("WordSelectable", "------- CORRECT --------");
-
                             CharSequence text = "Correct!";
                             int duration = Toast.LENGTH_SHORT;
 
@@ -89,7 +96,6 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                     return false;
                 }
             });
-
             layout.addView(btn);
         }
     }
@@ -99,6 +105,38 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         Drawable res = getResources().getDrawable(_model.getAnswerResoureIndex(), getTheme());
         ImageView imageView = (ImageView) findViewById(R.id.objectImage);
         imageView.setImageDrawable(res);
+        final Context context = this;
+
+        imageView.setOnTouchListener(new View.OnTouchListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    String answer = "object_" + _model.getAnswer();
+                    MediaPlayer mp = new MediaPlayer();
+
+                    // Reset the media player
+                    mp.reset();
+
+                    int soundId = getResources().getIdentifier(answer, "raw", getPackageName());
+
+                    mp.create(context, soundId);
+                    // Load the media player with a new audio resource
+                    try {
+                        AssetFileDescriptor afd = context.getResources().openRawResourceFd(soundId);
+                        mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                        afd.close();
+                        mp.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Play the audio
+                    mp.start();
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -107,7 +145,6 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
         viewSetUp();
         setMainImage();
-
     }
 
     @Override
