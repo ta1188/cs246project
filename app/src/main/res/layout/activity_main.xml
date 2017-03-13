@@ -10,6 +10,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.cs246project.kindergartenprepapp.MainActivity">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/editTextName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="37dp"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:text="Enter your name below to get started"
+        android:textSize="20sp" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

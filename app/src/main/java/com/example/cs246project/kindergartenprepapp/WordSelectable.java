@@ -29,7 +29,6 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
     LinearLayout layout;
 
     ProgressBar _progBar;
-    private Handler _handler;
     private boolean wasTrue = false;
 
     @Override
@@ -77,7 +76,6 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                         }
-
                     }
                     return false;
                 }
@@ -143,6 +141,11 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         if (_model._isActivityDone) {
             this.finish();
         } else {
+            // Unlock buttons
+//            for (int i = 0; i < layout.getChildCount(); i++) {
+//                layout.getChildAt(i).setEnabled(true);
+//            }
+            // check for true
             if (wasTrue)
                 resetActivity();
         }
