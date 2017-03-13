@@ -140,8 +140,12 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
     @Override
     public void onAudioComplete() {
-        if (wasTrue)
-            resetActivity();
+        if (_model._isActivityDone) {
+            this.finish();
+        } else {
+            if (wasTrue)
+                resetActivity();
+        }
     }
 
 }
