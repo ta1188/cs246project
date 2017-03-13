@@ -128,7 +128,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
     public void resetActivity() {
         layout.removeAllViews();
-
+        wasTrue = false;
         viewSetUp();
         setMainImage();
     }
