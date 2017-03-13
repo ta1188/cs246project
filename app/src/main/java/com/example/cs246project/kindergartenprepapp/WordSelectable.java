@@ -2,33 +2,25 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.OrientationEventListener;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import static android.os.Environment.getExternalStorageDirectory;
-
-public class WordSelectable extends AppCompatActivity implements View.OnTouchListener {
+public class WordSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
     WordSelectableModel _model;
@@ -58,7 +50,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         * then it will update the image for each button.
         * */
         for (MediaModel item : _model.generateValueList()) {
-            final MediaButton btn = new MediaButton(this, item);
+            final MediaButton btn = new MediaButton(this, item, this);
             btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -153,6 +145,11 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return false;
+    }
+
+    @Override
+    public void onAudioComplete() {
+
     }
 
 }

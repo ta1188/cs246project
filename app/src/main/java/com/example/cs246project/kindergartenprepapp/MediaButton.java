@@ -22,6 +22,9 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
     // Thee model object that handles image/audio resources
     private MediaModel<T> _model;
 
+    //
+    private AudioHandler _audioHandler;
+
     /**
      * Non-Default Constructor
      * Constructs an instance of MediaButton with a model object for managing all of the image and
@@ -29,9 +32,10 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
      * @param context of the application
      * @param model used for managing resources
      */
-    public MediaButton(Context context, MediaModel<T> model) {
+    public MediaButton(Context context, MediaModel<T> model, AudioHandler audioHandler) {
         super(context);
         _model = model;
+        _audioHandler = audioHandler;
 
         // Set the image of the button
         setImageResource(_model.getImageFileResourceIndex());
@@ -94,6 +98,11 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
 
                         // Reset the index to point back to the first audio file
                         _model.resetAudioIndex();
+
+                        // Call the audio handler's onAudioComplete
+                        if (_audioHandler != null) {
+                            _audioHandler.onAudioComplete();
+                        }
                     }
                 }
             });
