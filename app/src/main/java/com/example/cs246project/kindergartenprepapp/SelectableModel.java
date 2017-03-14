@@ -126,6 +126,6 @@ abstract class SelectableModel<T> extends Application {
 
 
     public String getAnswer() {
-        return (String) _answer;
+        return  String.valueOf(_answer);
     }
 }
