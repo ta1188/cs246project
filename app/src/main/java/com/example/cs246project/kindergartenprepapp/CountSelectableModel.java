@@ -62,7 +62,7 @@ public class CountSelectableModel extends SelectableModel {
         _answerBank  = new ArrayList<>();
         _questionBank = new ArrayList<>();
 
-        for (int i = 0 ; i <= 10; i++) {
+        for (int i = 1 ; i <= 10; i++) {
             _questionBank.add(i);
             _answerBank.add(i);
         }
@@ -73,7 +73,7 @@ public class CountSelectableModel extends SelectableModel {
      */
     public List<MediaModel> generateValueList() {
 
-        List<String> randomValues = new ArrayList<>();
+        List<Integer> randomValues = new ArrayList<>();
         List<MediaModel> results = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly
@@ -93,14 +93,14 @@ public class CountSelectableModel extends SelectableModel {
 
         // Using the random values now associate the images and sounds to buttons to be used
         //    by the calling activity
-        for (String value : randomValues) {
+        for (Integer value : randomValues) {
 
             // set the picture to match the number
-            int imageFileResourceIndex = _context.getResources().getIdentifier("number_" + value, "drawable", _context.getPackageName());
+            int imageFileResourceIndex = _context.getResources().getIdentifier("number_" + String.valueOf(value), "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
 
             // number name
-            int audioFileResourceIndex3 = _context.getResources().getIdentifier("number_" + value, "raw", _context.getPackageName());
+            int audioFileResourceIndex3 = _context.getResources().getIdentifier("number_" + String.valueOf(value), "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex3);
 
             // used to make the motivations different each time
@@ -119,7 +119,7 @@ public class CountSelectableModel extends SelectableModel {
             }
 
             // retrieve and associate buttons with image and audio
-            MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
+            MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, String.valueOf(value));
             results.add(mediaModel);
         }
 

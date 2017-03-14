@@ -51,16 +51,21 @@ abstract class SelectableModel<T> extends Application {
     public Boolean isCorrect(T value) {
 
         if(!_isActivityDone) {
-            // find value in list and then remove it from the possibilities
-            Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
-            _answerBank.remove(value);
+            Log.w(TAG, "answer is " + _answer);
+            if (String.valueOf(value) == String.valueOf(_answer)) {
+                // find value in list and then remove it from the possibilities
+                Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
+                _answerBank.remove(value);
+            } else {
+                Log.w(TAG, "The value: " + value + " is NOT correct");
+            }
         }
 
         // check if all questions have now been answered
         if (_answerBank.size() == 0) {
             _isActivityDone = true;
         }
-        return (_answer == value);
+        return (String.valueOf(value) == String.valueOf(_answer));
     }
 
     /**
@@ -71,9 +76,8 @@ abstract class SelectableModel<T> extends Application {
     /**
      * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
      */
-    int getAnswerResoureIndex() {
-
-        int resourceIndex = _context.getResources().getIdentifier("object_" + _answer, "drawable", _context.getPackageName());
+    int getAnswerResoureIndex(String filePrefix) {
+        int resourceIndex = _context.getResources().getIdentifier(filePrefix + _answer, "drawable", _context.getPackageName());
         return resourceIndex;
     }
 
