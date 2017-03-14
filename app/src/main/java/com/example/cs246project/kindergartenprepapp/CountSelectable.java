@@ -63,7 +63,7 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
                         if(_model.isCorrect(String.valueOf(((MediaButton) v).getValue()))) {
                             wasTrue = true;
                             _progBar.incrementProgressBy(1);
-                            Log.d("WordSelectable", "------- CORRECT --------" + ((MediaButton) v).getValue());
+                            Log.d("CountSelectable", "------- CORRECT --------" + ((MediaButton) v).getValue());
                             CharSequence text = "Correct!";
                             int duration = Toast.LENGTH_SHORT;
 
@@ -71,7 +71,7 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                         } else {
-                            Log.d("WordSelectable", "------- WRONG --------" + ((MediaButton) v).getValue());
+                            Log.d("CountSelectable", "------- WRONG --------" + ((MediaButton) v).getValue());
 
                             CharSequence text = "Incorrect!";
                             int duration = Toast.LENGTH_SHORT;
@@ -110,7 +110,7 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
 
     private void setMainImage() {
         // Grab the image resource and set the image drawable
-        Drawable res = getResources().getDrawable(_model.getAnswerResoureIndex("number_"), getTheme());
+        Drawable res = getResources().getDrawable(_model.getAnswerResoureIndex("count_"), getTheme());
         final ImageView imageView = (ImageView) findViewById(R.id.countImage);
         imageView.setImageDrawable(res);
         final Context context = this;
@@ -123,13 +123,12 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    String answer = "object_" + _model.getAnswer();
                     MediaPlayer mp = new MediaPlayer();
 
                     // Reset the media player
                     mp.reset();
 
-                    int soundId = getResources().getIdentifier(answer, "raw", getPackageName());
+                    int soundId = getResources().getIdentifier("instruct_how_many_objects_can_you_count", "raw", getPackageName());
 
                     mp.create(context, soundId);
                     // Load the media player with a new audio resource
