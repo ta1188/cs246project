@@ -103,7 +103,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
     public void setMainImage() {
         // Grab the image resource and set the image drawable
         Drawable res = getResources().getDrawable(_model.getAnswerResoureIndex(), getTheme());
-        ImageView imageView = (ImageView) findViewById(R.id.objectImage);
+        final ImageView imageView = (ImageView) findViewById(R.id.objectImage);
         imageView.setImageDrawable(res);
         final Context context = this;
 
@@ -133,6 +133,16 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
 
                     // Play the audio
                     mp.start();
+                    imageView.setEnabled(false);
+
+                    Runnable disableImageClick = new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setEnabled(true);
+                        }
+                    };
+                    Handler handler = new Handler();
+                    handler.postDelayed(disableImageClick, 1000);
                 }
                 return false;
             }
