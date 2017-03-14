@@ -23,12 +23,11 @@ import java.io.IOException;
 public class WordSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
-    WordSelectableModel _model;
+    private WordSelectableModel _model;
 
     // Find the horizontal scroll view
-    LinearLayout layout;
-
-    ProgressBar _progBar;
+    private LinearLayout layout;
+    private ProgressBar _progBar;
     private boolean wasTrue = false;
 
     @Override
@@ -44,13 +43,16 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
     }
 
     public void viewSetUp() {
-         /*
-        * This will loop through the returned array based on the length of the array
+         /**
+        * This will loop through the generatedValueList based on the length of the array
         * It will then get the index of each file in the drawable directory,
         * then it will update the image for each button.
         * */
         for (MediaModel item : _model.generateValueList()) {
             final MediaButton btn = new MediaButton(this, item, this);
+            /**
+             * Setup event listeners for media buttons
+             * */
             btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -76,6 +78,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                             toast.show();
 
                         }
+                        // Runnable for disabling buttons on new thread to not impede audio playing
                         Runnable enableDisable = new Runnable() {
                             @Override
                             public void run() {
@@ -92,21 +95,26 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         }
     }
 
-    public void enableDisableButtons(Boolean state){
-        layout.getChildAt(0).setEnabled(state);
-        layout.getChildAt(1).setEnabled(state);
-        layout.getChildAt(2).setEnabled(state);
-        layout.getChildAt(3).setEnabled(state);
+    /**
+     * Will disable or enable the layout buttons
+     * */
+    private void enableDisableButtons(Boolean state){
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            layout.getChildAt(i).setEnabled(state);
+        }
     }
 
 
-    public void setMainImage() {
+    private void setMainImage() {
         // Grab the image resource and set the image drawable
         Drawable res = getResources().getDrawable(_model.getAnswerResoureIndex(), getTheme());
         final ImageView imageView = (ImageView) findViewById(R.id.objectImage);
         imageView.setImageDrawable(res);
         final Context context = this;
 
+        /**
+         * Setup event listener for main image
+         * */
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -147,12 +155,12 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                 return false;
             }
         });
-        // Unlock buttons (again, just out of precaution...)
+        // Unlock buttons (for crazy-clicks between transitions)
         enableDisableButtons(true);
     }
 
 
-    public void resetActivity() {
+    private void resetActivity() {
         layout.removeAllViews();
         wasTrue = false;
         viewSetUp();
@@ -164,12 +172,15 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         return false;
     }
 
+    /**
+     * Called when audio has completed (for media buttons only)
+     * */
     @Override
     public void onAudioComplete() {
         if (_model._isActivityDone) {
             this.finish();
         } else {
-            // Unlock buttons
+            // Unlock buttons when sound is complete
             enableDisableButtons(true);
             // check for true
             if (wasTrue)
