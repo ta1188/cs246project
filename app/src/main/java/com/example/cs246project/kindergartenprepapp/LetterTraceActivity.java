@@ -2,6 +2,7 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +23,27 @@ import java.util.List;
 
 public class LetterTraceActivity extends CharacterTraceActivity {
 
-    @Override
-    protected void instantiateModel() {
+    protected void initializeModel() {
         _model = new LetterTraceModel();
     }
 
-    @Override
-    protected void setLayoutParamStartPoint(FrameLayout.LayoutParams layoutParams, int startPoint) {
-        layoutParams.setMarginStart(startPoint);
+    protected void initializeLayoutIndex() {
+        setContentView(R.layout.letter_activity_trace);
     }
 
+    protected void initializeDrawView() {
+        _drawView = (DrawView) findViewById(R.id.LetterTraceDrawView);
+    }
+
+    protected void setTraceBackgroundFromValues(List<String> values) {
+        // Setup the Upper case letter image view
+        int upperCaseResourceIndex = this.getResources().getIdentifier(values.get(0), "drawable", this.getPackageName());
+        AppCompatImageView upperCaseImageView = (AppCompatImageView) findViewById(R.id.upperLetter);
+        upperCaseImageView.setImageResource(upperCaseResourceIndex);
+
+        // Setup the Lower case letter image view
+        int lowerCaseResourceIndex = this.getResources().getIdentifier(values.get(1), "drawable", this.getPackageName());
+        AppCompatImageView lowerCaseImageView = (AppCompatImageView) findViewById(R.id.lowerLetter);
+        lowerCaseImageView.setImageResource(lowerCaseResourceIndex);
+    }
 }

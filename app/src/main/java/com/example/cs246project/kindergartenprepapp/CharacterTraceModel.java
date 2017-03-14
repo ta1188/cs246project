@@ -38,8 +38,18 @@ abstract public class CharacterTraceModel {
         }
     }
 
+    public void goToPreviousValue() {
+        if ((_currentValueIndex + 1) > 0) {
+            _currentValueIndex--;
+        }
+    }
+
     public Boolean isComplete() {
         return (_currentValueIndex + 1) >= _valueBank.size();
+    }
+
+    public Boolean isAtBeginning() {
+        return _currentValueIndex == 0;
     }
 
 }

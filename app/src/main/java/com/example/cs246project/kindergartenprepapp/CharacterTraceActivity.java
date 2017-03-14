@@ -22,61 +22,49 @@ import java.util.List;
 
 abstract public class CharacterTraceActivity extends AppCompatActivity {
 
-    //
+    // Model object associated with the activity
     protected CharacterTraceModel _model;
 
-    // The view control that allows the user to trace on a transparent canvas
-    private DrawView _drawView;
-
-    private ImageView _imageViewUpper;
-    private ImageView _imageViewLower;
-
-    // The layout that has the transparent DrawView and sits on top of the background (bottom).
-    private FrameLayout _topLayout;
-
-    // The layout that holds the background trace character images that sits underneath the top layout.
-    private FrameLayout _bottomLayout;
-
-    // The layout index for the .xml file to use.
-    protected int _layoutIndex;
+    // DrawView object associated with the activity
+    protected DrawView _drawView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        instantiateModel();
-
-        // Get the layoutIndex
+        // Set the model object
+        initializeModel();
+        // Set the layout
         initializeLayoutIndex();
-
-        // Set the content view using the _layoutIndex.
-        setContentView(_layoutIndex);
-
-        // Initialize the controls/layouts
-        _topLayout = (FrameLayout) findViewById(R.id.LayoutTop);
-        _bottomLayout = (FrameLayout) findViewById(R.id.LayoutBottom);
-
-
-        // Build the transparent draw view that sits on top of the background layer
-        int widthOfCombinedCharacters = 1000;
-        int heightOfCharacters = 500;
-        FrameLayout.LayoutParams drawViewLayoutParams = new FrameLayout.LayoutParams(widthOfCombinedCharacters, ViewGroup.LayoutParams.MATCH_PARENT);
-        drawViewLayoutParams.setMarginStart(0);
-        drawViewLayoutParams.gravity = Gravity.CENTER;
-        _drawView = new DrawView(this);
-        _topLayout.addView(_drawView, drawViewLayoutParams);
-
+        // Set the draw view
+        initializeDrawView();
+        // Set the background
         setTraceBackgroundFromValues(_model.getCurrentValues());
-
     }
 
     /**
-     * Initialize Layout Index
-     * Initializes or sets the _layoutIndex.
+     * Initialize Model
+     * Initializes or sets the _model.
      */
-    public void initializeLayoutIndex() {
-        _layoutIndex = R.layout.character_activity_trace;
-    }
+    abstract protected void initializeModel();
+
+    /**
+     * Initialize DrawView
+     * Initializes or sets the _drawView.
+     */
+    abstract protected void initializeDrawView();
+
+    /**
+     * Initialize Layout Index
+     * Sets Content View with a layout resource index(.xml layout);.
+     */
+    abstract protected void initializeLayoutIndex();
+
+    /**
+     * Set Trace Background From Values
+     * Sets the background trace images using a list of string values (file names).
+     * @param values used as the background to trace over
+     */
+    abstract protected void setTraceBackgroundFromValues(List<String> values);
 
     /**
      * Clear Draw View
@@ -85,6 +73,15 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
      */
     public void clearDrawView(View view) {
         _drawView.clearView();
+    }
+
+    /**
+     * Clear Draw View
+     * Clears all the tracing from the _drawView.
+     * @param view the button that caused this action to be called
+     */
+    public void returnToMenu(View view) {
+        this.finish();
     }
 
     /**
@@ -97,31 +94,20 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
             finish();
         } else {
             _model.goToNextValue();
-            _bottomLayout.removeAllViews();
             clearDrawView(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
         }
     }
 
     /**
-     * Set Trace Background From Values
-     * Sets the background trace images using a list of string values (file names).
-     * @param values used as the background to trace over
+     * Go Back To Previous Value
+     * Displays the previous value (un-traced), if any.
      */
-    private void setTraceBackgroundFromValues(List<String> values) {
-        for (int i = 0; i < values.size(); i++) {
-            // Set the imageView's image resource using value
-            int resourceIndex = this.getResources().getIdentifier(values.get(i), "drawable", this.getPackageName());
-            ImageView imageView = new ImageView(this);
-            imageView.setImageResource(resourceIndex);
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(800, ViewGroup.LayoutParams.MATCH_PARENT);
-            setLayoutParamStartPoint(layoutParams, i * 400);
-            _bottomLayout.addView(imageView, layoutParams);
+    public void goBackToPreviousValue(View view) {
+        if (!_model.isAtBeginning()) {
+            _model.goToPreviousValue();
+            clearDrawView(view);
+            setTraceBackgroundFromValues(_model.getCurrentValues());
         }
     }
-
-    abstract protected void instantiateModel();
-
-    abstract protected void setLayoutParamStartPoint(FrameLayout.LayoutParams layoutParams, int startPoint);
-
 }

@@ -1,16 +1,19 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -24,7 +27,13 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NameTraceActivity extends AppCompatActivity {
+public class NameTraceActivity extends AppCompatActivity implements Runnable {
+
+    // Image width & height dimensions
+    private final static int imageViewDimension = 600;
+
+    // FrameLayout that holds the drawView and trace background
+    FrameLayout _frameLayout;
 
     // Model object for managing the name character values
     private NameTraceModel _model;
@@ -36,27 +45,20 @@ public class NameTraceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Get the user's name and set the model with that name
         SharedPreferences settings = getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
         _model = new NameTraceModel(settings.getString(AppConstants.sharePreferenceName, ""));
 
-        // Set the content view using the _layoutIndex.
+        // Set the content view layout
         setContentView(R.layout.name_activity_trace);
 
-        // Initialize the controls/layouts
-        int widthOfCombinedCharacters = _model.getNumberOfCharacters() * 1000;
+        _frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
 
-        ((FrameLayout) findViewById(R.id.LayoutTop)).setLayoutParams(new FrameLayout.LayoutParams(widthOfCombinedCharacters, ViewGroup.LayoutParams.MATCH_PARENT));
-        ((FrameLayout) findViewById(R.id.LayoutBottom)).setLayoutParams(new FrameLayout.LayoutParams(widthOfCombinedCharacters, ViewGroup.LayoutParams.MATCH_PARENT));
+        // Set the _drawView
+        _drawView = (DrawView) findViewById(R.id.nameTraceDrawView);
 
         // Build the background images from the traceCharacters
-        setTraceBackgroundFromValues(_model.getValues());
-
-        // Build the transparent draw view that sits on top of the background layer
-        FrameLayout.LayoutParams drawViewLayoutParams = new FrameLayout.LayoutParams(widthOfCombinedCharacters, ViewGroup.LayoutParams.MATCH_PARENT);
-        drawViewLayoutParams.setMarginStart(0);
-        drawViewLayoutParams.gravity = Gravity.CENTER;
-        _drawView = new DrawView(this);
-        ((FrameLayout) findViewById(R.id.LayoutTop)).addView(_drawView, drawViewLayoutParams);
+        setTraceBackgroundFromValues();
 
         // Setup the left/right scroll button touch actions
         setOnTouchListenerForScrollButton((FloatingActionButton) findViewById(R.id.btnScrollLeft), -15);
@@ -66,17 +68,39 @@ public class NameTraceActivity extends AppCompatActivity {
     /**
      * Set Trace Background From Values
      * Sets the background trace images using a list of string values (file names).
-     * @param values used as the background to trace over
      */
-    private void setTraceBackgroundFromValues(List<String> values) {
-        FrameLayout bottomLayout = (FrameLayout) findViewById(R.id.LayoutBottom);
+    private void setTraceBackgroundFromValues() {
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+
+        frameLayout.post(this);
+
+    }
+
+    @Override
+    public void run() {
+        // Get the dimensions of all the child views (drawView, bottomLayout, and imageViews).
+        int layoutWidth = _model.getNumberOfCharacters() * _frameLayout.getHeight();
+        int layoutHeight = _frameLayout.getHeight();
+
+        // Setup layout parameters of the drawView
+        if (_drawView != null) {
+            FrameLayout.LayoutParams drawViewLayoutParams = new FrameLayout.LayoutParams(layoutWidth, FrameLayout.LayoutParams.MATCH_PARENT);
+            _drawView.setLayoutParams(drawViewLayoutParams);
+        }
+
+        // Setup layout parameters of the bottomLayout
+        LinearLayout bottomLayout = (LinearLayout) findViewById(R.id.layoutBottom);
+        FrameLayout.LayoutParams bottomLayoutParams = new FrameLayout.LayoutParams(layoutWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+        bottomLayout.setLayoutParams(bottomLayoutParams);
+
+        // Add each letter as an image view to the bottomLayout
+        List<String> values = _model.getValues();
         for (int i = 0; i < values.size(); i++) {
             // Set the imageView's image resource using value
             int resourceIndex = this.getResources().getIdentifier(values.get(i), "drawable", this.getPackageName());
-            ImageView imageView = new ImageView(this);
+            AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(resourceIndex);
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(800, ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMarginStart(i * 200);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(layoutHeight, layoutHeight);
             bottomLayout.addView(imageView, layoutParams);
         }
     }
@@ -136,8 +160,22 @@ public class NameTraceActivity extends AppCompatActivity {
         _drawView.clearView();
     }
 
+    /**
+     * On Done Button Click
+     * Runs the the actionst that should take place when a user is done with tracing their name.
+     * @param view that activated this action.
+     */
     public void onDoneButtonClick(View view) {
-        // Display the snapshot popup
+        // TODO: Display the snapshot popup
+        finish();
+    }
+
+    /**
+     * Return To Menu
+     * Retuns the user to the main menu activity
+     * @param view that activated this action.
+     */
+    public void returnToMenu(View view) {
         finish();
     }
 }

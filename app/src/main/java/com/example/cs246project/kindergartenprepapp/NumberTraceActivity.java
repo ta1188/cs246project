@@ -2,6 +2,7 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +23,21 @@ import java.util.List;
 
 public class NumberTraceActivity extends CharacterTraceActivity {
 
-    @Override
-    protected void instantiateModel() {
+    protected void initializeModel() {
         _model = new NumberTraceModel();
     }
 
-    @Override
-    protected void setLayoutParamStartPoint(FrameLayout.LayoutParams layoutParams, int startPoint) {
-        layoutParams.gravity = Gravity.CENTER;
+    protected void initializeLayoutIndex() {
+        setContentView(R.layout.number_activity_trace);
     }
 
+    protected void initializeDrawView() {
+        _drawView = (DrawView) findViewById(R.id.numberTraceDrawView);
+    }
+
+    protected void setTraceBackgroundFromValues(List<String> values) {
+        int resourceIndex = this.getResources().getIdentifier(values.get(0), "drawable", this.getPackageName());
+        AppCompatImageView imageView = (AppCompatImageView) findViewById(R.id.number);
+        imageView.setImageResource(resourceIndex);
+    }
 }
