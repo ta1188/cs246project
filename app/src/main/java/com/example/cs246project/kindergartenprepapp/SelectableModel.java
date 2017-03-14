@@ -128,4 +128,8 @@ abstract class SelectableModel<T> extends Application {
     public String getAnswer() {
         return  String.valueOf(_answer);
     }
+
+    public int getNameLength() {
+        return  _optionCount;
+    }
 }
