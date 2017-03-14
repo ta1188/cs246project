@@ -58,16 +58,15 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                         if(_model.isCorrect(((MediaButton) v).getValue())) {
                             wasTrue = true;
                             _progBar.incrementProgressBy(1);
-                            Log.d("WordSelectable", "------- CORRECT --------");
+                            Log.d("WordSelectable", "------- CORRECT --------" + v.getId());
                             CharSequence text = "Correct!";
                             int duration = Toast.LENGTH_SHORT;
 
                             Toast toast = Toast.makeText(getApplicationContext(), text, duration);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
-
                         } else {
-                            Log.d("WordSelectable", "------- WRONG --------");
+                            Log.d("WordSelectable", "------- WRONG --------" + v.getId());
 
                             CharSequence text = "Incorrect!";
                             int duration = Toast.LENGTH_SHORT;
@@ -75,7 +74,16 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                             Toast toast = Toast.makeText(getApplicationContext(), text, duration);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
+
                         }
+                        Runnable enableDisable = new Runnable() {
+                            @Override
+                            public void run() {
+                                enableDisableButtons(false);
+                            }
+                        };
+                        Handler handler = new Handler();
+                        handler.postDelayed(enableDisable, 200);
                     }
                     return false;
                 }
@@ -83,6 +91,14 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
             layout.addView(btn);
         }
     }
+
+    public void enableDisableButtons(Boolean state){
+        layout.getChildAt(0).setEnabled(state);
+        layout.getChildAt(1).setEnabled(state);
+        layout.getChildAt(2).setEnabled(state);
+        layout.getChildAt(3).setEnabled(state);
+    }
+
 
     public void setMainImage() {
         // Grab the image resource and set the image drawable
@@ -121,6 +137,8 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
                 return false;
             }
         });
+        // Unlock buttons (again, just out of precaution...)
+        enableDisableButtons(true);
     }
 
 
@@ -142,13 +160,15 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
             this.finish();
         } else {
             // Unlock buttons
-//            for (int i = 0; i < layout.getChildCount(); i++) {
-//                layout.getChildAt(i).setEnabled(true);
-//            }
+            enableDisableButtons(true);
             // check for true
             if (wasTrue)
                 resetActivity();
         }
+    }
+
+    public void returnToMenu(View view) {
+        this.finish();
     }
 
 }
