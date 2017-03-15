@@ -119,7 +119,7 @@ public class CountSelectableModel extends SelectableModel {
             }
 
             // retrieve and associate buttons with image and audio
-            MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, String.valueOf(value));
+            MediaModel<Integer> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
             results.add(mediaModel);
         }
 

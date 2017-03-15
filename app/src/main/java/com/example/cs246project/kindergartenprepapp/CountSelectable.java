@@ -60,7 +60,7 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        if(_model.isCorrect(String.valueOf(((MediaButton) v).getValue()))) {
+                        if(_model.isCorrect(((MediaButton) v).getValue())) {
                             wasTrue = true;
                             _progBar.incrementProgressBy(1);
                             Log.d("CountSelectable", "------- CORRECT --------" + ((MediaButton) v).getValue());

@@ -52,7 +52,7 @@ abstract class SelectableModel<T> extends Application {
 
         if(!_isActivityDone) {
             Log.w(TAG, "answer is " + _answer);
-            if (String.valueOf(value) == String.valueOf(_answer)) {
+            if (value == _answer) {
                 // find value in list and then remove it from the possibilities
                 Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
                 _answerBank.remove(value);
@@ -65,7 +65,7 @@ abstract class SelectableModel<T> extends Application {
         if (_answerBank.size() == 0) {
             _isActivityDone = true;
         }
-        return (String.valueOf(value) == String.valueOf(_answer));
+        return (value == _answer);
     }
 
     /**
