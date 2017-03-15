@@ -1,17 +1,13 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
-
-// import statements
 
 /**
  * <p>

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -22,10 +21,11 @@ import java.util.Random;
  * properties: they are unique with no duplicates, options are reduced as the user gets a
  * question right, The first generated value is assigned to be the answer. The class will
  * have a function that will return a list of value back.
+ * @param <T> will support additional types per activity called
  */
 abstract class SelectableModel<T> extends Application {
 
-    /* Member Variables */
+    /* MEMBER VARIABLES */
 
     public Context _context;
     protected List<T> _questionBank;
@@ -36,6 +36,8 @@ abstract class SelectableModel<T> extends Application {
 
     private static final String TAG = "SelectableModel";
 
+    /* CONSTRUCTOR */
+
     public SelectableModel (Context context){
         _context = context;
         _isActivityDone = false;
@@ -44,9 +46,10 @@ abstract class SelectableModel<T> extends Application {
     /* METHODS */
 
     /**
-     * ISCORRECT will tell if the value is the correct answer and update the question bank if
+     * Tells if the value is the correct answer and update the question bank if
      * already correct
      * @param value what has been selected by the user
+     * @return Compares the answer with value selected to see if correct
      */
     public Boolean isCorrect(T value) {
 
@@ -69,26 +72,28 @@ abstract class SelectableModel<T> extends Application {
     }
 
     /**
-     * ISACTIVITYDONE will tell if the activity is over and all values in the question
+     * Tells if the activity is over and all values in the question bank have been used
      */
     public Boolean isActivityDone() { return _isActivityDone; }
 
     /**
-     * GETPROGRESS will tell if the activity is over
+     * Tells if the activity is over
+     * @return question bank current size
      */
     public int getProgress() {
         return _answerBank.size();
     }
 
     /**
-     * BUILDINITIALQUESTIONANSWERBANKS will build a question bank
+     * abstract requires building of a question bank
      */
     abstract protected void buildInitialQuestionAnswerBanks();
 
 
     /**
-     * RANDOMBUTTONGENERATOR will generate an array of random values to be used for the buttons.
-     * Will be unique values that are not used again if already answered
+     * Generate an array of random values to be used for the buttons.
+     * Values are unique that are not used again if already answered.
+     * @return set random random values to be used for media association and buttons
      */
     protected List<T> randomValuesGenerator() {
 
@@ -115,7 +120,6 @@ abstract class SelectableModel<T> extends Application {
 
         return valueList;
     }
-
 
     public String getAnswer() {
         return  String.valueOf(_answer);
