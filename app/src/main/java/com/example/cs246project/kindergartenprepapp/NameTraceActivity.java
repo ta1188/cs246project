@@ -29,9 +29,6 @@ import java.util.List;
 
 public class NameTraceActivity extends AppCompatActivity implements Runnable {
 
-    // Image width & height dimensions
-    private final static int imageViewDimension = 600;
-
     // FrameLayout that holds the drawView and trace background
     FrameLayout _frameLayout;
 
@@ -76,6 +73,11 @@ public class NameTraceActivity extends AppCompatActivity implements Runnable {
 
     }
 
+    /**
+     * Run
+     * Used after dynamically getting the runtime height of the _framelayout so the background images
+     * and _drawView can be sized appropriately.
+     */
     @Override
     public void run() {
         // Get the dimensions of all the child views (drawView, bottomLayout, and imageViews).

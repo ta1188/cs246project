@@ -15,7 +15,8 @@ import java.util.List;
 public class NumberTraceModel extends CharacterTraceModel {
 
     /**
-     * Initializes _values with
+     * Generate Value Bank
+     * Initializes _values with 1 - 10
      */
     @Override
     protected void generateValueBank() {
@@ -29,7 +30,11 @@ public class NumberTraceModel extends CharacterTraceModel {
         _valueBank.add("10");
     }
 
-    @Override
+    /**
+     * Get Current Values
+     * Gets the current filename value(s) from _values;
+     * @return a list of values (1 or more).
+     */
     public List<String> getCurrentValues() {
         List<String> values = new ArrayList<>();
 

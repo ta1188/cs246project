@@ -14,36 +14,41 @@ import java.util.List;
 
 public class NameTraceModel {
 
-    protected List<String> _valueBank;
+    protected String _name;
 
     /**
      * Non-Default Constructor
      */
     public NameTraceModel(String name) {
-        _valueBank = new ArrayList<String>();
-
-        for(int i = 0; i < name.length(); i++){
-            Character character = name.charAt(i);
-            _valueBank.add(character.toString());
-        }
+        _name = name;
     }
 
+    /**
+     * Get Values
+     * Gets the filename of each character in _values (e.g. characters in name);
+     * @return a list of values (1 or more).
+     */
     public List<String> getValues() {
         List<String> values = new ArrayList<String>();
 
-        for (int i = 0; i < _valueBank.size(); i++) {
-            if (i == 0) {
-                values.add("upper_" + _valueBank.get(i).toLowerCase());
+        for (int i = 0; i < _name.length(); i++) {
+            if (Character.isUpperCase(_name.charAt(i))) {
+                values.add("upper_" + (Character.toString(_name.charAt(i))).toLowerCase());
             } else {
-                values.add("lower_" + _valueBank.get(i));
+                values.add("lower_" + (Character.toString(_name.charAt(i))).toLowerCase());
             }
         }
 
         return values;
     }
 
+    /**
+     * Get Number Of Characters
+     * Gets the length of the _name.
+     * @return the number of characters in _name
+     */
     public int getNumberOfCharacters() {
-        return _valueBank.size();
+        return _name.length();
     }
 
 }

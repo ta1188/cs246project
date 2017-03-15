@@ -76,8 +76,8 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
     }
 
     /**
-     * Clear Draw View
-     * Clears all the tracing from the _drawView.
+     * Return To Menu
+     * Returns to the previous activity that called this activity.
      * @param view the button that caused this action to be called
      */
     public void returnToMenu(View view) {
