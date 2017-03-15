@@ -1,5 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,13 @@ import java.util.List;
 
 public class NumberTraceModel extends CharacterTraceModel {
 
+
+    public NumberTraceModel(Context context) {
+        super(context);
+    }
+
     /**
+     * {@inheritDoc}
      * Generate Value Bank
      * Initializes _values with 1 - 10
      */
@@ -31,7 +39,7 @@ public class NumberTraceModel extends CharacterTraceModel {
     }
 
     /**
-     * Get Current Values
+     * {@inheritDoc}
      * Gets the current filename value(s) from _values;
      * @return a list of values (1 or more).
      */
@@ -41,5 +49,14 @@ public class NumberTraceModel extends CharacterTraceModel {
         values.add("number_" + _valueBank.get(_currentValueIndex));
 
         return values;
+    }
+
+    /**
+     * {@inheritDoc}
+     * Gets the file name fo the instructions audio raw file
+     * @return the file name of the instructions audio file
+     */
+    protected String getInstructionsFileName() {
+        return "";
     }
 }

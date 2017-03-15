@@ -24,7 +24,7 @@ import java.util.List;
 public class NumberTraceActivity extends CharacterTraceActivity {
 
     protected void initializeModel() {
-        _model = new NumberTraceModel();
+        _model = new NumberTraceModel(this);
     }
 
     protected void initializeLayoutIndex() {

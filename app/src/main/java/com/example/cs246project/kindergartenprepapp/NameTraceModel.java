@@ -17,14 +17,16 @@ public class NameTraceModel {
     protected String _name;
 
     /**
-     * Non-Default Constructor
+     * {@inheritDoc}
+     * Creates a NameTraceModel using a name
+     * @param name The name of the user
      */
     public NameTraceModel(String name) {
         _name = name;
     }
 
     /**
-     * Get Values
+     * {@inheritDoc}
      * Gets the filename of each character in _values (e.g. characters in name);
      * @return a list of values (1 or more).
      */
@@ -43,7 +45,7 @@ public class NameTraceModel {
     }
 
     /**
-     * Get Number Of Characters
+     * {@inheritDoc}
      * Gets the length of the _name.
      * @return the number of characters in _name
      */
@@ -51,4 +53,12 @@ public class NameTraceModel {
         return _name.length();
     }
 
+    /**
+     * {@inheritDoc}
+     * Gets the file name fo the instructions audio raw file
+     * @return the file name of the instructions audio file
+     */
+    protected String getInstructionsFileName() {
+        return "";
+    }
 }

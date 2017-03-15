@@ -24,7 +24,7 @@ import java.util.List;
 public class LetterTraceActivity extends CharacterTraceActivity {
 
     protected void initializeModel() {
-        _model = new LetterTraceModel();
+        _model = new LetterTraceModel(this);
     }
 
     protected void initializeLayoutIndex() {
