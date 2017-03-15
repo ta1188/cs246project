@@ -45,5 +45,6 @@ public class NumberTraceActivity extends CharacterTraceActivity {
         int resourceIndex = this.getResources().getIdentifier(values.get(0), "drawable", this.getPackageName());
         AppCompatImageView imageView = (AppCompatImageView) findViewById(R.id.number);
         imageView.setImageResource(resourceIndex);
+        imageView.setAlpha(0.5f);
     }
 }

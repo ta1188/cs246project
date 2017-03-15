@@ -46,10 +46,12 @@ public class LetterTraceActivity extends CharacterTraceActivity {
         int upperCaseResourceIndex = this.getResources().getIdentifier(values.get(0), "drawable", this.getPackageName());
         AppCompatImageView upperCaseImageView = (AppCompatImageView) findViewById(R.id.upperLetter);
         upperCaseImageView.setImageResource(upperCaseResourceIndex);
+        upperCaseImageView.setAlpha(0.5f);
 
         // Setup the Lower case letter image view
         int lowerCaseResourceIndex = this.getResources().getIdentifier(values.get(1), "drawable", this.getPackageName());
         AppCompatImageView lowerCaseImageView = (AppCompatImageView) findViewById(R.id.lowerLetter);
         lowerCaseImageView.setImageResource(lowerCaseResourceIndex);
+        lowerCaseImageView.setAlpha(0.5f);
     }
 }

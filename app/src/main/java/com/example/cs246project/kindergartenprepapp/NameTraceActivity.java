@@ -108,6 +108,7 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
             int resourceIndex = this.getResources().getIdentifier(values.get(i), "drawable", this.getPackageName());
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(resourceIndex);
+            imageView.setAlpha(0.5f);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
             bottomLayout.addView(imageView, layoutParams);
         }
