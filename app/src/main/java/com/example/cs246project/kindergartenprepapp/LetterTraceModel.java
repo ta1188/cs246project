@@ -1,5 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,12 @@ import java.util.List;
 
 public class LetterTraceModel extends CharacterTraceModel{
 
+    public LetterTraceModel(Context context) {
+        super(context);
+    }
+
     /**
-     * Generate Value Bank
+     * {@inheritDoc}
      * Initializes _values with "a" - "z"
      */
     @Override
@@ -30,6 +36,7 @@ public class LetterTraceModel extends CharacterTraceModel{
     }
 
     /**
+     * {@inheritDoc}
      * Get Current Values
      * Gets the current filename value(s) from _values in upper and lower case forms;
      * @return a list of values (1 or more).
@@ -43,4 +50,14 @@ public class LetterTraceModel extends CharacterTraceModel{
 
         return values;
     }
+
+    /**
+     * {@inheritDoc}
+     * Gets the file name fo the instructions audio raw file
+     * @return the file name of the instructions audio file
+     */
+    protected String getInstructionsFileName() {
+        return "";
+    }
+
 }
