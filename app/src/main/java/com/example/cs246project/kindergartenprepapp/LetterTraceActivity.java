@@ -19,7 +19,7 @@ public class LetterTraceActivity extends CharacterTraceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        playInstructions(getResources().getIdentifier("instruct_trace_letter_with_finger", "raw", getPackageName()));
+        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
     }
 
     protected void initializeModel() {

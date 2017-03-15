@@ -82,6 +82,12 @@ abstract public class CharacterTraceModel {
     }
 
     /**
+     * Gets the resource index of the raw audio file of the current value in the _valueBank.
+     * @return The resource index of the raw audio file of the current value in the _valueBank
+     */
+    abstract public int getCurrentValueAudioResourceIndex();
+
+    /**
      * Is the activity complete (e.g. reached the end of the _values)?
      * @return a flag for whether or not the activity is complete.
      */

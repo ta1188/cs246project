@@ -1,8 +1,8 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-
 import java.util.List;
 
 /**
@@ -39,6 +39,21 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
 //            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
 //            previousButton.hide();
 //        }
+    }
+
+    @Override
+    protected void playInstructions(int instructionsAudioResourceIndex){
+        // Initialize a media player with the audio resource
+        _instructionsMediaPlayer = MediaPlayer.create(this, instructionsAudioResourceIndex);
+
+        _instructionsMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playCurrentValueAudio();
+            }
+        });
+
+        _instructionsMediaPlayer.start();
     }
 
     /**
@@ -104,6 +119,7 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
             _model.goToNextValue();
             clearDrawView(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
+            playCurrentValueAudio();
 //            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnNext);
 //            if (!_model.isAtBeginning() && previousButton.isShown()) {
 //                previousButton.setVisibility(View.INVISIBLE);
@@ -124,6 +140,7 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
             _model.goToPreviousValue();
             clearDrawView(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
+            playCurrentValueAudio();
 //            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
 //            if (!_model.isComplete() && nextButton.isShown()) {
 //                nextButton.setVisibility(View.INVISIBLE);
@@ -133,5 +150,13 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
 //            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
 //            previousButton.hide();
         }
+    }
+
+    /**
+     * Plays the audio resource that applies to the currently viewed value.
+     */
+    protected void playCurrentValueAudio() {
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, _model.getCurrentValueAudioResourceIndex());
+        mediaPlayer.start();
     }
 }

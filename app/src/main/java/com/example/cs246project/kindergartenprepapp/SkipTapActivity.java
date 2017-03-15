@@ -1,17 +1,21 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import java.io.IOException;
-
 /**
- * Created by Dan on 3/15/2017.
+ * The super Activity of all SkipTap activities which has common member variables and member
+ * functions.
+ * <p>
+ * @author  Dan Rix
+ * @version 1.0
+ * @since   2017-03-15
  */
 
 abstract class SkipTapActivity extends AppCompatActivity {
+
+    protected MediaPlayer _instructionsMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +28,16 @@ abstract class SkipTapActivity extends AppCompatActivity {
      */
     protected void playInstructions(int instructionsAudioResourceIndex) {
         // Initialize a media player with the audio resource
-        MediaPlayer instructionsMediaPlayer = MediaPlayer.create(this, instructionsAudioResourceIndex);
+        _instructionsMediaPlayer = MediaPlayer.create(this, instructionsAudioResourceIndex);
+
+        _instructionsMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                _instructionsMediaPlayer.release();
+            }
+        });
 
         // Play the first audio track
-        instructionsMediaPlayer.start();
+        _instructionsMediaPlayer.start();
     }
 }

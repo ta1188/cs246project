@@ -57,7 +57,11 @@ public class LetterTraceModel extends CharacterTraceModel{
      * @return the file name of the instructions audio file
      */
     protected String getInstructionsFileName() {
-        return "";
+        return "instruct_trace_letter_with_finger";
     }
 
+    public int getCurrentValueAudioResourceIndex() {
+        String audioFileName = _valueBank.get(_currentValueIndex);
+        return _context.getResources().getIdentifier(audioFileName, "raw" , _context.getPackageName());
+    }
 }
