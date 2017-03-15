@@ -57,7 +57,7 @@ public class NameSelectableModel extends SelectableModel {
 
         // get name from shared preferences
         SharedPreferences sharedPreferences = _context.getSharedPreferences("SETTINGS", MODE_PRIVATE);
-        String usersName = sharedPreferences.getString("NAME", "");
+        String usersName = sharedPreferences.getString("NAME", ""); // FIX 'NAME' to reference 'FIRST_NAME' and 'LAST_NAME'
 
         _optionCount = usersName.length();
 

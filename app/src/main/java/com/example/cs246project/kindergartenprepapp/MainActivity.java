@@ -24,11 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         SharedPreferences settings = this.getSharedPreferences("SETTINGS", MODE_PRIVATE);
-        String name = settings.getString("NAME", "");
+        String firstname = settings.getString("FIRST_NAME", "");
+        String lastname = settings.getString("LAST_NAME", "");
 
         // Retrieve name
-        EditText nameField = (EditText) findViewById(R.id.editTextName);
-        nameField.setText(name);
+        EditText firstNameField = (EditText) findViewById(R.id.playerFirstName);
+        firstNameField.setText(firstname);
+        EditText lastNameField = (EditText) findViewById(R.id.playerLastName);
+        lastNameField.setText(lastname);
     }
 
     public void goToMainMenu(View view) {
@@ -36,10 +39,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
 
         // get value from the text field
-        EditText nameField = (EditText) findViewById(R.id.editTextName);
+        EditText firstNameField = (EditText) findViewById(R.id.playerFirstName);
+        EditText lastNameField = (EditText) findViewById(R.id.playerLastName);
 
         // will save the name value
-        editor.putString("NAME", nameField.getText().toString());
+        editor.putString("FIRST_NAME", firstNameField.getText().toString());
+        editor.putString("LAST_NAME", lastNameField.getText().toString());
         editor.commit();
 
         // create intent to start menu activity
