@@ -29,14 +29,23 @@ import java.util.List;
 
 public class NameTraceActivity extends AppCompatActivity implements Runnable {
 
-    // FrameLayout that holds the drawView and trace background
+    // FrameLayout that holds the drawView and trace background.
     FrameLayout _frameLayout;
 
-    // Model object for managing the name character values
+    // Model object for managing the name character values.
     private NameTraceModel _model;
 
-    // The view control that allows the user to trace on a transparent canvas
+    // The view control that allows the user to trace on a transparent canvas.
     private DrawView _drawView;
+
+    // The pixel height/width of each image view (set dynamically).
+    int _imageViewWidthHeight;
+
+    // The pixel height of the views/layouts for tracing (set dynamically).
+    int _layoutHeight;
+
+    // The pixel width of the views/layouts for tracing (set dynamically).
+    int _layoutWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +65,6 @@ public class NameTraceActivity extends AppCompatActivity implements Runnable {
 
         // Build the background images from the traceCharacters
         setTraceBackgroundFromValues();
-
-        // Setup the left/right scroll button touch actions
-        setOnTouchListenerForScrollButton((FloatingActionButton) findViewById(R.id.btnScrollLeft), -15);
-        setOnTouchListenerForScrollButton((FloatingActionButton) findViewById(R.id.btnScrollRight), 15);
     }
 
     /**
@@ -68,9 +73,7 @@ public class NameTraceActivity extends AppCompatActivity implements Runnable {
      */
     private void setTraceBackgroundFromValues() {
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-
         frameLayout.post(this);
-
     }
 
     /**
@@ -81,18 +84,19 @@ public class NameTraceActivity extends AppCompatActivity implements Runnable {
     @Override
     public void run() {
         // Get the dimensions of all the child views (drawView, bottomLayout, and imageViews).
-        int layoutWidth = _model.getNumberOfCharacters() * _frameLayout.getHeight();
-        int layoutHeight = _frameLayout.getHeight();
+        _imageViewWidthHeight = _frameLayout.getHeight();
+        _layoutHeight = _imageViewWidthHeight;
+        _layoutWidth = _model.getNumberOfCharacters() * _frameLayout.getHeight();
 
         // Setup layout parameters of the drawView
         if (_drawView != null) {
-            FrameLayout.LayoutParams drawViewLayoutParams = new FrameLayout.LayoutParams(layoutWidth, FrameLayout.LayoutParams.MATCH_PARENT);
+            FrameLayout.LayoutParams drawViewLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, FrameLayout.LayoutParams.MATCH_PARENT);
             _drawView.setLayoutParams(drawViewLayoutParams);
         }
 
         // Setup layout parameters of the bottomLayout
         LinearLayout bottomLayout = (LinearLayout) findViewById(R.id.layoutBottom);
-        FrameLayout.LayoutParams bottomLayoutParams = new FrameLayout.LayoutParams(layoutWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+        FrameLayout.LayoutParams bottomLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, LinearLayout.LayoutParams.MATCH_PARENT);
         bottomLayout.setLayoutParams(bottomLayoutParams);
 
         // Add each letter as an image view to the bottomLayout
@@ -102,55 +106,31 @@ public class NameTraceActivity extends AppCompatActivity implements Runnable {
             int resourceIndex = this.getResources().getIdentifier(values.get(i), "drawable", this.getPackageName());
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(resourceIndex);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(layoutHeight, layoutHeight);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
             bottomLayout.addView(imageView, layoutParams);
         }
     }
 
     /**
-     * Set On Touch Listener For Button
-     * Sets up the on touch scroll actions for a button and scrolls that button using the
-     * directionValue (if negative it scrolls to the left, if positive to the right).
-     * @param button the scroll button to setup on touch actions for
-     * @param directionValue the direction to scroll (left/right)
+     * Scrolls/Skips to the next value in the name.
+     * @param view The view that activated the function (e.g. button)
      */
-    public void setOnTouchListenerForScrollButton(FloatingActionButton button, final int directionValue) {
-        // Setup a new touch listener
-        button.setOnTouchListener(new FloatingActionButton.OnTouchListener() {
+    public void goToNextValue(View view) {
+        int x = _frameLayout.getScrollX() + _imageViewWidthHeight;
+        if (x < _layoutWidth) {
+            _frameLayout.scrollTo(x, 0);
+        }
+    }
 
-            // The handler will use callbacks to mimic "holding" the button down
-            private Handler _handler;
-
-            @Override public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        // If the user presses the button and doesn't release, then add the
-                        // _scrollAction to the _handler which will call run() over and over to
-                        // mimic "holding" the button down.
-                        if (_handler != null) return true;
-                        _handler = new Handler();
-                        _handler.postDelayed(_scrollAction, 50);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        // If the user releases the button, then remove the _scrollAction from the
-                        // _handler callbacks which will stop it from scrolling.
-                        if (_handler == null) return true;
-                        _handler.removeCallbacks(_scrollAction);
-                        _handler = null;
-                        break;
-                }
-                return false;
-            }
-
-            // The _scrollAction that scrolls to the left or right depending on the directionValue.
-            Runnable _scrollAction = new Runnable() {
-                @Override public void run() {
-                    FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-                    frameLayout.scrollTo(frameLayout.getScrollX() + directionValue, 0);
-                    _handler.postDelayed(this, 50);
-                }
-            };
-        });
+    /**
+     * Scrolls/Skips to the previous value in the name.
+     * @param view The view that activated the function (e.g. button)
+     */
+    public void goToPreviousValue(View view) {
+        int x = _frameLayout.getScrollX() - _imageViewWidthHeight;
+        if (x >= 0) {
+            _frameLayout.scrollTo(x, 0);
+        }
     }
 
     /**

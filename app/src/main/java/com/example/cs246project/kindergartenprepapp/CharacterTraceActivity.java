@@ -1,6 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -28,6 +29,9 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
     // DrawView object associated with the activity
     protected DrawView _drawView;
 
+    //
+    FloatingActionButton.OnVisibilityChangedListener _listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,25 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
         initializeDrawView();
         // Set the background
         setTraceBackgroundFromValues(_model.getCurrentValues());
+
+        _listener = new FloatingActionButton.OnVisibilityChangedListener() {
+            @Override
+            public void onShown(FloatingActionButton fab) {
+                fab.setVisibility(View.VISIBLE);
+                super.onShown(fab);
+            }
+
+            @Override
+            public void onHidden(FloatingActionButton fab) {
+                fab.setVisibility(View.INVISIBLE);
+                super.onHidden(fab);
+            }
+        };
+
+//        if (_model.isAtBeginning()) {
+//            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+//            previousButton.hide();
+//        }
     }
 
     /**
@@ -92,10 +115,26 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
     public void onDoneButtonClick(View view) {
         if (_model.isComplete()) {
             finish();
-        } else {
+        };
+    }
+
+    /**
+     * Go Back To Previous Value
+     * Displays the previous value (un-traced), if any.
+     */
+    public void goToNextValue(View view) {
+        if (!_model.isComplete()) {
             _model.goToNextValue();
             clearDrawView(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
+//            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnNext);
+//            if (!_model.isAtBeginning() && previousButton.isShown()) {
+//                previousButton.setVisibility(View.INVISIBLE);
+//                previousButton.show();
+//            }
+//        } else {
+//            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
+//            nextButton.hide();
         }
     }
 
@@ -103,11 +142,19 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
      * Go Back To Previous Value
      * Displays the previous value (un-traced), if any.
      */
-    public void goBackToPreviousValue(View view) {
+    public void goToPreviousValue(View view) {
         if (!_model.isAtBeginning()) {
             _model.goToPreviousValue();
             clearDrawView(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
+//            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
+//            if (!_model.isComplete() && nextButton.isShown()) {
+//                nextButton.setVisibility(View.INVISIBLE);
+//                nextButton.show();
+//            }
+//        } else {
+//            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+//            previousButton.hide();
         }
     }
 }

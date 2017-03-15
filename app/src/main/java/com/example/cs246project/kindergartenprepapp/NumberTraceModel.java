@@ -24,15 +24,15 @@ public class NumberTraceModel extends CharacterTraceModel {
     /**
      * {@inheritDoc}
      * Generate Value Bank
-     * Initializes _values with 1 - 10
+     * Initializes _values with 0 - 10
      */
     @Override
     protected void generateValueBank() {
         // Instantiate _values
         _valueBank = new ArrayList<String>();
 
-        // Fill values with 1 - 9 using ascii values (49 = "1")
-        for (int i = 49; i < (48 + 10); i++) {
+        // Fill values with 0 - 9 using ascii values (48 = "0")
+        for (int i = 48; i < (48 + 10); i++) {
             _valueBank.add((Character.valueOf((char) i)).toString());
         }
         _valueBank.add("10");

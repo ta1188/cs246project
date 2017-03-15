@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_trace"
@@ -12,42 +12,22 @@
     tools:context="com.example.cs246project.kindergartenprepapp.TraceActivity">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnScrollRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:backgroundTint="@android:color/holo_blue_bright"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/arrow_right"
-        android:layout_marginStart="76dp"
-        android:layout_below="@+id/frameLayout"
-        android:layout_toEndOf="@+id/btnClear" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnDone"
+        android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="11dp"
-        android:layout_marginEnd="12dp"
+        android:layout_centerHorizontal="true"
         android:clickable="true"
-        app:backgroundTint="@android:color/holo_green_light"
+        android:onClick="clearDrawView"
+        app:backgroundTint="@android:color/holo_orange_light"
         app:fabSize="mini"
-        app:srcCompat="@drawable/check"
-        android:onClick="onDoneButtonClick"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnScrollLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:backgroundTint="@android:color/holo_blue_bright"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/arrow_left"
-        android:layout_below="@+id/frameLayout"
-        android:layout_toStartOf="@+id/btnClear"
-        android:layout_marginEnd="72dp" />
+        app:srcCompat="@drawable/clear"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnMenuReturn"
@@ -55,31 +35,76 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/frameLayout"
-        android:layout_marginStart="17dp"
         android:clickable="true"
+        android:onClick="returnToMenu"
         app:backgroundTint="@android:color/holo_purple"
         app:fabSize="mini"
         app:srcCompat="@drawable/menu"
-        android:onClick="returnToMenu"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnClear"
+        android:id="@+id/btnPrevious"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/btnClear"
         android:clickable="true"
-        android:onClick="clearDrawView"
-        app:backgroundTint="@android:color/holo_orange_light"
+        android:onClick="goToPreviousValue"
+        app:backgroundTint="@android:color/holo_blue_bright"
         app:fabSize="mini"
-        app:srcCompat="@drawable/clear"
+        app:srcCompat="@drawable/arrow_left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/btnClear"
+        android:layout_marginRight="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/btnMenuReturn"
+        android:layout_marginLeft="8dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnClear"
         android:layout_below="@+id/frameLayout"
-        android:layout_centerHorizontal="true" />
+        android:clickable="true"
+        android:onClick="goToNextValue"
+        app:backgroundTint="@android:color/holo_blue_bright"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/arrow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintRight_toLeftOf="@+id/btnDone"
+        android:layout_marginRight="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/btnClear"
+        android:layout_marginLeft="8dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/frameLayout"
+        android:clickable="true"
+        android:onClick="onDoneButtonClick"
+        app:backgroundTint="@android:color/holo_green_light"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="50dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="587dp"
+        android:layout_height="285dp"
         android:layout_alignParentEnd="true"
-        android:layout_above="@+id/btnDone">
+        android:layout_above="@+id/btnDone"
+        tools:layout_editor_absoluteY="2dp"
+        tools:layout_editor_absoluteX="3dp">
 
         <LinearLayout
             android:id="@+id/layoutBottom"
@@ -94,4 +119,4 @@
 
     </FrameLayout>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
