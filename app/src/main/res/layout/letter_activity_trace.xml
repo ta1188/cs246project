@@ -110,6 +110,20 @@
         android:layout_marginLeft="8dp">
 
         <RelativeLayout
+            android:id="@+id/LayoutLines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/Lines"
+                android:layout_width="500dp"
+                android:layout_height="250dp"
+                app:srcCompat="@drawable/lined_page" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/LayoutBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
