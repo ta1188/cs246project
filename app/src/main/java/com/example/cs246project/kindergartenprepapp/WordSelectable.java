@@ -20,6 +20,10 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+/**
+ * Handles finding first letter of word image shown
+ * @author Trevor Adams
+ * */
 public class WordSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference

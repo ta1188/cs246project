@@ -22,6 +22,10 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Handles selecting numbers of the user's name
+ * @author Trevor Adams
+ * */
 public class NameSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
@@ -41,56 +45,56 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
         setTopNameSlots();
     }
 
-//    public void viewSetUp() {
-//        /**
-//         * This will loop through the generatedValueList based on the length of the array
-//         * It will then get the index of each file in the drawable directory,
-//         * then it will update the image for each button.
-//         * */
-//        for (MediaModel item : _model.generateValueList()) {
-//            final MediaButton btn = new MediaButton(this, item, this);
-//            /**
-//             * Setup event listeners for media buttons
-//             * */
-//            btn.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                        if(_model.isCorrect(((MediaButton) v).getValue())) {
-//                            Log.d("NameSelectable", "------- CORRECT --------" + v.getId());
-//                            CharSequence text = "Correct!";
-//                            int duration = Toast.LENGTH_SHORT;
-//
-//                            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-//                            toast.setGravity(Gravity.CENTER, 0, 0);
-//                            toast.show();
-//                        } else {
-//                            Log.d("NameSelectable", "------- WRONG --------" + v.getId());
-//
-//                            CharSequence text = "Incorrect!";
-//                            int duration = Toast.LENGTH_SHORT;
-//
-//                            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-//                            toast.setGravity(Gravity.CENTER, 0, 0);
-//                            toast.show();
-//
-//                        }
-//                        // Runnable for disabling buttons on new thread to not impede audio playing
-//                        Runnable enableDisable = new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                enableDisableButtons(false);
-//                            }
-//                        };
-//                        Handler handler = new Handler();
-//                        handler.postDelayed(enableDisable, 200);
-//                    }
-//                    return false;
-//                }
-//            });
-//            layout.addView(btn);
-//        }
-//    }
+    public void viewSetUp() {
+        /**
+         * This will loop through the generatedValueList based on the length of the array
+         * It will then get the index of each file in the drawable directory,
+         * then it will update the image for each button.
+         * */
+        for (MediaModel item : _model.generateValueList()) {
+            final MediaButton btn = new MediaButton(this, item, this);
+            /**
+             * Setup event listeners for media buttons
+             * */
+            btn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if(_model.isCorrect(((MediaButton) v).getValue())) {
+                            Log.d("NameSelectable", "------- CORRECT --------" + v.getId());
+                            CharSequence text = "Correct!";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        } else {
+                            Log.d("NameSelectable", "------- WRONG --------" + v.getId());
+
+                            CharSequence text = "Incorrect!";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+
+                        }
+                        // Runnable for disabling buttons on new thread to not impede audio playing
+                        Runnable enableDisable = new Runnable() {
+                            @Override
+                            public void run() {
+                                enableDisableButtons(false);
+                            }
+                        };
+                        Handler handler = new Handler();
+                        handler.postDelayed(enableDisable, 200);
+                    }
+                    return false;
+                }
+            });
+            layout.addView(btn);
+        }
+    }
 
     /**
      * Will disable or enable the layout buttons

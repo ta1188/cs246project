@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles finding how many objects are shown
+ * */
 public class CountSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
