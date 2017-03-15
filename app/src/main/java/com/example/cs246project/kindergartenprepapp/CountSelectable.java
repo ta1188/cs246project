@@ -110,7 +110,7 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
 
     private void setMainImage() {
         // Grab the image resource and set the image drawable
-        Drawable res = getResources().getDrawable(_model.getAnswerResoureIndex("count_"), getTheme());
+        Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
         final ImageView imageView = (ImageView) findViewById(R.id.countImage);
         imageView.setImageDrawable(res);
         final Context context = this;

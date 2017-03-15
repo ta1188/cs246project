@@ -74,11 +74,6 @@ abstract class SelectableModel<T> extends Application {
     public Boolean isActivityDone() { return _isActivityDone; }
 
     /**
-     * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
-     */
-    abstract protected int getAnswerResourceIndex();
-
-    /**
      * GETPROGRESS will tell if the activity is over
      */
     public int getProgress() {

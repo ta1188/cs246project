@@ -104,10 +104,9 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         }
     }
 
-
     private void setMainImage() {
         // Grab the image resource and set the image drawable
-        Drawable res = getResources().getDrawable(_model.getAnswerResoureIndex("object_"), getTheme());
+        Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
         final ImageView imageView = (ImageView) findViewById(R.id.objectImage);
         imageView.setImageDrawable(res);
         final Context context = this;

@@ -46,6 +46,10 @@ public class NameSelectableModel extends SelectableModel {
         buildInitialQuestionAnswerBanks();
     }
 
+    protected int getAnswerResourceIndex() {
+        return 0;
+    }
+
     /************** METHODS ***************/
 
     /**
