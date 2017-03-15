@@ -23,6 +23,12 @@ import java.util.List;
 
 public class NumberTraceActivity extends CharacterTraceActivity {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        playInstructions(getResources().getIdentifier("instruct_trace_number_with_finger", "raw", getPackageName()));
+    }
+
     protected void initializeModel() {
         _model = new NumberTraceModel(this);
     }

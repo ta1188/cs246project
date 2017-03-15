@@ -27,7 +27,7 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NameTraceActivity extends AppCompatActivity implements Runnable {
+public class NameTraceActivity extends SkipTapActivity implements Runnable {
 
     // FrameLayout that holds the drawView and trace background.
     FrameLayout _frameLayout;
@@ -65,6 +65,8 @@ public class NameTraceActivity extends AppCompatActivity implements Runnable {
 
         // Build the background images from the traceCharacters
         setTraceBackgroundFromValues();
+
+        playInstructions(getResources().getIdentifier("instruct_trace_letters_in_name_using_finger", "raw", getPackageName()));
     }
 
     /**

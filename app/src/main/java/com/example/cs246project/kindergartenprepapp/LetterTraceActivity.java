@@ -23,6 +23,12 @@ import java.util.List;
 
 public class LetterTraceActivity extends CharacterTraceActivity {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        playInstructions(getResources().getIdentifier("instruct_trace_letter_with_finger", "raw", getPackageName()));
+    }
+
     protected void initializeModel() {
         _model = new LetterTraceModel(this);
     }

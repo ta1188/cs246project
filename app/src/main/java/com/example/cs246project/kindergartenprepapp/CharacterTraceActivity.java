@@ -1,13 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -21,16 +15,13 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-abstract public class CharacterTraceActivity extends AppCompatActivity {
+abstract public class CharacterTraceActivity extends SkipTapActivity {
 
     // Model object associated with the activity
     protected CharacterTraceModel _model;
 
     // DrawView object associated with the activity
     protected DrawView _drawView;
-
-    //
-    FloatingActionButton.OnVisibilityChangedListener _listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +34,6 @@ abstract public class CharacterTraceActivity extends AppCompatActivity {
         initializeDrawView();
         // Set the background
         setTraceBackgroundFromValues(_model.getCurrentValues());
-
-        _listener = new FloatingActionButton.OnVisibilityChangedListener() {
-            @Override
-            public void onShown(FloatingActionButton fab) {
-                fab.setVisibility(View.VISIBLE);
-                super.onShown(fab);
-            }
-
-            @Override
-            public void onHidden(FloatingActionButton fab) {
-                fab.setVisibility(View.INVISIBLE);
-                super.onHidden(fab);
-            }
-        };
 
 //        if (_model.isAtBeginning()) {
 //            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
