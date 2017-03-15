@@ -2,6 +2,7 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -13,10 +14,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -72,6 +75,12 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
 
                             Toast toast = Toast.makeText(getApplicationContext(), text, duration);
                             toast.setGravity(Gravity.CENTER, 0, 0);
+                            ViewGroup group = (ViewGroup) toast.getView();
+                            TextView messageTextView = (TextView) group.getChildAt(0);
+                            messageTextView.setTextSize(25);
+                            View view = toast.getView();
+                            view.setBackgroundColor(Color.parseColor("#00e676"));
+                            view.setPadding(20, 10, 20, 10);
                             toast.show();
                         } else {
                             Log.d("CountSelectable", "------- WRONG --------" + ((MediaButton) v).getValue());
@@ -81,6 +90,12 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
 
                             Toast toast = Toast.makeText(getApplicationContext(), text, duration);
                             toast.setGravity(Gravity.CENTER, 0, 0);
+                            ViewGroup group = (ViewGroup) toast.getView();
+                            TextView messageTextView = (TextView) group.getChildAt(0);
+                            messageTextView.setTextSize(25);
+                            View view = toast.getView();
+                            view.setBackgroundColor(Color.parseColor("#ff8a65"));
+                            view.setPadding(20, 10, 20, 10);
                             toast.show();
 
                         }
