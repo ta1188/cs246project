@@ -1,5 +1,8 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +17,22 @@ import java.util.List;
 
 public class NameTraceModel {
 
-    protected String _name;
+    protected String _firstName;
+    protected String _lastName;
+
+    protected Context _context;
 
     /**
      * {@inheritDoc}
      * Creates a NameTraceModel using a name
-     * @param name The name of the user
+     * @param context The Context in which the activity will be working in
      */
-    public NameTraceModel(String name) {
-        _name = name;
+    public NameTraceModel(Context context) {
+        _context = context;
+
+        SharedPreferences settings = context.getSharedPreferences(AppConstants.sharePreferenceSettings, context.MODE_PRIVATE);
+        _firstName = settings.getString(AppConstants.sharePreferenceFirstName, "");
+        _lastName = settings.getString(AppConstants.sharePreferenceLastName, "");
     }
 
     /**
@@ -33,11 +43,21 @@ public class NameTraceModel {
     public List<String> getValues() {
         List<String> values = new ArrayList<String>();
 
-        for (int i = 0; i < _name.length(); i++) {
-            if (Character.isUpperCase(_name.charAt(i))) {
-                values.add("upper_" + (Character.toString(_name.charAt(i))).toLowerCase());
+        for (int i = 0; i < _firstName.length(); i++) {
+            if (Character.isUpperCase(_firstName.charAt(i))) {
+                values.add("upper_" + (Character.toString(_firstName.charAt(i))).toLowerCase());
             } else {
-                values.add("lower_" + (Character.toString(_name.charAt(i))).toLowerCase());
+                values.add("lower_" + (Character.toString(_firstName.charAt(i))).toLowerCase());
+            }
+        }
+
+        if (!_lastName.isEmpty()) {
+            for (int i = 0; i < _lastName.length(); i++) {
+                if (Character.isUpperCase(_lastName.charAt(i))) {
+                    values.add("upper_" + (Character.toString(_lastName.charAt(i))).toLowerCase());
+                } else {
+                    values.add("lower_" + (Character.toString(_lastName.charAt(i))).toLowerCase());
+                }
             }
         }
 
@@ -50,7 +70,11 @@ public class NameTraceModel {
      * @return the number of characters in _name
      */
     public int getNumberOfCharacters() {
-        return _name.length();
+        if (!_lastName.isEmpty()) {
+            return (_firstName.length() + _lastName.length());
+        } else {
+            return _firstName.length();
+        }
     }
 
     /**
@@ -59,6 +83,6 @@ public class NameTraceModel {
      * @return the file name of the instructions audio file
      */
     protected String getInstructionsFileName() {
-        return "";
+        return "instruct_trace_letters_in_name_using_finger";
     }
 }

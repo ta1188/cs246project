@@ -51,9 +51,7 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get the user's name and set the model with that name
-        SharedPreferences settings = getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
-        _model = new NameTraceModel(settings.getString(AppConstants.sharePreferenceName, ""));
+        _model = new NameTraceModel(this);
 
         // Set the content view layout
         setContentView(R.layout.name_activity_trace);
@@ -66,7 +64,7 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
         // Build the background images from the traceCharacters
         setTraceBackgroundFromValues();
 
-        playInstructions(getResources().getIdentifier("instruct_trace_letters_in_name_using_finger", "raw", getPackageName()));
+        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
     }
 
     /**
