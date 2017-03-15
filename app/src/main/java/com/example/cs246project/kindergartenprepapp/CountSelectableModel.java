@@ -69,6 +69,14 @@ public class CountSelectableModel extends SelectableModel {
     }
 
     /**
+     * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
+     */
+    protected int getAnswerResourceIndex() {
+        int resourceIndex = _context.getResources().getIdentifier("count_" + _answer, "drawable", _context.getPackageName());
+        return resourceIndex;
+    }
+
+    /**
      * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
      */
     public List<MediaModel> generateValueList() {

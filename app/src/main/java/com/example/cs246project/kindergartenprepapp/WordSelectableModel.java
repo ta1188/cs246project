@@ -1,12 +1,17 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+
+// import statements
 
 /**
  * <p>
@@ -20,6 +25,12 @@ import static android.content.ContentValues.TAG;
  * activity. Subclass of Selectable Model
  */
 public class WordSelectableModel extends SelectableModel {
+
+    /*********** Member Variables ************/
+
+    // static resource for word activity instruction
+    //private static final String _activityInstructions =
+      //      "instruct_pick_letter_that_matches_first_sound_of_picture";
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
@@ -55,6 +66,17 @@ public class WordSelectableModel extends SelectableModel {
     /************** METHODS ***************/
 
     /**
+     *  GETACTIVITYINSTRUCTIONSINDEX will associate and return instuction sound intex to word
+     *  selectable activity
+     */
+    //public int getActivityInstructionsIndex() {
+
+      //  return _context.getResources().getIdentifier(_activityInstructions, "raw", _context.getPackageName());
+    //}
+
+    
+
+    /**
      *  BUILDINITIALQUESTIONBANK method to build values that can be randomly pulled from
      */
     protected void buildInitialQuestionAnswerBanks() {
@@ -68,11 +90,19 @@ public class WordSelectableModel extends SelectableModel {
     }
 
     /**
+     * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
+     */
+    protected int getAnswerResourceIndex() {
+        int resourceIndex = _context.getResources().getIdentifier("object_" + _answer, "drawable", _context.getPackageName());
+        return resourceIndex;
+    }
+
+    /**
      * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
      */
     public List<MediaModel> generateValueList() {
 
-        List<String> randomValues = new ArrayList<>();
+        List<String> randomValues;
         List<MediaModel> results = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly

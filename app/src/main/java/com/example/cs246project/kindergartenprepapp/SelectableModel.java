@@ -76,10 +76,7 @@ abstract class SelectableModel<T> extends Application {
     /**
      * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
      */
-    int getAnswerResoureIndex(String filePrefix) {
-        int resourceIndex = _context.getResources().getIdentifier(filePrefix + _answer, "drawable", _context.getPackageName());
-        return resourceIndex;
-    }
+    abstract protected int getAnswerResourceIndex();
 
     /**
      * GETPROGRESS will tell if the activity is over
