@@ -7,5 +7,6 @@ package com.example.cs246project.kindergartenprepapp;
 public class AppConstants {
 
     public static final String sharePreferenceSettings = "SETTINGS";
-    public static final String sharePreferenceName = "NAME";
+    public static final String sharePreferenceFirstName = "FIRST_NAME";
+    public static final String sharePreferenceLastName = "LAST_NAME";
 }
