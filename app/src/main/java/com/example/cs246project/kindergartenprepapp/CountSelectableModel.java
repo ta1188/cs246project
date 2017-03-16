@@ -62,7 +62,7 @@ public class CountSelectableModel extends SelectableModel {
         _answerBank  = new ArrayList<>();
         _questionBank = new ArrayList<>();
 
-        for (int i = 1 ; i <= 10; i++) {
+        for (int i = 0 ; i <= 10; i++) {
             _questionBank.add(i);
             _answerBank.add(i);
         }
