@@ -157,6 +157,16 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
      */
     protected void playCurrentValueAudio() {
         MediaPlayer mediaPlayer = MediaPlayer.create(this, _model.getCurrentValueAudioResourceIndex());
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if (mp != null) {
+                    mp.release();
+                }
+            }
+        });
+
         mediaPlayer.start();
     }
 }

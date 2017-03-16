@@ -22,8 +22,43 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
     // Thee model object that handles image/audio resources
     private MediaModel<T> _model;
 
-    //
+    // The audio handler that knows what to do when all audio is complete.
     private AudioHandler _audioHandler;
+
+    // The On Completion Listener for when the button's audio is played.
+    private MediaPlayer.OnCompletionListener _onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            if(!_model.isAtEndOfAudio()) {
+                if (_mediaPlayer != null) {
+                    // Release the media player
+                    _mediaPlayer.release();
+                }
+                // Reset the _mediaPlayer to have the next audio file
+                _mediaPlayer = MediaPlayer.create(getContext(), _model.getAudioSourceIndex());
+
+                // Set the onCompletionListener to this member variable (recursion?)
+                _mediaPlayer.setOnCompletionListener(_onCompletionListener);
+
+                // Play the audio
+                _mediaPlayer.start();
+            }
+            else {
+                if (_mediaPlayer != null) {
+                    // Release the media player
+                    _mediaPlayer.release();
+                }
+
+                // Reset the index to point back to the first audio file
+                _model.resetAudioIndex();
+
+                // Call the audio handler's onAudioComplete
+                if (_audioHandler != null) {
+                    _audioHandler.onAudioComplete();
+                }
+            }
+        }
+    };
 
     /**
      * Non-Default Constructor
@@ -69,43 +104,7 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
             _mediaPlayer = MediaPlayer.create(getContext(), _model.getAudioSourceIndex());
 
             // Set the on completion listener to play all other audio resources when each is complete
-            _mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    if(!_model.isAtEndOfAudio())
-                    {
-                        // Reset the media player
-                        _mediaPlayer.reset();
-
-                        // Load the media player with a new audio resource
-                        try {
-                            AssetFileDescriptor afd = getContext().getResources().openRawResourceFd(_model.getAudioSourceIndex());
-                            if (afd == null) return;
-                            _mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                            afd.close();
-                            _mediaPlayer.prepare();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        // Play the audio
-                        _mediaPlayer.start();
-                    }
-                    else
-                    {
-                        // Release the media player
-                        _mediaPlayer.release();
-
-                        // Reset the index to point back to the first audio file
-                        _model.resetAudioIndex();
-
-                        // Call the audio handler's onAudioComplete
-                        if (_audioHandler != null) {
-                            _audioHandler.onAudioComplete();
-                        }
-                    }
-                }
-            });
+            _mediaPlayer.setOnCompletionListener(_onCompletionListener);
 
             // Play the first audio track
             _mediaPlayer.start();
