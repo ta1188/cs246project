@@ -71,7 +71,7 @@ public class CountSelectableModel extends SelectableModel {
     /**
      * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
      */
-    protected int getAnswerResourceIndex() {
+    public int getAnswerResourceIndex() {
         int resourceIndex = _context.getResources().getIdentifier("count_" + _answer, "drawable", _context.getPackageName());
         return resourceIndex;
     }
@@ -81,7 +81,7 @@ public class CountSelectableModel extends SelectableModel {
      */
     public List<MediaModel> generateValueList() {
 
-        List<Integer> randomValues = new ArrayList<>();
+        List<Integer> randomValues;
         List<MediaModel> results = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly

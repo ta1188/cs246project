@@ -23,6 +23,11 @@ import static android.content.ContentValues.TAG;
  */
 public class NameSelectableModel extends SelectableModel {
 
+    // member variables
+    SharedPreferences _sharedPreferences;
+    String _firstName;
+    String _lastName;
+    String _currenthName;
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
@@ -38,17 +43,47 @@ public class NameSelectableModel extends SelectableModel {
 
     /************ Constructors *************/
 
-    public NameSelectableModel(Context context) {
+    public NameSelectableModel(Context context, String whichName) {
         super(context);
-        _isActivityDone = false;
+
+
+        // get name from shared preferences
+        _sharedPreferences = _context.getSharedPreferences("SETTINGS", MODE_PRIVATE);
+        _firstName = _sharedPreferences.getString("FIRST_NAME", ""); // FIX 'NAME' to reference 'FIRST_NAME'
+        _lastName = _sharedPreferences.getString("LAST_NAME", ""); // FIX 'NAME' to reference 'LAST_NAME'
+
+
+
+        switch (whichName) {
+            case "first" :
+                if(_firstName.length() > 0) {
+                    _optionCount = _firstName.length();
+                    _currenthName = _firstName;
+                    _isActivityDone = false;
+                } else {
+                    Log.i(TAG, "NameSelectableModel: No first name entered");
+                }
+
+                break;
+            case "last" :
+                if(_lastName.length() > 0) {
+                    _optionCount = _lastName.length();
+                    _currenthName = _lastName;
+                    _isActivityDone = false;
+                } else {
+                    Log.i(TAG, "NameSelectableModel: No last name entered ");
+                }
+                break;
+            default :
+                _isActivityDone = true;
+                return;
+        }
 
         // initialize question bank
         buildInitialQuestionAnswerBanks();
     }
 
-    protected int getAnswerResourceIndex() {
-        return 0;
-    }
+
 
     /************** METHODS ***************/
 
@@ -59,16 +94,19 @@ public class NameSelectableModel extends SelectableModel {
         _answerBank  = new ArrayList<>();
         _questionBank = new ArrayList<>();
 
-        // get name from shared preferences
-        SharedPreferences sharedPreferences = _context.getSharedPreferences("SETTINGS", MODE_PRIVATE);
-        String usersName = sharedPreferences.getString("NAME", ""); // FIX 'NAME' to reference 'FIRST_NAME' and 'LAST_NAME'
-
-        _optionCount = usersName.length();
-
         // increment through letters
-        for (char i = 0 ; i < usersName.length(); i++) {
-            _questionBank.add((int) usersName.charAt(i));
+        for (char i = 0 ; i < _optionCount; i++) {
+            _questionBank.add(Character.toString(_currenthName.charAt(i)));
+            _answerBank.add(Character.toString(_currenthName.charAt(i)));
         }
+    }
+
+    /**
+     * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
+     */
+    public int getAnswerResourceIndex() {
+        int resourceIndex = _context.getResources().getIdentifier("object_" + _answer, "drawable", _context.getPackageName());
+        return resourceIndex;
     }
 
     /**
@@ -76,7 +114,7 @@ public class NameSelectableModel extends SelectableModel {
      */
     public List<MediaModel> generateValueList() {
 
-        List<String> randomValues = new ArrayList<>();
+        List<String> randomValues;
         List<MediaModel> results = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly
@@ -94,7 +132,7 @@ public class NameSelectableModel extends SelectableModel {
         // shuffle list to make is random
         Collections.shuffle(randomValues);
 
-        // Useing the random values now associate the images and sounds to buttons to be used
+        // Using the random values now associate the images and sounds to buttons to be used
         //    by the calling activity
         for (String value : randomValues) {
 

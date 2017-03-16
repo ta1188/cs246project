@@ -41,11 +41,8 @@ public class WordSelectableModel extends SelectableModel {
     }};
 
 
-    /************ Constructors *************/
+    /* Constructors */
 
-    /**
-     * @param optionCount how many values are need to be generated
-     */
     public WordSelectableModel(Context context, int optionCount) {
         super(context);
         if((optionCount > 0) && (optionCount <= 26)) {
@@ -59,10 +56,10 @@ public class WordSelectableModel extends SelectableModel {
         buildInitialQuestionAnswerBanks();
     }
 
-    /************** METHODS ***************/
+    /* METHODS */
 
     /**
-     *  GETACTIVITYINSTRUCTIONSINDEX will associate and return instuction sound intex to word
+     *  GETACTIVITYINSTRUCTIONSINDEX will associate and return instruction sound index to word
      *  selectable activity
      */
     //public int getActivityInstructionsIndex() {
@@ -88,7 +85,7 @@ public class WordSelectableModel extends SelectableModel {
     /**
      * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
      */
-    protected int getAnswerResourceIndex() {
+    public int getAnswerResourceIndex() {
         int resourceIndex = _context.getResources().getIdentifier("object_" + _answer, "drawable", _context.getPackageName());
         return resourceIndex;
     }

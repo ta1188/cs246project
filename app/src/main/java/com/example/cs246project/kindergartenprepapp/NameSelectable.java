@@ -42,9 +42,9 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.name_selectable);
         layout = (LinearLayout) findViewById(R.id.layout_name);
-        _model = new NameSelectableModel(this);
+        _model = new NameSelectableModel(this, "first");
 
-//        viewSetUp();
+        viewSetUp();
         setTopNameSlots();
     }
 
