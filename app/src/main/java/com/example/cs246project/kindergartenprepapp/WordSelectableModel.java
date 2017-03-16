@@ -25,8 +25,8 @@ public class WordSelectableModel extends SelectableModel {
     /*********** Member Variables ************/
 
     // static resource for word activity instruction
-    //private static final String _activityInstructions =
-      //      "instruct_pick_letter_that_matches_first_sound_of_picture";
+    private static final String _activityInstructions =
+            "instruct_pick_letter_that_matches_first_sound_of_picture";
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
@@ -59,15 +59,13 @@ public class WordSelectableModel extends SelectableModel {
     /* METHODS */
 
     /**
-     *  GETACTIVITYINSTRUCTIONSINDEX will associate and return instruction sound index to word
-     *  selectable activity
+     *  Gets the instruction audio resource index for the word selectable activity.
+     *  @return The audio resource index for the activity instruction.
      */
-    //public int getActivityInstructionsIndex() {
+    public int getActivityInstructionsIndex() {
 
-      //  return _context.getResources().getIdentifier(_activityInstructions, "raw", _context.getPackageName());
-    //}
-
-    
+        return _context.getResources().getIdentifier(_activityInstructions, "raw", _context.getPackageName());
+    }
 
     /**
      *  BUILDINITIALQUESTIONBANK method to build values that can be randomly pulled from

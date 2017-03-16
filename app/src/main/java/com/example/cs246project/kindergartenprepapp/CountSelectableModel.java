@@ -21,6 +21,10 @@ import static android.content.ContentValues.TAG;
  */
 public class CountSelectableModel extends SelectableModel {
 
+    // static resource for word activity instruction
+    private static final String _activityInstructions =
+            "instruct_count_pictures_and_find_number_that_matches";
+
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
         add("motivate_great_job");
@@ -54,6 +58,15 @@ public class CountSelectableModel extends SelectableModel {
     }
 
     /************** METHODS ***************/
+
+    /**
+     *  Gets the instruction audio resource index for the word selectable activity.
+     *  @return The audio resource index for the activity instruction.
+     */
+    public int getActivityInstructionsIndex() {
+
+        return _context.getResources().getIdentifier(_activityInstructions, "raw", _context.getPackageName());
+    }
 
     /**
      *  BUILDINITIALQUESTIONBANK method to build values that can be randomly pulled from

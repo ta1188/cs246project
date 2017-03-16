@@ -89,6 +89,13 @@ abstract class SelectableModel<T> extends Application {
      */
     abstract protected void buildInitialQuestionAnswerBanks();
 
+//    /**
+//     *  Gets the instruction audio resource index for the activity.
+//     *  @return The audio resource index for the activity instruction.
+//     */
+//    abstract public int getActivityInstructionsIndex();
+
+
 
     /**
      * Generate an array of random values to be used for the buttons.
