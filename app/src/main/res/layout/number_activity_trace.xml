@@ -102,7 +102,7 @@
         android:layout_width="588dp"
         android:layout_height="285dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/btnScrollLeft"
+        android:layout_toEndOf="@+id/btnPrevious"
         android:layout_above="@+id/btnClear"
         tools:layout_editor_absoluteY="2dp"
         tools:layout_editor_absoluteX="3dp">

@@ -99,7 +99,13 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
         FrameLayout.LayoutParams bottomLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, LinearLayout.LayoutParams.MATCH_PARENT);
         bottomLayout.setLayoutParams(bottomLayoutParams);
 
+        // Setup layout parameters of the bottomLayout
+        LinearLayout linesLayout = (LinearLayout) findViewById(R.id.LayoutLines);
+        FrameLayout.LayoutParams linesLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, LinearLayout.LayoutParams.MATCH_PARENT);
+        linesLayout.setLayoutParams(linesLayoutParams);
+
         // Add each letter as an image view to the bottomLayout
+        int linesResourceIndex = this.getResources().getIdentifier("lines", "drawable", this.getPackageName());
         List<String> values = _model.getValues();
         for (int i = 0; i < values.size(); i++) {
             // Set the imageView's image resource using value
@@ -109,7 +115,20 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
             imageView.setAlpha(0.5f);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
             bottomLayout.addView(imageView, layoutParams);
+
+            AppCompatImageView linesImageView = new AppCompatImageView(this);
+            linesImageView.setImageResource(linesResourceIndex);
+            LinearLayout.LayoutParams backgroundlayoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
+            linesLayout.addView(linesImageView, backgroundlayoutParams);
         }
+
+//        for (int i = 0; i < values.size(); i++) {
+//            AppCompatImageView linesImageView = new AppCompatImageView(this);
+//            linesImageView.setImageResource(linesResourceIndex);
+//            LinearLayout.LayoutParams backgroundlayoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
+//            linesLayout.addView(linesImageView, backgroundlayoutParams);
+//        }
+
     }
 
     /**

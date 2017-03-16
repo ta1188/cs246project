@@ -100,14 +100,16 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="586dp"
+        android:layout_width="0dp"
         android:layout_height="284dp"
         android:layout_above="@+id/btnClear"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/btnScrollLeft"
-        tools:layout_editor_absoluteX="4dp"
         tools:layout_editor_absoluteY="1dp"
-        android:layout_marginLeft="8dp">
+        android:layout_marginLeft="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="1dp"
+        app:layout_constraintRight_toRightOf="parent">
 
         <RelativeLayout
             android:id="@+id/LayoutLines"
@@ -116,10 +118,17 @@
             android:layout_gravity="center">
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/Lines"
-                android:layout_width="500dp"
+                android:id="@+id/upperLines"
+                android:layout_width="250dp"
                 android:layout_height="250dp"
-                app:srcCompat="@drawable/lined_page" />
+                app:srcCompat="@drawable/lines" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/lowerLines"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_toEndOf="@+id/upperLines"
+                app:srcCompat="@drawable/lines" />
 
         </RelativeLayout>
 
