@@ -33,6 +33,10 @@ public class NameSelectableModel extends SelectableModel {
     String _currentName;
     Character _answerOrder;
 
+    // static resource for word activity instruction
+    private static final String _activityInstructions =
+            "instruct_spell_your_name";
+
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
         add("motivate_great_job");
@@ -103,6 +107,15 @@ public class NameSelectableModel extends SelectableModel {
 
     public Boolean isLastName() {
         return (_lastName.length() > 0);
+    }
+
+    /**
+     *  Gets the instruction audio resource index for the word selectable activity.
+     *  @return The audio resource index for the activity instruction.
+     */
+    public int getActivityInstructionsIndex() {
+
+        return _context.getResources().getIdentifier(_activityInstructions, "raw", _context.getPackageName());
     }
 
     /**
