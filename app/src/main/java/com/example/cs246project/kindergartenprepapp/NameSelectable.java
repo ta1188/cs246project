@@ -45,6 +45,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
 
     private int position = 0;
     private int count = 0;
+    private boolean completedFirstName = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,16 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
             startActivity(intent);
         }
 
+    }
+
+    protected void resetToLastName() {
+        _model = new NameSelectableModel(this, "last");
+        layout_name.removeAllViews();
+        layout_top_name.removeAllViews();
+
+        position = 0;
+        count = 0;
+        viewSetUp();
     }
 
     public void viewSetUp() {
@@ -220,7 +231,15 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
      * */
     @Override
     public void onAudioComplete() {
-        if (_model._isActivityDone) {
+        if (_model._isActivityDone && _model.hasLastName() && !completedFirstName) {
+            // Checking for is it's the first name AND the activity is done W/ a last name
+            resetToLastName();
+            completedFirstName = true;
+        } else if (_model._isActivityDone && !_model.hasLastName()) {
+            // Checking for is it's the first name AND the activity is done W/O a last name
+            this.finish();
+        } else if (_model._isActivityDone && _model.hasLastName() && completedFirstName) {
+            // Checking for is it's the last name AND the activity is done
             this.finish();
         } else {
             // Unlock buttons when sound is complete
