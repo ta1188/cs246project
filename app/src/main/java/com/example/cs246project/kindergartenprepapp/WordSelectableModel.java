@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
  */
 
 /**
- * WORDSELECTABLEMODEL Class will build a list of random values used with the word selectable
+ * Controls logic and creates list of random values used with the word selectable
  * activity. Subclass of Selectable Model
  */
 public class WordSelectableModel extends SelectableModel {
@@ -68,32 +68,32 @@ public class WordSelectableModel extends SelectableModel {
     }
 
     /**
-     *  BUILDINITIALQUESTIONBANK method to build values that can be randomly pulled from
+     * Build values that can be randomly pulled from.
      */
     protected void buildInitialQuestionAnswerBanks() {
         _answerBank  = new ArrayList<>();
         _questionBank = new ArrayList<>();
 
         for (char i = 'a' ; i <= 'z'; i++) {
-            _questionBank.add(Character.toString(i));
-            _answerBank.add(Character.toString(i));
+            _questionBank.add(i);
+            _answerBank.add(i);
         }
     }
 
     /**
-     * GETANSWERRESOURCEINDEX will get the answer for the activity as a resource index
+     * Get the answer for the activity as a resource index.
      */
     public int getAnswerResourceIndex() {
-        int resourceIndex = _context.getResources().getIdentifier("object_" + _answer, "drawable", _context.getPackageName());
+        int resourceIndex = _context.getResources().getIdentifier("object_" + _answer.toString(), "drawable", _context.getPackageName());
         return resourceIndex;
     }
 
     /**
-     * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
+     * Build a set of indexes required for retrieving audio and image files
      */
     public List<MediaModel> generateValueList() {
 
-        List<String> randomValues;
+        List<Character> randomValues;
         List<MediaModel> results = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly
@@ -111,20 +111,20 @@ public class WordSelectableModel extends SelectableModel {
         // shuffle list to make is random
         Collections.shuffle(randomValues);
 
-        // Useing the random values now associate the images and sounds to buttons to be used
+        // Using the random values now associate the images and sounds to buttons to be used
         //    by the calling activity
-        for (String value : randomValues) {
+        for (Character value : randomValues) {
 
             // set the picture to match the letter sound
-            int imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value, "drawable", _context.getPackageName());
+            int imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value.toString(), "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
 
             // retrieve letter audio
-            int audioFileResourceIndex1 = _context.getResources().getIdentifier(value, "raw", _context.getPackageName());
+            int audioFileResourceIndex1 = _context.getResources().getIdentifier(value.toString(), "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex1);
 
             // letter sound
-            int audioFileResourceIndex3 = _context.getResources().getIdentifier("letter_sound_" + value, "raw", _context.getPackageName());
+            int audioFileResourceIndex3 = _context.getResources().getIdentifier("letter_sound_" + value.toString(), "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex3);
 
             // used to make the motivations different each time
@@ -135,15 +135,15 @@ public class WordSelectableModel extends SelectableModel {
 
             // correct answer
             if (value == _answer) {
-                int audioFileResourceIndex2 = _context.getResources().getIdentifier(correct.get(0), "raw", _context.getPackageName());
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier(correct.get(0).toString(), "raw", _context.getPackageName());
                 audioFileResourceIndexes.add(audioFileResourceIndex2);
             } else { // incorrect
-                int audioFileResourceIndex2 = _context.getResources().getIdentifier(incorrect.get(0), "raw", _context.getPackageName());
+                int audioFileResourceIndex2 = _context.getResources().getIdentifier(incorrect.get(0).toString(), "raw", _context.getPackageName());
                 audioFileResourceIndexes.add(audioFileResourceIndex2);
             }
 
             // retrieve and associate buttons with image and audio
-            MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
+            MediaModel<Character> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
             results.add(mediaModel);
         }
 

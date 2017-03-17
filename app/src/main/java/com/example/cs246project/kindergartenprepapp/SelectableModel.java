@@ -16,7 +16,7 @@ import java.util.Random;
  */
 
 /**
- * SELECTABLEMODEL: Class will build a list of random values used with the selectable activities.
+ * Class will build a list of random values used with the selectable activities.
  * The class will create the specified number of values of which will have the following
  * properties: they are unique with no duplicates, options are reduced as the user gets a
  * question right, The first generated value is assigned to be the answer. The class will
@@ -31,6 +31,7 @@ abstract class SelectableModel<T> extends Application {
     protected List<T> _questionBank;
     protected List<T> _answerBank;
     protected T _answer;
+    //protected T _answerIndex;
     protected Boolean _isActivityDone;
     protected int _optionCount;
 
@@ -96,7 +97,6 @@ abstract class SelectableModel<T> extends Application {
 //    abstract public int getActivityInstructionsIndex();
 
 
-
     /**
      * Generate an array of random values to be used for the buttons.
      * Values are unique that are not used again if already answered.
@@ -110,7 +110,7 @@ abstract class SelectableModel<T> extends Application {
         // get random first value with conditions based on available answer bank questions
         _answer = _answerBank.get(randomValueRetriever.nextInt(_answerBank.size()));
 
-        // check if random number already exists where -1 means it doesn't exists
+        // add the initial random value to list to start
         valueList.add(_answer);
 
         // generate the rest of the buttons with random values that don't match button 1st

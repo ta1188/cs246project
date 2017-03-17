@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by lancerguy on 3/15/17.
+ * Created by Michael Lucero on 3/15/17.
  */
 
 public class BackgroundSoundService extends Service {

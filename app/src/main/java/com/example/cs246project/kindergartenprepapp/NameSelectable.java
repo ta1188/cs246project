@@ -63,7 +63,7 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        if(_model.isCorrect(((MediaButton) v).getValue())) {
+                        if(_model.isCorrectOrder((Character) ((MediaButton) v).getValue())) {
                             Log.d("NameSelectable", "------- CORRECT --------" + v.getId());
                             CharSequence text = "Correct!";
                             int duration = Toast.LENGTH_SHORT;
