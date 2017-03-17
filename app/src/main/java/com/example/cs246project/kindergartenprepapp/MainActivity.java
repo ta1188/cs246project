@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         firstNameField.setText(firstname);
         EditText lastNameField = (EditText) findViewById(R.id.playerLastName);
         lastNameField.setText(lastname);
+
+
+        startService(new Intent(this, BackgroundSoundService.class));
     }
 
     public void goToMainMenu(View view) {

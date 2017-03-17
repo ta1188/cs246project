@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static android.content.ContentValues.TAG;
 
@@ -99,6 +100,10 @@ public class NameSelectableModel extends SelectableModel {
     }
 
     /* METHODS */
+
+    public Boolean isLastName() {
+        return (_lastName.length() > 0);
+    }
 
     /**
      * Checks if the button selected is correct and increments to the next correct choice
@@ -231,4 +236,38 @@ public class NameSelectableModel extends SelectableModel {
 
         return results;
     }
+
+    /**
+     * Generate an array of random values to be used for the buttons.
+     * Values are unique that are not used again if already answered.
+     * @return set random random values to be used for media association and buttons
+     */
+
+//    @Override
+//    protected List<T> randomValuesGenerator() {
+//
+//        List<T> valueList = new ArrayList<>();
+//        Random randomValueRetriever = new Random();
+//
+//        // get random first value with conditions based on available answer bank questions
+//        _answer = _answerBank.get(randomValueRetriever.nextInt(_answerBank.size()));
+//
+//        // add the initial random value to list to start
+//        valueList.add(_answer);
+//
+//        // generate the rest of the buttons with random values that don't match button 1st
+//        //    button made
+//        while (valueList.size() < _optionCount) {
+//
+//            // get random value
+//            T randomNum = _questionBank.get(randomValueRetriever.nextInt(_questionBank.size()));
+//
+//            // check if number already added, not added if -1 is returned
+//            if (valueList.indexOf(randomNum) == -1)
+//                valueList.add(randomNum);
+//        }
+//
+//        return valueList;
+//    }
+
 }
