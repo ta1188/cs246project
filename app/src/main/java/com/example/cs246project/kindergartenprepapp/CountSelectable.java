@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Handles finding how many objects are shown
  * */
-public class CountSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
+public class CountSelectable extends SkipTapActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private CountSelectableModel _model;
@@ -46,6 +46,7 @@ public class CountSelectable extends AppCompatActivity implements View.OnTouchLi
         layout = (LinearLayout) findViewById(R.id.layout_count);
         _progBar = (ProgressBar) findViewById(R.id.progressBarCount);
         _model = new CountSelectableModel(this, 4);
+        playInstructions(_model.getActivityInstructionsIndex());
 
         viewSetUp();
         setMainImage();

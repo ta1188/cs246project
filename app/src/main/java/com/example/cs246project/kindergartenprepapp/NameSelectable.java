@@ -35,17 +35,21 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
     private NameSelectableModel _model;
 
     // Find the horizontal scroll view
-    private LinearLayout layout;
+    private LinearLayout layout_name;
+    private LinearLayout layout_top_name;
+
+    private int position = 0;
+    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.name_selectable);
-        layout = (LinearLayout) findViewById(R.id.layout_name);
+        layout_name = (LinearLayout) findViewById(R.id.layout_name);
+        layout_top_name = (LinearLayout) findViewById(R.id.layout_top_name);
         _model = new NameSelectableModel(this, "first");
 
         viewSetUp();
-        setTopNameSlots();
     }
 
     public void viewSetUp() {
@@ -77,6 +81,30 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
                             view.setBackgroundColor(Color.parseColor("#00e676"));
                             view.setPadding(20, 10, 20, 10);
                             toast.show();
+
+                            // Remove correct button selection from view
+                            v.setVisibility(View.GONE);
+
+                            ImageView letterTopLine = (ImageView) findViewById(position);
+                            letterTopLine.setBackgroundResource(0);
+                            
+                            // Progress name position indicator
+                            if (position < (count - 1)) {
+                                ImageView nextLetterSpot = (ImageView) findViewById(position + 1);
+                                Drawable drawRes = getResources().getDrawable(R.drawable.button_border, getTheme());
+                                nextLetterSpot.setBackground(drawRes);
+                            }
+                            // Get the letter index for the letter of the name selected
+                            int resourceIndex;
+                            if (position == 0) {
+                                resourceIndex = getResources().getIdentifier("upper_" + ((MediaButton) v).getValue().toString().toLowerCase(), "drawable", getPackageName());
+                            } else {
+                                resourceIndex = getResources().getIdentifier("lower_" + ((MediaButton) v).getValue().toString().toLowerCase(), "drawable", getPackageName());
+                            }
+
+                            letterTopLine.setImageResource(resourceIndex);
+
+                            position++;
                         } else {
                             Log.d("NameSelectable", "------- WRONG --------" + v.getId());
 
@@ -107,7 +135,28 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
                     return false;
                 }
             });
-            layout.addView(btn);
+            btn.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
+            btn.setScaleType(ImageView.ScaleType.CENTER);
+            btn.setAdjustViewBounds(true);
+
+            layout_name.addView(btn);
+
+            // Add letter options on Top
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
+            imageView.setPadding(10, 0, 10, 0);
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            imageView.setAdjustViewBounds(true);
+            imageView.setImageResource(R.drawable.underline);
+            imageView.setId(count);
+
+            if (count == 0) {
+                imageView.setImageResource(R.drawable.underline);
+                Drawable res = this.getResources().getDrawable(R.drawable.button_border, getTheme());
+                imageView.setBackground(res);
+            }
+            count ++;
+            layout_top_name.addView(imageView);
         }
     }
 
@@ -115,21 +164,11 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
      * Will disable or enable the layout buttons
      * */
     private void enableDisableButtons(Boolean state){
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            layout.getChildAt(i).setEnabled(state);
+        for (int i = 0; i < layout_name.getChildCount(); i++) {
+            layout_name.getChildAt(i).setEnabled(state);
         }
     }
 
-
-    private void setTopNameSlots() {
-
-        LinearLayout layoutTopName = (LinearLayout) findViewById(R.id.layout_top_name);
-
-        // Here is how to know how long the name is...
-        _model.getNameLength();
-
-
-    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

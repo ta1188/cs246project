@@ -27,7 +27,7 @@ import java.io.IOException;
  * Handles finding first letter of word image shown
  * @author Trevor Adams
  * */
-public class WordSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
+public class WordSelectable extends SkipTapActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private WordSelectableModel _model;
@@ -44,6 +44,7 @@ public class WordSelectable extends AppCompatActivity implements View.OnTouchLis
         layout = (LinearLayout) findViewById(R.id.layout_word);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
         _model = new WordSelectableModel(this, 4);
+        playInstructions(_model.getActivityInstructionsIndex());
 
         viewSetUp();
         setMainImage();
