@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * Handles selecting numbers of the user's name
  * @author Trevor Adams
  * */
-public class NameSelectable extends AppCompatActivity implements View.OnTouchListener, AudioHandler {
+public class NameSelectable extends SkipTapActivity implements View.OnTouchListener, AudioHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private NameSelectableModel _model;
@@ -51,6 +51,7 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
         layout_name = (LinearLayout) findViewById(R.id.layout_name);
         layout_top_name = (LinearLayout) findViewById(R.id.layout_top_name);
         _model = new NameSelectableModel(this, "first");
+        playInstructions(_model.getActivityInstructionsIndex());
 
         viewSetUp();
     }
