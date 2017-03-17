@@ -15,6 +15,9 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,12 +90,18 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
 
                             ImageView letterTopLine = (ImageView) findViewById(position);
                             letterTopLine.setBackgroundResource(0);
-                            
+
                             // Progress name position indicator
                             if (position < (count - 1)) {
                                 ImageView nextLetterSpot = (ImageView) findViewById(position + 1);
                                 Drawable drawRes = getResources().getDrawable(R.drawable.button_border, getTheme());
                                 nextLetterSpot.setBackground(drawRes);
+
+                                Animation fadeIn = AnimationUtils.loadAnimation(NameSelectable.this, R.anim.fade_in_animation);
+//                                LayoutAnimationController layoutAnimation = AnimationUtils.loadLayoutAnimation(NameSelectable.this, R.anim.fade_in_animation)
+
+                                nextLetterSpot.startAnimation(fadeIn);
+
                             }
                             // Get the letter index for the letter of the name selected
                             int resourceIndex;
