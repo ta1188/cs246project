@@ -76,8 +76,16 @@ public class NameSelectableModel extends SelectableModel {
                     _optionCount = _firstName.length();
                     _currentName = _firstName;       // set up a common variable to store the name
                     _isActivityDone = false;
+
+                    // set the initial answer as the first letter of the name
+                    _answerOrder = _currentName.charAt(0);
+
+                    // initialize question bank
+                    buildInitialQuestionAnswerBanks();
+
                 } else {
                     Log.i(TAG, "NameSelectableModel: No first name entered");
+                    _isActivityDone = true;
                 }
 
                 break;
@@ -86,26 +94,29 @@ public class NameSelectableModel extends SelectableModel {
                     _optionCount = _lastName.length();
                     _currentName = _lastName;
                     _isActivityDone = false;
+
+                    // set the initial answer as the first letter of the name
+                    _answerOrder = _currentName.charAt(0);
+
+                    // initialize question bank
+                    buildInitialQuestionAnswerBanks();
                 } else {
                     Log.i(TAG, "NameSelectableModel: No last name entered ");
+                    _isActivityDone = true;
                 }
                 break;
             default :
                 _isActivityDone = true;
-                return;
         }
-
-        // set the initial answer as the first letter of the name
-        _answerOrder = _currentName.charAt(0);
-
-        // initialize question bank
-        buildInitialQuestionAnswerBanks();
-
     }
 
     /* METHODS */
 
-    public Boolean isLastName() {
+    public Boolean hasFirstName() {
+        return (_firstName.length() > 0);
+    }
+
+    public Boolean hasLastName() {
         return (_lastName.length() > 0);
     }
 
@@ -194,8 +205,9 @@ public class NameSelectableModel extends SelectableModel {
         }
         else {
             Log.w(TAG, "generateButtonList: able to generate random values " +
-                    _answerBank.size() + " > 0");
-            return null;
+                    "_answerBank.size() < 1");
+
+            return results;
         }
 
         // shuffle list to make is random
