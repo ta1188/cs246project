@@ -1,6 +1,8 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -51,9 +53,39 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         layout_name = (LinearLayout) findViewById(R.id.layout_name);
         layout_top_name = (LinearLayout) findViewById(R.id.layout_top_name);
         _model = new NameSelectableModel(this, "first");
-        playInstructions(_model.getActivityInstructionsIndex());
 
-        viewSetUp();
+        SharedPreferences settings = this.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+
+        if (_model.hasFirstName()) {
+            playInstructions(_model.getActivityInstructionsIndex());
+            viewSetUp();
+            // Update shared preferences
+            editor.putString(AppConstants.sharePreferenceUpdatingName, "false");
+        } else {
+            // Update shared preferences
+            editor.putString(AppConstants.sharePreferenceUpdatingName, "true");
+            editor.commit();
+
+            // Play toast of missing your name
+            CharSequence text = "Missing your name";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            ViewGroup group = (ViewGroup) toast.getView();
+            TextView messageTextView = (TextView) group.getChildAt(0);
+            messageTextView.setTextSize(25);
+            View view = toast.getView();
+            view.setBackgroundColor(Color.parseColor("#9575cd"));
+            view.setPadding(20, 10, 20, 10);
+            toast.show();
+
+            // Redirect to main activity for entry of name
+            Intent intent = new Intent(getBaseContext(), MainActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     public void viewSetUp() {
@@ -99,8 +131,6 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                                 nextLetterSpot.setBackground(drawRes);
 
                                 Animation fadeIn = AnimationUtils.loadAnimation(NameSelectable.this, R.anim.fade_in_animation);
-//                                LayoutAnimationController layoutAnimation = AnimationUtils.loadLayoutAnimation(NameSelectable.this, R.anim.fade_in_animation)
-
                                 nextLetterSpot.startAnimation(fadeIn);
 
                             }

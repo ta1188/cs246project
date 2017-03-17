@@ -50,9 +50,18 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(AppConstants.sharePreferenceLastName, lastNameField.getText().toString());
         editor.commit();
 
-        // create intent to start menu activity
-        Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-        startActivity(intent);
+        String wasUpdating = settings.getString(AppConstants.sharePreferenceUpdatingName, "");
+
+        if (wasUpdating == "true") {
+            // create intent to start menu activity
+            Intent nameIntent = new Intent(getBaseContext(), NameSelectable.class);
+            startActivity(nameIntent);
+        } else {
+            // create intent to start menu activity
+            Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+            startActivity(intent);
+        }
+
 
 
     }
