@@ -144,7 +144,7 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
                     return false;
                 }
             });
-            btn.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
+            btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn.setScaleType(ImageView.ScaleType.CENTER);
             btn.setAdjustViewBounds(true);
 
@@ -152,8 +152,8 @@ public class NameSelectable extends AppCompatActivity implements View.OnTouchLis
 
             // Add letter options on Top
             ImageView imageView = new ImageView(this);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(90, 90));
-            imageView.setPadding(10, 0, 10, 0);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            imageView.setPadding(6, 0, 6, 0);
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             imageView.setAdjustViewBounds(true);
             imageView.setImageResource(R.drawable.underline);
