@@ -34,15 +34,19 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private WordSelectableModel _model;
 
     // Find the horizontal scroll view
-    private LinearLayout layout;
+    private LinearLayout layout_top;
+    private LinearLayout layout_bottom;
     private ProgressBar _progBar;
     private boolean wasTrue = false;
+
+    int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.word_selectable);
-        layout = (LinearLayout) findViewById(R.id.layout_word);
+        layout_top = (LinearLayout) findViewById(R.id.layout_word_top);
+        layout_bottom = (LinearLayout) findViewById(R.id.layout_word_bottom);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
         _model = new WordSelectableModel(this, 4);
         playInstructions(_model.getActivityInstructionsIndex());
@@ -91,7 +95,16 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
                     return false;
                 }
             });
-            layout.addView(btn);
+            btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn.setScaleType(ImageView.ScaleType.CENTER);
+            btn.setAdjustViewBounds(true);
+
+            if (count <= 2) {
+                layout_top.addView(btn);
+            } else {
+                layout_bottom.addView(btn);
+            }
+            count++;
         }
     }
 
@@ -99,8 +112,11 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
      * Will disable or enable the layout buttons
      * */
     private void enableDisableButtons(Boolean state){
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            layout.getChildAt(i).setEnabled(state);
+        for (int i = 0; i < layout_top.getChildCount(); i++) {
+            layout_top.getChildAt(i).setEnabled(state);
+        }
+        for (int i = 0; i < layout_bottom.getChildCount(); i++) {
+            layout_bottom.getChildAt(i).setEnabled(state);
         }
     }
 
@@ -160,8 +176,10 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
 
 
     private void resetActivity() {
-        layout.removeAllViews();
+        layout_top.removeAllViews();
+        layout_bottom.removeAllViews();
         wasTrue = false;
+        count = 1;
         viewSetUp();
         setMainImage();
     }
