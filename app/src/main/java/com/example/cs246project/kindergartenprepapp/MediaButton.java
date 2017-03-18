@@ -3,6 +3,8 @@ package com.example.cs246project.kindergartenprepapp;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import java.io.IOException;
 
@@ -74,14 +76,17 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
 
         // Set the image of the button
         setImageResource(_model.getImageFileResourceIndex());
+    }
 
-        // Setup to play audio files when clicked/touched
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playAudio();
-            }
-        });
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.d(getClass().getName(), "onTouch entered");
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            playAudio();
+        }
+
+        // Consume the touch event so nothing else will respond to the touch
+        return true;
     }
 
     /**
