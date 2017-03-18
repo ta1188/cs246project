@@ -63,9 +63,14 @@ public class MediaModel<T> {
      * @return the current audio resource index
      */
     public int getAudioSourceIndex() {
-        int resourceIndex = _audioFileResourceIndexes.get(_currentAudioResourceIndex);
-        _currentAudioResourceIndex++;
-        return resourceIndex;
+        if (!isAtEndOfAudio()) {
+            int resourceIndex = _audioFileResourceIndexes.get(_currentAudioResourceIndex);
+            _currentAudioResourceIndex++;
+            return resourceIndex;
+        } else {
+            _currentAudioResourceIndex = 0;
+            return _audioFileResourceIndexes.get(_currentAudioResourceIndex);
+        }
     }
 
     /**

@@ -51,9 +51,6 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
                     _mediaPlayer.release();
                 }
 
-                // Reset the index to point back to the first audio file
-                _model.resetAudioIndex();
-
                 // Call the audio handler's onAudioComplete
                 if (_audioHandler != null) {
                     _audioHandler.onAudioComplete();
@@ -80,13 +77,13 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.d(getClass().getName(), "onTouch entered");
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             playAudio();
+            return true;
         }
 
         // Consume the touch event so nothing else will respond to the touch
-        return true;
+        return super.onTouchEvent(event);
     }
 
     /**
@@ -105,6 +102,10 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
     private void playAudio() {
         // Only play audio if you have it.
         if (_model.hasAudio()) {
+            if (_mediaPlayer != null) {
+                _mediaPlayer.release();
+            }
+
             // Initialize the media player with the first audio resource
             _mediaPlayer = MediaPlayer.create(getContext(), _model.getAudioSourceIndex());
 
