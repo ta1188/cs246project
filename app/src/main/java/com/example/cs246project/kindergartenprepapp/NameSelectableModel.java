@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -146,14 +147,16 @@ public class NameSelectableModel extends SelectableModel {
             Log.w(TAG, "answer is " + _answerOrder);
             if (value == _answerOrder) {
 
-                // find value in list and then remove it from the possibilities
+                // remove the value from the possibilities where because the value is in order
+                //    the first item in the list will be the correct answer
                 Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
-                _answerBank.remove(value);
+                _answerBank.remove(0);
 
                 // make sure not to over extend bounds
                 if (_answerBank.size() > 0) {
-                    // set the answer for the next letter in the name
-                    _answerOrder = (Character) _questionBank.get(_questionBank.indexOf(value) + 1);
+                    // set the answer for the next letter in the name which will be the first value
+                    //    in the array because the correct answer was just removed from that spot.
+                    _answerOrder = (Character) _answerBank.get(0);
                 }
             } else {
                 Log.w(TAG, "The value: " + value + " is NOT correct");
@@ -173,6 +176,7 @@ public class NameSelectableModel extends SelectableModel {
     protected void buildInitialQuestionAnswerBanks() {
         _answerBank  = new ArrayList<>();
         _questionBank = new ArrayList<>();
+
 
         // increment through letters
         for (int i = 0 ; i < _optionCount; i++) {
@@ -195,19 +199,19 @@ public class NameSelectableModel extends SelectableModel {
     public List<MediaModel> generateValueList() {
 
         List<Character> randomValues;
-        List<MediaModel> results = new ArrayList<>();
+        List<MediaModel> questionsAndAnswer = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly
         //    otherwise would result in endless loop in random activity
         if (!_isActivityDone) {
-            // get random values with is parameters
-            randomValues = randomValuesGenerator();
+            // get random values with its parameters
+            randomValues = randomValuesNameGenerator();
         }
         else {
             Log.w(TAG, "generateButtonList: able to generate random values " +
                     "_answerBank.size() < 1");
 
-            return results;
+            return questionsAndAnswer;
         }
 
         // shuffle list to make is random
@@ -256,10 +260,10 @@ public class NameSelectableModel extends SelectableModel {
 
             // retrieve and associate buttons with image and audio
             MediaModel<Character> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
-            results.add(mediaModel);
+            questionsAndAnswer.add(mediaModel);
         }
 
-        return results;
+        return questionsAndAnswer;
     }
 
     /**
@@ -268,31 +272,26 @@ public class NameSelectableModel extends SelectableModel {
      * @return set random random values to be used for media association and buttons
      */
 
-//    @Override
-//    protected List<T> randomValuesGenerator() {
-//
-//        List<T> valueList = new ArrayList<>();
-//        Random randomValueRetriever = new Random();
-//
-//        // get random first value with conditions based on available answer bank questions
-//        _answer = _answerBank.get(randomValueRetriever.nextInt(_answerBank.size()));
-//
-//        // add the initial random value to list to start
-//        valueList.add(_answer);
-//
-//        // generate the rest of the buttons with random values that don't match button 1st
-//        //    button made
-//        while (valueList.size() < _optionCount) {
-//
-//            // get random value
-//            T randomNum = _questionBank.get(randomValueRetriever.nextInt(_questionBank.size()));
-//
-//            // check if number already added, not added if -1 is returned
-//            if (valueList.indexOf(randomNum) == -1)
-//                valueList.add(randomNum);
-//        }
-//
-//        return valueList;
-//    }
+    protected List<Character> randomValuesNameGenerator() {
+
+        List<Character> valueList = new ArrayList<>();
+        Random randomValueRetriever = new Random();
+
+        // generate the rest of the buttons with random values that don't match button 1st
+        //    button made
+        while (valueList.size() < _optionCount) {
+
+            // get random value
+            Character randomNum = (Character) _questionBank.get(randomValueRetriever.nextInt(_questionBank.size()));
+
+            // value has now been used so don't use it again
+            _questionBank.remove(randomNum);
+
+            // add the random to the list to use latter
+            valueList.add(randomNum);
+        }
+
+        return valueList;
+    }
 
 }

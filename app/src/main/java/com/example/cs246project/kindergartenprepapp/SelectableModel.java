@@ -21,7 +21,7 @@ import java.util.Random;
  * properties: they are unique with no duplicates, options are reduced as the user gets a
  * question right, The first generated value is assigned to be the answer. The class will
  * have a function that will return a list of value back.
- * @param <T> will support additional types per activity called
+ * @param <T> will support additional types per activity called.
  */
 abstract class SelectableModel<T> extends Application {
 

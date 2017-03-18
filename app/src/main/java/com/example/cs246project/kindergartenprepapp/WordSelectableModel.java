@@ -17,12 +17,12 @@ import static android.content.ContentValues.TAG;
  */
 
 /**
- * Controls logic and creates list of random values used with the word selectable
- * activity. Subclass of Selectable Model
+ * WordSelectable Class controls logic and creates list of random values used with the
+ * word selectable activity. Subclass of Selectable Model
  */
 public class WordSelectableModel extends SelectableModel {
 
-    /*********** Member Variables ************/
+    /* Member Variables */
 
     // static resource for word activity instruction
     private static final String _activityInstructions =
@@ -39,7 +39,6 @@ public class WordSelectableModel extends SelectableModel {
     static final List<String> incorrect = new ArrayList<String>(){{
         add("motivate_try_again");
     }};
-
 
     /* Constructors */
 
@@ -90,11 +89,12 @@ public class WordSelectableModel extends SelectableModel {
 
     /**
      * Build a set of indexes required for retrieving audio and image files
+     * Functions as follows:
      */
     public List<MediaModel> generateValueList() {
 
         List<Character> randomValues;
-        List<MediaModel> results = new ArrayList<>();
+        List<MediaModel> questionsAndAnswer = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly
         //    otherwise would result in endless loop in random activity
@@ -144,9 +144,9 @@ public class WordSelectableModel extends SelectableModel {
 
             // retrieve and associate buttons with image and audio
             MediaModel<Character> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
-            results.add(mediaModel);
+            questionsAndAnswer.add(mediaModel);
         }
 
-        return results;
+        return questionsAndAnswer;
     }
 }
