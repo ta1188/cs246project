@@ -69,62 +69,13 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
                         if(_model.isCorrect(((MediaButton) v).getValue())) {
                             wasTrue = true;
                             _progBar.incrementProgressBy(1);
-                            Log.d("WordSelectable", "------- CORRECT --------" + v.getId());
-                            CharSequence text = "Correct!";
-                            int duration = Toast.LENGTH_SHORT;
-
-                            final Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            ViewGroup group = (ViewGroup) toast.getView();
-                            TextView messageTextView = (TextView) group.getChildAt(0);
-                            messageTextView.setTextSize(25);
-                            View view = toast.getView();
-                            view.setBackgroundColor(Color.parseColor("#00e676"));
-                            view.setPadding(20, 10, 20, 10);
-
-                            // Set the countdown to display the toast
-                            CountDownTimer toastCountDown = new CountDownTimer(800, 1000 /*Tick duration*/) {
-                                public void onTick(long millisUntilFinished) {
-                                    toast.show();
-                                }
-                                public void onFinish() {
-                                    toast.cancel();
-                                }
-                            };
-
-                            // Show the toast and starts the countdown
-                            toast.show();
-                            toastCountDown.start();
+                            // Show answer toast
+                            _model.displayToast(true);
 
 
                         } else {
-                            Log.d("WordSelectable", "------- WRONG --------" + v.getId());
-
-                            CharSequence text = "Incorrect!";
-                            int duration = Toast.LENGTH_SHORT;
-
-                            final Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            ViewGroup group = (ViewGroup) toast.getView();
-                            TextView messageTextView = (TextView) group.getChildAt(0);
-                            messageTextView.setTextSize(25);
-                            View view = toast.getView();
-                            view.setBackgroundColor(Color.parseColor("#ff8a65"));
-                            view.setPadding(20, 10, 20, 10);
-
-                            // Set the countdown to display the toast
-                            CountDownTimer toastCountDown = new CountDownTimer(800, 1000 /*Tick duration*/) {
-                                public void onTick(long millisUntilFinished) {
-                                    toast.show();
-                                }
-                                public void onFinish() {
-                                    toast.cancel();
-                                }
-                            };
-
-                            // Show the toast and starts the countdown
-                            toast.show();
-                            toastCountDown.start();
+                            // Show answer toast
+                            _model.displayToast(false);
 
                         }
                         // Runnable for disabling buttons on new thread to not impede audio playing

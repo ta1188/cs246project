@@ -2,7 +2,14 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +91,49 @@ abstract class SelectableModel<T> extends Application {
     public int getProgress() {
         return _answerBank.size();
     }
+
+    /**
+     * Handle toast messages
+     * */
+    public void displayToast(boolean correctAnswer) {
+        CharSequence text;
+        String toastColor;
+
+        if (correctAnswer) {
+            text = "Correct!";
+            toastColor = "#00e676";
+        } else {
+            text = "Incorrect!";
+            toastColor = "#ff8a65";
+        }
+
+
+        int duration = Toast.LENGTH_SHORT;
+
+        final Toast toast = Toast.makeText(_context, text, duration);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(25);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.parseColor(toastColor));
+        view.setPadding(20, 10, 20, 10);
+
+        // Set the countdown to display the toast
+        CountDownTimer toastCountDown = new CountDownTimer(800, 1000 /*Tick duration*/) {
+            public void onTick(long millisUntilFinished) {
+                toast.show();
+            }
+            public void onFinish() {
+                toast.cancel();
+            }
+        };
+
+        // Show the toast and starts the countdown
+        toast.show();
+        toastCountDown.start();
+    }
+
 
     /**
      * abstract requires building of a question bank
