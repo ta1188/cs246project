@@ -17,123 +17,86 @@
         android:layout_height="46dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/logo"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
+        android:layout_marginTop="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/selectableLayout"
+        android:id="@+id/activtyBtnOuterContainer"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp">
 
-        <ImageView
-            android:id="@+id/wordSelectableBtn"
-            android:layout_width="106dp"
-            android:layout_height="100dp"
-            android:onClick="sendToWordSelectable"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <ViewFlipper
+            android:id="@+id/flipper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/activity_btn_word" />
-
-        <ImageView
-            android:id="@+id/countSelectableBtn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginStart="6dp"
-            android:onClick="sendToCountSelectable"
-            android:text="Count Selectable"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/wordSelectableBtn"
-            app:layout_constraintRight_toLeftOf="@+id/nameSelectableBtn"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/activity_btn_count" />
-
-        <ImageView
-            android:id="@+id/nameSelectableBtn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:onClick="sendToNameSelectable"
-            android:text="Name Selectable"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/activity_btn_name" />
+            app:layout_constraintBottom_toBottomOf="parent">
+            <include android:id="@+id/first"  layout="@layout/menu_first_view" />
+            <include android:id="@+id/second"  layout="@layout/menu_second_view" />
+        </ViewFlipper>
 
-    </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/drawableLayout"
-        android:layout_width="394dp"
-        android:layout_height="111dp"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/menuNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="progressMenu"
+        app:backgroundTint="@android:color/holo_blue_bright"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/arrow_right"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectableLayout">
+        app:layout_constraintVertical_bias="0.58"
+        android:layout_marginEnd="8dp" />
 
-        <ImageView
-            android:id="@+id/letterTraceButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:onClick="sendToLetterTraceActivity"
-            android:text="Letter Trace"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/activity_btn_letter" />
-
-        <ImageView
-            android:id="@+id/numberTraceButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginStart="6dp"
-            android:onClick="sendToNumberTraceActivity"
-            android:text="Number Trace"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/letterTraceButton"
-            app:layout_constraintRight_toLeftOf="@+id/nameTraceButton"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/activity_btn_number" />
-
-        <ImageView
-            android:id="@+id/nameTraceButton"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:onClick="sendToNameTraceActivity"
-            android:text="Name Trace"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/activity_btn_name_trace" />
-
-    </android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/menuPrev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="progressMenu"
+        app:backgroundTint="@android:color/holo_blue_bright"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/arrow_left"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintVertical_bias="0.58"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <ImageButton
         android:id="@+id/aboutAppButton"
         style="@android:style/Widget.Material.ImageButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="6dp"
         android:layout_marginEnd="6dp"
         android:background="@android:color/transparent"
         android:onClick="sendToAboutActivity"
         android:text="About App"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_info_details" />
+        app:srcCompat="@android:drawable/ic_menu_info_details"
+        android:layout_marginRight="6dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="2dp" />
 
 
 </android.support.constraint.ConstraintLayout>

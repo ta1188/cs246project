@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activtyBtnContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    tools:layout_editor_absoluteY="8dp">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/selectableLayout"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/shapeSelectableBtn"
+            android:layout_width="106dp"
+            android:layout_height="100dp"
+            android:onClick="sendToWordSelectable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/activity_btn_shape" />
+
+        <ImageView
+            android:id="@+id/patternSelectableBtn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginStart="6dp"
+            android:onClick="sendToCountSelectable"
+            android:text="Count Selectable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/shapeSelectableBtn"
+            app:layout_constraintRight_toLeftOf="@+id/sightWordsSelectableBtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/activity_btn_pattern" />
+
+        <ImageView
+            android:id="@+id/sightWordsSelectableBtn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:onClick="sendToNameSelectable"
+            android:text="Name Selectable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/activity_btn_sight_words" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/drawableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/selectableLayout">
+
+            <ImageView
+                android:id="@+id/letterTraceButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:onClick="sendToLetterTraceActivity"
+                android:text="Letter Trace"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/activity_btn_shape_trace" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

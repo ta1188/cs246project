@@ -1,9 +1,16 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.widget.ViewFlipper;
 
 /**
  * The Menu screen/activity where the user can choose a tracing or selection "activity" to help
@@ -16,11 +23,79 @@ import android.view.View;
 
 public class MenuActivity extends AppCompatActivity {
 
+    protected ViewFlipper flipper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        flipper = (ViewFlipper) findViewById(R.id.flipper);
+        final FloatingActionButton nextMenuBtn = (FloatingActionButton) findViewById(R.id.menuNext);
+        final FloatingActionButton prevMenuBtn = (FloatingActionButton) findViewById(R.id.menuPrev);
+        prevMenuBtn.setVisibility(View.GONE);
+
+        nextMenuBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                flipper.setInAnimation(inFromRightAnimation());
+                flipper.setOutAnimation(outToLeftAnimation());
+                flipper.showNext();
+                prevMenuBtn.setVisibility(View.VISIBLE);
+                nextMenuBtn.setVisibility(View.GONE);
+                Animation fadeIn = AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fade_in_animation);
+                prevMenuBtn.startAnimation(fadeIn);
+            }
+        });
+
+        prevMenuBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                flipper.setInAnimation(inFromLeftAnimation());
+                flipper.setOutAnimation(outToRightAnimation());
+                flipper.showPrevious();
+                nextMenuBtn.setVisibility(View.VISIBLE);
+                prevMenuBtn.setVisibility(View.GONE);
+                Animation fadeIn = AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fade_in_animation);
+                nextMenuBtn.startAnimation(fadeIn);
+            }
+        });
     }
+
+    /**
+     * Animation handling
+     * */
+    private Animation inFromRightAnimation() {
+        Animation inFromRight = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT,  +1.0f, Animation.RELATIVE_TO_PARENT,  0.0f,
+                Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
+        inFromRight.setDuration(500);
+        inFromRight.setInterpolator(new AccelerateInterpolator());
+        return inFromRight;
+    }
+    private Animation outToLeftAnimation() {
+        Animation outtoLeft = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,  -1.0f,
+                Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
+        outtoLeft.setDuration(500);
+        outtoLeft.setInterpolator(new AccelerateInterpolator());
+        return outtoLeft;
+    }
+
+    private Animation inFromLeftAnimation() {
+        Animation inFromLeft = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT,  -1.0f, Animation.RELATIVE_TO_PARENT,  0.0f,
+                Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
+        inFromLeft.setDuration(500);
+        inFromLeft.setInterpolator(new AccelerateInterpolator());
+        return inFromLeft;
+    }
+    private Animation outToRightAnimation() {
+        Animation outtoRight = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,  +1.0f,
+                Animation.RELATIVE_TO_PARENT,  0.0f, Animation.RELATIVE_TO_PARENT,   0.0f);
+        outtoRight.setDuration(500);
+        outtoRight.setInterpolator(new AccelerateInterpolator());
+        return outtoRight;
+    }
+
 
     /**
      * Send To Word Selectable
@@ -85,5 +160,9 @@ public class MenuActivity extends AppCompatActivity {
     public void sendToAboutActivity (View view) {
         Intent intent = new Intent(getBaseContext(), AboutActivity.class);
         startActivity(intent);
+    }
+
+    public void progressMenu (View view) {
+        Log.d("MenuActivity", "This will progress the menu");
     }
 }
