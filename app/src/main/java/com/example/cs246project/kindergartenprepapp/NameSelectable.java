@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Handles selecting numbers of the user's name
@@ -48,6 +49,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     private int count = 0;
     private boolean completedFirstName = false;
     private Boolean _isCorrect;
+    private String btnValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +148,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                             } else {
                                 resourceIndex = getResources().getIdentifier("lower_" + ((MediaButton) v).getValue().toString().toLowerCase(), "drawable", getPackageName());
                             }
-
+                            btnValue = ((MediaButton) v).getValue().toString().toLowerCase();
                             letterTopLine.setImageResource(resourceIndex);
 
                             position++;
@@ -162,7 +164,9 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                             }
                         };
                         Handler handler = new Handler();
-                        handler.postDelayed(enableDisable, 200);
+                                handler.postDelayed(enableDisable, 50);
+                        enableDisableButtons(false);
+
                     }
                     return false;
                 }
@@ -181,6 +185,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
             imageView.setAdjustViewBounds(true);
             imageView.setImageResource(R.drawable.underline);
             imageView.setId(count);
+            imageView.setTag(btnValue);
 
             if (count == 0) {
                 imageView.setImageResource(R.drawable.underline);
@@ -197,8 +202,49 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
      * */
     private void enableDisableButtons(Boolean state){
         for (int i = 0; i < layout_name.getChildCount(); i++) {
+            layout_name.getChildAt(i).setClickable(state);
             layout_name.getChildAt(i).setEnabled(state);
         }
+    }
+
+    private void playSoundsOfName(boolean isFirstName, int transitionType) {
+        SharedPreferences _sharedPreferences = this.getSharedPreferences("SETTINGS", MODE_PRIVATE);
+        String name = isFirstName ? _sharedPreferences.getString("FIRST_NAME", "") : _sharedPreferences.getString("LAST_NAME", "");
+
+        for (int i = 0; i < name.length(); i++) {
+            int audioAnswerIndex = this.getResources().getIdentifier(String.valueOf(Character.toLowerCase(name.charAt(i))), "raw", this.getPackageName());
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+            mediaPlayer.start();
+
+            // Delay a little for audio to complete
+            try {
+                TimeUnit.MILLISECONDS.sleep(800);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Screen update logic for post sound completion...
+        switch (transitionType) {
+            case 0:
+                resetToLastName();
+                break;
+            case 1:
+                this.finish();
+                break;
+            case 2:
+                this.finish();
+                break;
+            default:
+                break;
+        }
+
     }
 
 
@@ -213,14 +259,16 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     @Override
     public void onAudioComplete() {
         if (_model._isActivityDone && _model.hasLastName() && !completedFirstName) {
-            // Checking for is it's the first name AND the activity is done W/ a last name
-            resetToLastName();
+            // Checking for if it's the first name AND the activity is done W/ a last name
+            playSoundsOfName(true, 0);
             completedFirstName = true;
         } else if (_model._isActivityDone && !_model.hasLastName()) {
-            // Checking for is it's the first name AND the activity is done W/O a last name
+            // Checking for if it's the first name AND the activity is done W/O a last name
+            playSoundsOfName(true, 1);
             this.finish();
         } else if (_model._isActivityDone && _model.hasLastName() && completedFirstName) {
-            // Checking for is it's the last name AND the activity is done
+            // Checking for if it's the last name AND the activity is done
+            playSoundsOfName(false, 1);
             this.finish();
         } else {
             // Unlock buttons when sound is complete
