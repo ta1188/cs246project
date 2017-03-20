@@ -34,10 +34,17 @@ abstract class SkipTapActivity extends AppCompatActivity {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 _instructionsMediaPlayer.release();
+                onInstructionsAudioComplete();
+
             }
         });
 
         // Play the first audio track
         _instructionsMediaPlayer.start();
+    }
+
+    public void onInstructionsAudioComplete() {
+        // Do nothing here.
+        // Descendants may Override this if they want (not abstract == not required)
     }
 }

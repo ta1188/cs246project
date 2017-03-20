@@ -54,18 +54,8 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
     }
 
     @Override
-    protected void playInstructions(int instructionsAudioResourceIndex){
-        // Initialize a media player with the audio resource
-        _instructionsMediaPlayer = MediaPlayer.create(this, instructionsAudioResourceIndex);
-
-        _instructionsMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                playCurrentValueAudio();
-            }
-        });
-
-        _instructionsMediaPlayer.start();
+    public void onInstructionsAudioComplete() {
+        playCurrentValueAudio();
     }
 
     /**
