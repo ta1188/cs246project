@@ -1,18 +1,13 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.os.Handler;
+import android.media.MediaPlayer;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.List;
@@ -65,6 +60,14 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
         setTraceBackgroundFromValues();
 
         playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
+
+        // Hide the previous button since the activity is at the start
+        FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+        previousButton.setVisibility(View.INVISIBLE);
+
+        // Hide button if the activity isn't already complete
+        FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
+        doneButton.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -121,14 +124,6 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
             LinearLayout.LayoutParams backgroundlayoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
             linesLayout.addView(linesImageView, backgroundlayoutParams);
         }
-
-//        for (int i = 0; i < values.size(); i++) {
-//            AppCompatImageView linesImageView = new AppCompatImageView(this);
-//            linesImageView.setImageResource(linesResourceIndex);
-//            LinearLayout.LayoutParams backgroundlayoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
-//            linesLayout.addView(linesImageView, backgroundlayoutParams);
-//        }
-
     }
 
     /**
@@ -137,8 +132,25 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
      */
     public void goToNextValue(View view) {
         int x = _frameLayout.getScrollX() + _imageViewWidthHeight;
-        if (x < _layoutWidth) {
+        if (x < (_layoutWidth - _imageViewWidthHeight)) {
             _frameLayout.scrollTo(x, 0);
+        }
+
+        FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+        if (previousButton.getVisibility() != View.VISIBLE) {
+            previousButton.setVisibility(View.VISIBLE);
+            Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
+            previousButton.startAnimation(fadeIn);
+        }
+
+        if (x >= (_layoutWidth - (_imageViewWidthHeight * 2))) {
+            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
+            nextButton.setVisibility(View.INVISIBLE);
+
+            FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
+            doneButton.setVisibility(View.VISIBLE);
+            Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
+            doneButton.startAnimation(fadeIn);
         }
     }
 
@@ -151,6 +163,21 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
         if (x >= 0) {
             _frameLayout.scrollTo(x, 0);
         }
+
+        FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
+        if (nextButton.getVisibility() != View.VISIBLE) {
+            nextButton.setVisibility(View.VISIBLE);
+            Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
+            nextButton.startAnimation(fadeIn);
+        }
+
+        if (x <= 0) {
+            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+            previousButton.setVisibility(View.INVISIBLE);
+        }
+
+        FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
+        doneButton.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -169,7 +196,19 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
      */
     public void onDoneButtonClick(View view) {
         // TODO: Display the snapshot popup
-        finish();
+
+        // Play a completion sound
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, _model.getCompletionAudioIndex());
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+
+                // Go back to the main menu
+                finish();
+            }
+        });
+        mediaPlayer.start();
     }
 
     /**

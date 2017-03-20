@@ -105,11 +105,12 @@
         android:layout_above="@+id/btnClear"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/btnScrollLeft"
-        tools:layout_editor_absoluteY="1dp"
-        android:layout_marginLeft="1dp"
+        android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="1dp"
-        app:layout_constraintRight_toRightOf="parent">
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp">
 
         <RelativeLayout
             android:id="@+id/LayoutLines"

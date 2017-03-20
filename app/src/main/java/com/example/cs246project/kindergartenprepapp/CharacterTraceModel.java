@@ -103,4 +103,24 @@ abstract public class CharacterTraceModel {
         return _currentValueIndex == 0;
     }
 
+    /**
+     * Is the next value in the _valueBank the last value in the valueBank?
+     * @return a flag for whether or not the next value is the last.
+     */
+    public Boolean isNextValueEnd() {
+        return (_currentValueIndex + 2) >= _valueBank.size();
+    }
+
+    //isPreviousValueStart
+    /**
+     * Is the previous value in the _valueBank the first value in the valueBank?
+     * @return a flag for whether or not the previous value is the fist.
+     */
+    public Boolean isPreviousValueStart() {
+        return (_currentValueIndex - 1) == 0;
+    }
+
+    public int getCompletionAudioIndex() {
+        return _context.getResources().getIdentifier("motivate_great_job", "raw", _context.getPackageName());
+    }
 }

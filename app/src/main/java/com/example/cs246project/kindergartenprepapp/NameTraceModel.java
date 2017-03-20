@@ -85,4 +85,8 @@ public class NameTraceModel {
     protected String getInstructionsFileName() {
         return "instruct_trace_letters_in_name_using_finger";
     }
+
+    public int getCompletionAudioIndex() {
+        return _context.getResources().getIdentifier("motivate_great_job", "raw", _context.getPackageName());
+    }
 }

@@ -2,7 +2,11 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
 import java.util.List;
 
 /**
@@ -35,10 +39,18 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
         // Set the background
         setTraceBackgroundFromValues(_model.getCurrentValues());
 
-//        if (_model.isAtBeginning()) {
-//            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
-//            previousButton.hide();
-//        }
+        // Hide the previous button since the activity is at the start
+        if (_model.isAtBeginning()) {
+            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+            previousButton.setVisibility(View.INVISIBLE);
+        }
+
+        // Hide button if the activity isn't already complete
+        if (!_model.isComplete()) {
+            FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
+            doneButton.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
@@ -106,13 +118,25 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
      */
     public void onDoneButtonClick(View view) {
         if (_model.isComplete()) {
-            finish();
+
+            // Play a completion sound
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, _model.getCompletionAudioIndex());
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+
+                    // Go back to the main menu
+                    finish();
+                }
+            });
+            mediaPlayer.start();
         };
     }
 
     /**
-     * Go Back To Previous Value
-     * Displays the previous value (un-traced), if any.
+     * Go Back To Next Value
+     * Displays the next value (un-traced), if any.
      */
     public void goToNextValue(View view) {
         if (!_model.isComplete()) {
@@ -120,14 +144,22 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
             clearDrawView(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
             playCurrentValueAudio();
-//            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnNext);
-//            if (!_model.isAtBeginning() && previousButton.isShown()) {
-//                previousButton.setVisibility(View.INVISIBLE);
-//                previousButton.show();
-//            }
-//        } else {
-//            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
-//            nextButton.hide();
+            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+            if (previousButton.getVisibility() != View.VISIBLE) {
+                previousButton.setVisibility(View.VISIBLE);
+                Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
+                previousButton.startAnimation(fadeIn);
+            }
+        }
+
+        if (_model.isComplete()) {
+            // Hide the next button since its at the end
+            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
+            nextButton.setVisibility(View.INVISIBLE);
+
+            // Show the done button
+            FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
+            doneButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -141,14 +173,23 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
             clearDrawView(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
             playCurrentValueAudio();
-//            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
-//            if (!_model.isComplete() && nextButton.isShown()) {
-//                nextButton.setVisibility(View.INVISIBLE);
-//                nextButton.show();
-//            }
-//        } else {
-//            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
-//            previousButton.hide();
+            FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
+            if (nextButton.getVisibility() != View.VISIBLE) {
+                nextButton.setVisibility(View.VISIBLE);
+                Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
+                nextButton.startAnimation(fadeIn);
+            }
+        }
+
+        if (_model.isAtBeginning()){
+            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
+            previousButton.setVisibility(View.INVISIBLE);
+        }
+
+        // Hide the done button if not already hidden
+        FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
+        if (doneButton.getVisibility() == View.VISIBLE && !_model.isComplete()) {
+            doneButton.setVisibility(View.INVISIBLE);
         }
     }
 
