@@ -1,11 +1,14 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
@@ -30,6 +33,8 @@ public class BackgroundSoundService extends Service {
             R.raw.music_verse_slow_violin, R.raw.music_verse_slower, R.raw.music_verse_upbeat,
             R.raw.music_verse_upbeat_and_drums));
 
+    private Integer trackIndex = 1;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,38 +43,94 @@ public class BackgroundSoundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //return super.onStartCommand(intent, flags, startId);
+        Collections.shuffle(musicArray.subList(1, 9));
 
-       // int music_melody = R.raw.music_melody;
 
         themeMediaPlayer = MediaPlayer.create(this , R.raw.music_melody);
+
+        themeMediaPlayer.setVolume(0.2f, 0.2f);
         themeMediaPlayer.start();
-        return START_NOT_STICKY;
 
-
-
-    }
-
-    public void playBackgroundMusic () {
-        themeMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
-
+        themeMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                themeMediaPlayer.release();
+                themeMediaPlayer = MediaPlayer.create(getApplicationContext() , musicArray.get(trackIndex));
+                trackIndex++;
+                themeMediaPlayer.setVolume(0.2f, 0.2f);
+                themeMediaPlayer.start();
+                themeMediaPlayer.setOnCompletionListener(this);
 
-               // MediaPlayer.create(this , R.raw.music_melody_and_drums);
+                if (trackIndex == 8) {
+                    Collections.shuffle(musicArray.subList(0, 9));
+                    trackIndex = 0;
+                }
+
             }
-
         });
+        return START_STICKY;
+
+
+
     }
 
+
+//    @Override
+//    public void onCompletion(MediaPlayer mp) {
+//
+//        themeMediaPlayer = MediaPlayer.create(getApplicationContext() , musicArray.get(trackIndex));
+//        trackIndex++;
+//        themeMediaPlayer.start();
+//
+//    }
+
+    public void startService1() {
+        startService(new Intent(this, BackgroundSoundService.class));
+    }
+
+    public void stopService() {
+        startService(new Intent(this, BackgroundSoundService.class));
+    }
+
+    public void stopPlayingBackgroundMusic() {
+
+    }
 
     @Override
     public void onDestroy() {
 
+        trackIndex = 10;
         super.onDestroy();
         themeMediaPlayer.stop();
         themeMediaPlayer.release();
+        stopSelf();
     }
+
+
+//
+//     MediaPlayer.create(getApplicationContext() , musicArray.get(trackIndex));
+//        trackIndex++;
+//        themeMediaPlayer.start();
+//
+//
+//        themeMediaPlayer.setOnCompletionListener(new OnCompletionListener(){
+//
+//            @Override
+//            public void onCompletion(MediaPlayer mp) {
+//
+//
+//            }
+//
+//        });
+//
+//    }
+//
+//
+
+//    @Override
+//    public void onCompletion(MediaPlayer mp) {
+//
+//    }
 
     //    protected randomValuesGenerator() {
 //
@@ -98,4 +159,24 @@ public class BackgroundSoundService extends Service {
 //        return valueList;
 //    }
 
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        stopService(new Intent(this, BackgroundSoundService.class));
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        startService(new Intent(this, BackgroundSoundService.class));
+//
+//
+//    }
+
+
+    //// Change from 200 to 150
+     //btn.removeCallbacks(enableDisable);    ////// added to handle extra presses
+
+    /////// changed from down to up
 }

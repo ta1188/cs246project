@@ -170,6 +170,10 @@ public class NameSelectableModel extends SelectableModel {
         return (value == _answer);
     }
 
+    public int getAnswerAudioIndex(Boolean isCorrect) {
+        return isCorrect ? _context.getResources().getIdentifier(correct.get(0), "raw", _context.getPackageName()) : _context.getResources().getIdentifier(incorrect.get(0), "raw", _context.getPackageName());
+    }
+
     /**
      * Method to build values that can be randomly pulled from.
      */
@@ -239,24 +243,11 @@ public class NameSelectableModel extends SelectableModel {
             int audioFileResourceIndex1 = _context.getResources().getIdentifier(value.toString().toLowerCase(), "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex1);
 
-            // letter sound
-            int audioFileResourceIndex3 = _context.getResources().getIdentifier("letter_sound_" + value.toString().toLowerCase(), "raw", _context.getPackageName());
-            audioFileResourceIndexes.add(audioFileResourceIndex3);
-
             // used to make the motivations different each time
             Collections.shuffle(correct);
 
             // used to make the motivations different each time
             Collections.shuffle(incorrect);
-
-            // correct answer
-            if (value == _answerOrder) {
-                int audioFileResourceIndex2 = _context.getResources().getIdentifier(correct.get(0), "raw", _context.getPackageName());
-                audioFileResourceIndexes.add(audioFileResourceIndex2);
-            } else { // incorrect
-                int audioFileResourceIndex2 = _context.getResources().getIdentifier(incorrect.get(0), "raw", _context.getPackageName());
-                audioFileResourceIndexes.add(audioFileResourceIndex2);
-            }
 
             // retrieve and associate buttons with image and audio
             MediaModel<Character> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);

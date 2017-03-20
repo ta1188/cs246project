@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         lastNameField.setText(lastname);
 
 
-        startService(new Intent(this, BackgroundSoundService.class));
+        //startService(new Intent(this, BackgroundSoundService.class));
     }
 
     public void goToMainMenu(View view) {

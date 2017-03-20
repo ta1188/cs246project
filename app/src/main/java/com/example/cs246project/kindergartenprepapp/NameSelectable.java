@@ -47,6 +47,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     private int position = 0;
     private int count = 0;
     private boolean completedFirstName = false;
+    private Boolean _isCorrect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,10 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        if(_model.isCorrectOrder((Character) ((MediaButton) v).getValue())) {
+
+                        // checking for the correct value dynamically as button moves along
+                        _isCorrect = _model.isCorrectOrder((Character) ((MediaButton) v).getValue());
+                        if(_isCorrect) {
                             // Show answer toast
                             _model.displayToast(true);
 
@@ -221,6 +225,16 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         } else {
             // Unlock buttons when sound is complete
             enableDisableButtons(true);
+            int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+            mediaPlayer.start();
+
         }
     }
 
