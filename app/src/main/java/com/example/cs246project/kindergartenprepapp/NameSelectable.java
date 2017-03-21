@@ -36,7 +36,6 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     private int count = 0;
     private boolean completedFirstName = false;
     private Boolean _isCorrect;
-    private String btnValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +111,6 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
             imageView.setAdjustViewBounds(true);
             imageView.setImageResource(R.drawable.underline);
             imageView.setId(count);
-            imageView.setTag(btnValue);
 
             if (count == 0) {
                 imageView.setImageResource(R.drawable.underline);
@@ -146,7 +144,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                 if (position < (count - 1)) {
                     ImageView nextLetterSpot = (ImageView) findViewById(position + 1);
                     Drawable drawRes = getResources().getDrawable(R.drawable.button_border, getTheme());
-                    nextLetterSpot.setBackground(drawRes);
+                    nextLetterSpot.setImageDrawable(drawRes);
 
                     Animation fadeIn = AnimationUtils.loadAnimation(NameSelectable.this, R.anim.fade_in_animation);
                     nextLetterSpot.startAnimation(fadeIn);
