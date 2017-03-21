@@ -30,6 +30,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private LinearLayout layout_bottom;
     private ProgressBar _progBar;
     private boolean wasTrue = false;
+    private boolean isFirstTime = true;
     Context context = this;
 
     int count = 1;
@@ -130,6 +131,10 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
         final ImageView imageView = (ImageView) findViewById(R.id.objectImage);
         imageView.setImageDrawable(res);
+        if (!isFirstTime) {
+            playMainImageSound();
+        }
+
 
         /**
          * Setup event listener for main image
@@ -193,6 +198,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     @Override
     public void onInstructionsAudioComplete() {
         playMainImageSound();
+        isFirstTime = false;
     }
 
     public void returnToMenu(View view) {
