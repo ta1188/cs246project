@@ -190,14 +190,6 @@ public class NameSelectableModel extends SelectableModel {
     }
 
     /**
-     * Will get the answer for the activity as a resource index.
-     */
-    public int getAnswerResourceIndex() {
-        int resourceIndex = _context.getResources().getIdentifier("object_" + _answerOrder, "drawable", _context.getPackageName());
-        return resourceIndex;
-    }
-
-    /**
      * Build a set of indexes required for retrieving audio and image files.
      */
     public List<MediaModel> generateValueList() {
