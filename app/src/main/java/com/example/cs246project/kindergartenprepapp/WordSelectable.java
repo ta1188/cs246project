@@ -2,25 +2,17 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -28,7 +20,7 @@ import java.io.IOException;
  * Handles finding first letter of word image shown
  * @author Trevor Adams
  * */
-public class WordSelectable extends SkipTapActivity implements View.OnTouchListener, AudioHandler {
+public class WordSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private WordSelectableModel _model;
@@ -63,38 +55,6 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         * */
         for (MediaModel item : _model.generateValueList()) {
             final MediaButton btn = new MediaButton(this, item, this);
-            /**
-             * Setup event listeners for media buttons
-             * */
-            btn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        if(_model.isCorrect(((MediaButton) v).getValue())) {
-                            wasTrue = true;
-                            _progBar.incrementProgressBy(1);
-                            // Show answer toast
-                            _model.displayToast(true);
-
-
-                        } else {
-                            // Show answer toast
-                            _model.displayToast(false);
-
-                        }
-                        // Runnable for disabling buttons on new thread to not impede audio playing
-                        Runnable enableDisable = new Runnable() {
-                            @Override
-                            public void run() {
-                                enableDisableButtons(false);
-                            }
-                        };
-                        Handler handler = new Handler();
-                        handler.postDelayed(enableDisable, 200);
-                    }
-                    return false;
-                }
-            });
             btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn.setScaleType(ImageView.ScaleType.CENTER);
             btn.setAdjustViewBounds(true);
@@ -108,15 +68,35 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         }
     }
 
+    @Override
+    public void onMediaButtonTouched(MediaButton mediaButton, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(_model.isCorrect(mediaButton.getValue())) {
+                wasTrue = true;
+                _progBar.incrementProgressBy(1);
+                // Show answer toast
+                _model.displayToast(true);
+            } else {
+                // Show answer toast
+                _model.displayToast(false);
+            }
+
+            // Disable the buttons
+            enableDisableButtons(true);
+        }
+    }
+
     /**
      * Will disable or enable the layout buttons
      * */
     private void enableDisableButtons(Boolean state){
         for (int i = 0; i < layout_top.getChildCount(); i++) {
-            layout_top.getChildAt(i).setEnabled(state);
+            MediaButton mediaButton = (MediaButton) layout_top.getChildAt(i);
+            mediaButton.setIsDisabled(state);
         }
         for (int i = 0; i < layout_bottom.getChildCount(); i++) {
-            layout_bottom.getChildAt(i).setEnabled(state);
+            MediaButton mediaButton = (MediaButton) layout_bottom.getChildAt(i);
+            mediaButton.setIsDisabled(state);
         }
     }
 
@@ -170,8 +150,8 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
                 return false;
             }
         });
-        // Unlock buttons (for crazy-clicks between transitions)
-        enableDisableButtons(true);
+        // Enable the buttons
+        enableDisableButtons(false);
     }
 
 
@@ -197,8 +177,8 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         if (_model._isActivityDone) {
             this.finish();
         } else {
-            // Unlock buttons when sound is complete
-            enableDisableButtons(true);
+            // Enable the buttons when sound is complete
+            enableDisableButtons(false);
             // check for true
             if (wasTrue)
                 resetActivity();

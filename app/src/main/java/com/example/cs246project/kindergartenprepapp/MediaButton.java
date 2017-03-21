@@ -1,12 +1,8 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import java.io.IOException;
 
 /**
  * An Image Button that plays audio when clicked/touched.
@@ -25,7 +21,10 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
     private MediaModel<T> _model;
 
     // The audio handler that knows what to do when all audio is complete.
-    private AudioHandler _audioHandler;
+    private MediaButtonHandler _mediaButtonHandler;
+
+    // Is the button disabled (not allowed to call the internal touch event actions)?
+    private boolean _isDisabled;
 
     // The On Completion Listener for when the button's audio is played.
     private MediaPlayer.OnCompletionListener _onCompletionListener = new MediaPlayer.OnCompletionListener() {
@@ -52,8 +51,8 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
                 }
 
                 // Call the audio handler's onAudioComplete
-                if (_audioHandler != null) {
-                    _audioHandler.onAudioComplete();
+                if (_mediaButtonHandler != null) {
+                    _mediaButtonHandler.onAudioComplete();
                 }
             }
         }
@@ -66,10 +65,10 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
      * @param context of the application
      * @param model used for managing resources
      */
-    public MediaButton(Context context, MediaModel<T> model, AudioHandler audioHandler) {
+    public MediaButton(Context context, MediaModel<T> model, MediaButtonHandler mediaButtonHandler) {
         super(context);
         _model = model;
-        _audioHandler = audioHandler;
+        _mediaButtonHandler = mediaButtonHandler;
 
         // Set the image of the button
         setImageResource(_model.getImageFileResourceIndex());
@@ -78,11 +77,18 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            playAudio();
+
+            // Only do this stuff if not disabled.
+            if (!_isDisabled) {
+                // Play the sound
+                playAudio();
+                // Do any other actions necessary by they handler
+                _mediaButtonHandler.onMediaButtonTouched(this, event);
+            }
+            // Consume the touch event so nothing else will respond to the touch
             return true;
         }
 
-        // Consume the touch event so nothing else will respond to the touch
         return super.onTouchEvent(event);
     }
 
@@ -93,6 +99,10 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
      */
     public T getValue() {
         return _model.getValue();
+    }
+
+    public void setIsDisabled(boolean isDisabled) {
+        _isDisabled = isDisabled;
     }
 
     /**
