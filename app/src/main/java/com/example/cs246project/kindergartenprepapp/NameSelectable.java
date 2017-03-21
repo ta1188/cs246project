@@ -127,6 +127,8 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     @Override
     public void onMediaButtonTouched(MediaButton mediaButton, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            // Disable the buttons
+            enableDisableButtons(true);
 
             // checking for the correct value dynamically as button moves along
             _isCorrect = _model.isCorrectOrder((Character) mediaButton.getValue());
@@ -165,9 +167,6 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                 // Show answer toast
                 _model.displayToast(false);
             }
-
-            // Disable the buttons
-            enableDisableButtons(true);
         }
     }
 
@@ -246,17 +245,18 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
             this.finish();
         } else {
             // Enable the buttons when sound is complete
-            enableDisableButtons(false);
             int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
             MediaPlayer mediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    mp.release();
+                    if (mp != null) {
+                        mp.release();
+                    }
+                    enableDisableButtons(false);
                 }
             });
             mediaPlayer.start();
-
         }
     }
 

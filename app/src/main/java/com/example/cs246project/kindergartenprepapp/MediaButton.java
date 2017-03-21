@@ -30,6 +30,9 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
     private MediaPlayer.OnCompletionListener _onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
+            // Increment the audio
+            _model.incrementCurrentAudioResourceIndex();
+
             if(!_model.isAtEndOfAudio()) {
                 if (_mediaPlayer != null) {
                     // Release the media player
@@ -49,6 +52,9 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
                     // Release the media player
                     _mediaPlayer.release();
                 }
+
+                // Reset the audio
+                _model.resetAudioIndex();
 
                 // Call the audio handler's onAudioComplete
                 if (_mediaButtonHandler != null) {
