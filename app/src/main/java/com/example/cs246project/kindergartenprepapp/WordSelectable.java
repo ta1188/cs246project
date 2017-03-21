@@ -30,6 +30,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private LinearLayout layout_bottom;
     private ProgressBar _progBar;
     private boolean wasTrue = false;
+    Context context = this;
 
     int count = 1;
 
@@ -100,12 +101,35 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         }
     }
 
+    private void playMainImageSound() {
+        String answer = "object_" + _model.getAnswer();
+        MediaPlayer mp = new MediaPlayer();
+
+        // Reset the media player
+        mp.reset();
+
+        int soundId = getResources().getIdentifier(answer, "raw", getPackageName());
+
+        mp.create(context, soundId);
+        // Load the media player with a new audio resource
+        try {
+            AssetFileDescriptor afd = context.getResources().openRawResourceFd(soundId);
+            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            afd.close();
+            mp.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Play the audio
+        mp.start();
+    }
+
     private void setMainImage() {
         // Grab the image resource and set the image drawable
         Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
         final ImageView imageView = (ImageView) findViewById(R.id.objectImage);
         imageView.setImageDrawable(res);
-        final Context context = this;
 
         /**
          * Setup event listener for main image
@@ -115,27 +139,8 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    String answer = "object_" + _model.getAnswer();
-                    MediaPlayer mp = new MediaPlayer();
+                    playMainImageSound();
 
-                    // Reset the media player
-                    mp.reset();
-
-                    int soundId = getResources().getIdentifier(answer, "raw", getPackageName());
-
-                    mp.create(context, soundId);
-                    // Load the media player with a new audio resource
-                    try {
-                        AssetFileDescriptor afd = context.getResources().openRawResourceFd(soundId);
-                        mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                        afd.close();
-                        mp.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Play the audio
-                    mp.start();
                     imageView.setEnabled(false);
 
                     Runnable disableImageClick = new Runnable() {
@@ -183,6 +188,11 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
             if (wasTrue)
                 resetActivity();
         }
+    }
+
+    @Override
+    public void onInstructionsAudioComplete() {
+        playMainImageSound();
     }
 
     public void returnToMenu(View view) {
