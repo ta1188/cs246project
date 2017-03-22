@@ -20,19 +20,25 @@ public class BackgroundAudioModel {
     }
 
     public boolean isPlaying() {
-        return _themeMediaPlayer.isPlaying();
+        if (_themeMediaPlayer != null) {
+            return _themeMediaPlayer.isPlaying();
+        } else {
+            return false;
+        }
     }
 
     public void startBackgroundAudio(Context context) {
-        _themeMediaPlayer = MediaPlayer.create(context, R.raw.skiptap_theme);
-        _themeMediaPlayer.setLooping(true);
-        _themeMediaPlayer.setVolume(0.2f, 0.2f);
-        _themeMediaPlayer.start();
+        if (_isBackgroundAudioPlayable) {
+            _themeMediaPlayer = MediaPlayer.create(context, R.raw.skiptap_theme);
+            _themeMediaPlayer.setLooping(true);
+            _themeMediaPlayer.setVolume(0.2f, 0.2f);
+            _themeMediaPlayer.start();
+        }
     }
 
     public void stopBackgroundAudio() {
         if (_themeMediaPlayer != null) {
-            if (_themeMediaPlayer.isPlaying() && _isBackgroundAudioPlayable) {
+            if (_themeMediaPlayer.isPlaying()) {
                 _themeMediaPlayer.setLooping(false);
                 _themeMediaPlayer.stop();
                 _themeMediaPlayer.release();
