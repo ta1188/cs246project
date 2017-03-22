@@ -28,6 +28,12 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // For hiding status the bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         setContentView(R.layout.activity_menu);
         flipper = (ViewFlipper) findViewById(R.id.flipper);
         final FloatingActionButton nextMenuBtn = (FloatingActionButton) findViewById(R.id.menuNext);
@@ -164,5 +170,27 @@ public class MenuActivity extends AppCompatActivity {
 
     public void progressMenu (View view) {
         Log.d("MenuActivity", "This will progress the menu");
+    }
+
+    @Override
+    protected void onResume() {
+
+        // For hiding status the bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+
+        // For hiding status the bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        super.onRestart();
     }
 }

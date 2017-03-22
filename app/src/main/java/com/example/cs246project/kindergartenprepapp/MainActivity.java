@@ -22,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // For hiding status the bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
 
         SharedPreferences settings = this.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
         String firstname = settings.getString(AppConstants.sharePreferenceFirstName, "");
@@ -34,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         lastNameField.setText(lastname);
 
 
-        //startService(new Intent(this, BackgroundSoundService.class));
     }
 
     public void goToMainMenu(View view) {
@@ -61,9 +65,27 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getBaseContext(), MenuActivity.class);
             startActivity(intent);
         }
-
-
-
     }
 
+    @Override
+    protected void onResume() {
+
+        // For hiding status the bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+
+        // For hiding status the bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        super.onRestart();
+    }
 }
