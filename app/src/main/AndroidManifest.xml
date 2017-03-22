@@ -35,8 +35,7 @@
                   android:screenOrientation="landscape" />
         <activity android:name=".AboutActivity"
                   android:screenOrientation="landscape" ></activity>
-
-        <service android:name=".BackgroundSoundService"></service>
+        
     </application>
 
 </manifest>
