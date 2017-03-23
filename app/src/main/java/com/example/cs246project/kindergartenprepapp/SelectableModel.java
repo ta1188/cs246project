@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -43,12 +45,19 @@ abstract class SelectableModel<T> extends Application {
     protected int _optionCount;
 
     private static final String TAG = "SelectableModel";
+    private ArrayList myColors = new ArrayList(Arrays.asList("#B1D5E5", "#B6D9D6", "#FAE0B8", "#CFE9E5", "#F3D6C8", "#D1C8BE", "#EEC9D7", "#FDF9CD", "#F3E0C4", "#CCD7E4"));
+    private Random r;
+    private int randomNum;
 
     /* CONSTRUCTOR */
 
     public SelectableModel (Context context){
         _context = context;
         _isActivityDone = false;
+        Collections.shuffle(myColors);
+        // Set up random number for color of buttons
+        r = new Random();
+        randomNum = r.nextInt((10 - 1) + 1) + 1;
     }
 
     /* METHODS */
@@ -132,6 +141,15 @@ abstract class SelectableModel<T> extends Application {
         // Show the toast and starts the countdown
         toast.show();
         toastCountDown.start();
+    }
+
+    public String getBtnColor() {
+        if (randomNum % 10 == 0) {
+            randomNum = 1;
+        } else {
+            randomNum++;
+        }
+        return (String) myColors.get(randomNum-1);
     }
 
 

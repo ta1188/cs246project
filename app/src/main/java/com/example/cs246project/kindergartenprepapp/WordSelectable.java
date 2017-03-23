@@ -2,6 +2,7 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -60,6 +62,9 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
             btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn.setScaleType(ImageView.ScaleType.CENTER);
             btn.setAdjustViewBounds(true);
+            btn.setPadding(5, 5, 5, 5);
+            ((ViewGroup.MarginLayoutParams) btn.getLayoutParams()).rightMargin = 10;
+            btn.setBackgroundColor(Color.parseColor(_model.getBtnColor()));
 
             if (count <= 2) {
                 layout_top.addView(btn);
