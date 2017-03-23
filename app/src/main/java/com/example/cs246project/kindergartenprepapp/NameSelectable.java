@@ -102,6 +102,10 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
             btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn.setScaleType(ImageView.ScaleType.CENTER);
             btn.setAdjustViewBounds(true);
+            btn.setPadding(5, 5, 5, 5);
+            btn.setElevation(10);
+            ((ViewGroup.MarginLayoutParams) btn.getLayoutParams()).setMargins(10, 5, 10, 5);
+            btn.setBackgroundColor(Color.parseColor(_model.getBtnColor()));
 
             layout_name.addView(btn);
 
