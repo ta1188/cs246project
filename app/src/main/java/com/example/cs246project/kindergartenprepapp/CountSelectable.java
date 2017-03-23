@@ -32,6 +32,8 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
     private ProgressBar _progBar;
     private boolean wasTrue = false;
     int count = 1;
+    private ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,11 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
         playInstructions(_model.getActivityInstructionsIndex());
 
         viewSetUp();
+        imageView = (ImageView) findViewById(R.id.countImage);
+        imageView.setEnabled(false);
         setMainImage();
+        // Disable the buttons
+        enableDisableButtons(true);
     }
 
     public void viewSetUp() {
@@ -107,10 +113,8 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
     private void setMainImage() {
         // Grab the image resource and set the image drawable
         Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
-        final ImageView imageView = (ImageView) findViewById(R.id.countImage);
         imageView.setImageDrawable(res);
         final Context context = this;
-
         /**
          * Setup event listener for main image
          * */
@@ -186,6 +190,13 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
             if (wasTrue)
                 resetActivity();
         }
+    }
+
+    @Override
+    public void onInstructionsAudioComplete() {
+        imageView.setEnabled(true);
+        // Enable the buttons when sound is complete
+        enableDisableButtons(false);
     }
 
     public void returnToMenu(View view) {

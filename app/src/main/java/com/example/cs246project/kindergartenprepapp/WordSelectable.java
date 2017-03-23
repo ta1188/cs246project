@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Handles finding first letter of word image shown
@@ -34,6 +35,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private boolean wasTrue = false;
     private boolean isFirstTime = true;
     Context context = this;
+    private ImageView imageView;
 
     int count = 1;
 
@@ -46,9 +48,13 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
         _model = new WordSelectableModel(this, 4);
         playInstructions(_model.getActivityInstructionsIndex());
+        imageView = (ImageView) findViewById(R.id.objectImage);
+        imageView.setEnabled(false);
 
         viewSetUp();
         setMainImage();
+        // Disable the buttons
+        enableDisableButtons(true);
     }
 
     public void viewSetUp() {
@@ -134,7 +140,6 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private void setMainImage() {
         // Grab the image resource and set the image drawable
         Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
-        final ImageView imageView = (ImageView) findViewById(R.id.objectImage);
         imageView.setImageDrawable(res);
         if (!isFirstTime) {
             playMainImageSound();
@@ -204,6 +209,15 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     public void onInstructionsAudioComplete() {
         playMainImageSound();
         isFirstTime = false;
+        // Delay a little for object audio to complete
+        try {
+            TimeUnit.MILLISECONDS.sleep(800);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        imageView.setEnabled(true);
+        // Enable the buttons when sound is complete
+        enableDisableButtons(false);
     }
 
     public void returnToMenu(View view) {

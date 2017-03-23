@@ -51,6 +51,8 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         if (_model.hasFirstName()) {
             playInstructions(_model.getActivityInstructionsIndex());
             viewSetUp();
+            // Disable the buttons
+            enableDisableButtons(true);
             // Update shared preferences
             editor.putString(AppConstants.sharePreferenceUpdatingName, "false");
         } else {
@@ -256,6 +258,12 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
             });
             mediaPlayer.start();
         }
+    }
+
+    @Override
+    public void onInstructionsAudioComplete() {
+        // Enable the buttons when sound is complete
+        enableDisableButtons(false);
     }
 
     public void returnToMenu(View view) {
