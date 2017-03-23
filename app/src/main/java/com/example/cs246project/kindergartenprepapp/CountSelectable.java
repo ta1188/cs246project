@@ -65,7 +65,7 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
             btn.setScaleType(ImageView.ScaleType.CENTER);
             btn.setAdjustViewBounds(true);
             btn.setPadding(5, 5, 5, 5);
-            ((ViewGroup.MarginLayoutParams) btn.getLayoutParams()).rightMargin = 10;
+            ((ViewGroup.MarginLayoutParams) btn.getLayoutParams()).rightMargin = 15;
             btn.setBackgroundColor(Color.parseColor(_model.getBtnColor()));
 
 
