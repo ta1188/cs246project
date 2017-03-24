@@ -163,6 +163,16 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Send to Trace Activity
+     * Sends the user to the Name tracing activity.
+     * @param view the button that called this action.
+     */
+    public void sendToSightWordTraceActivity(View view) {
+        Intent intent = new Intent(getBaseContext(), SightWordTraceableActivity.class);
+        startActivity(intent);
+    }
+
     public void sendToAboutActivity (View view) {
         Intent intent = new Intent(getBaseContext(), AboutActivity.class);
         startActivity(intent);
