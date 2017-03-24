@@ -1,10 +1,13 @@
 package com.example.cs246project.kindergartenprepapp;
 
         import android.content.Context;
+        import android.content.SharedPreferences;
         import android.media.MediaPlayer;
         import android.util.Log;
 
         import java.io.IOException;
+
+        import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Michael Lucero on 3/21/17.
@@ -16,6 +19,12 @@ public class BackgroundAudioModel {
     private MediaPlayer _themeMediaPlayer;
 
     public BackgroundAudioModel(Context context) {
+
+        // get settings if audio has been disabled
+        // retrieve from shared preferences
+        final SharedPreferences settings = context.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
+        _isBackgroundAudioPlayable = settings.getBoolean("IS_MUSIC_PLAYABLE", true);
+
         startBackgroundAudio(context);
     }
 
@@ -44,24 +53,6 @@ public class BackgroundAudioModel {
                 _themeMediaPlayer.release();
                 _themeMediaPlayer = null;
             }
-        }
-    }
-
-    public void disableAudio(Boolean isBackgroundAudioPlayable) {
-        _isBackgroundAudioPlayable = isBackgroundAudioPlayable;
-    }
-
-
-    public void pauseBackgroundAudio() {
-        if (_themeMediaPlayer.isPlaying()) {
-            _themeMediaPlayer.pause();
-        }
-
-    }
-
-    public void resumeBackgroundAudio() {
-        if (_themeMediaPlayer.isPlaying()) {
-            _themeMediaPlayer.start();
         }
     }
 }
