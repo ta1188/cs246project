@@ -1,13 +1,9 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-
-import java.io.IOException;
 
 /**
  * The super Activity of all SkipTap activities which has common member variables and member

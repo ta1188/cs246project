@@ -6,7 +6,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -171,6 +170,7 @@ public class NameSelectableModel extends SelectableModel {
     }
 
     public int getAnswerAudioIndex(Boolean isCorrect) {
+        Collections.shuffle(correct);
         return isCorrect ? _context.getResources().getIdentifier(correct.get(0), "raw", _context.getPackageName()) : _context.getResources().getIdentifier(incorrect.get(0), "raw", _context.getPackageName());
     }
 
@@ -235,12 +235,6 @@ public class NameSelectableModel extends SelectableModel {
             int audioFileResourceIndex1 = _context.getResources().getIdentifier(value.toString().toLowerCase(), "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex1);
 
-            // used to make the motivations different each time
-            Collections.shuffle(correct);
-
-            // used to make the motivations different each time
-            Collections.shuffle(incorrect);
-
             // retrieve and associate buttons with image and audio
             MediaModel<Character> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
             questionsAndAnswer.add(mediaModel);
@@ -254,7 +248,6 @@ public class NameSelectableModel extends SelectableModel {
      * Values are unique that are not used again if already answered.
      * @return set random random values to be used for media association and buttons
      */
-
     protected List<Character> randomValuesNameGenerator() {
 
         List<Character> valueList = new ArrayList<>();

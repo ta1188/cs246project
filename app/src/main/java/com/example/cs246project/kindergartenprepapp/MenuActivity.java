@@ -12,7 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
@@ -70,7 +69,7 @@ public class MenuActivity extends AppCompatActivity {
 
         // retrieve from shared preferences
         final SharedPreferences settings = this.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
-        Boolean musicPlayable = settings.getBoolean("IS_MUSIC_PLAYABLE", true);
+        Boolean musicPlayable = settings.getBoolean(AppConstants.sharePreferenceMusicPlayable, true);
 
         // apply current shared setting for music playable
         ToggleButton musicPlayableButton = (ToggleButton) findViewById(R.id.musicOnOff);
@@ -83,11 +82,11 @@ public class MenuActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = settings.edit();
                 if (isChecked) {
                     // The music is playable with toggle checked
-                    editor.putBoolean("IS_MUSIC_PLAYABLE", true);
+                    editor.putBoolean(AppConstants.sharePreferenceMusicPlayable, true);
 
                 } else {
                     // The music is playable with toggle not checked
-                    editor.putBoolean("IS_MUSIC_PLAYABLE", false);
+                    editor.putBoolean(AppConstants.sharePreferenceMusicPlayable, false);
                 }
                 editor.commit();
             }

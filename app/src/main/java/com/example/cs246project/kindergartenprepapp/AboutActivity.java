@@ -4,6 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * Information screen used to explain the purpose of the app and other info giving credit to
+ * the app's creators.
+ * <p>
+ * @author  Michael Lucero
+ * @version 1.0
+ * @since   2017-03-09
+ */
+
 public class AboutActivity extends AppCompatActivity {
 
     @Override

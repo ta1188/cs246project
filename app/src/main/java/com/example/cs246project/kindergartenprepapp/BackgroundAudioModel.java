@@ -3,14 +3,16 @@ package com.example.cs246project.kindergartenprepapp;
         import android.content.Context;
         import android.content.SharedPreferences;
         import android.media.MediaPlayer;
-        import android.util.Log;
-
-        import java.io.IOException;
 
         import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by Michael Lucero on 3/21/17.
+ * The Background Audio Model supports the playing on theme music and can be muted by
+ * the menu screen button.
+ * <p>
+ * @author  Michael Lucero
+ * @version 1.0
+ * @since   2017-03-21
  */
 
 public class BackgroundAudioModel {
@@ -23,7 +25,7 @@ public class BackgroundAudioModel {
         // get settings if audio has been disabled
         // retrieve from shared preferences
         final SharedPreferences settings = context.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
-        _isBackgroundAudioPlayable = settings.getBoolean("IS_MUSIC_PLAYABLE", true);
+        _isBackgroundAudioPlayable = settings.getBoolean(AppConstants.sharePreferenceMusicPlayable, true);
 
         startBackgroundAudio(context);
     }
