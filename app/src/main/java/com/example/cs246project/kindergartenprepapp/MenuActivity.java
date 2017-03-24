@@ -1,6 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
 /**
@@ -61,6 +64,31 @@ public class MenuActivity extends AppCompatActivity {
                 prevMenuBtn.setVisibility(View.GONE);
                 Animation fadeIn = AnimationUtils.loadAnimation(MenuActivity.this, R.anim.fade_in_animation);
                 nextMenuBtn.startAnimation(fadeIn);
+            }
+        });
+
+        // retrieve from shared preferences
+        final SharedPreferences settings = this.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
+        Boolean musicPlayable = settings.getBoolean(AppConstants.sharePreferenceMusicPlayable, true);
+
+        // apply current shared setting for music playable
+        ToggleButton musicPlayableButton = (ToggleButton) findViewById(R.id.musicOnOff);
+        musicPlayableButton.setChecked(musicPlayable);
+
+        // set listen to detect change and updated preferences
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.musicOnOff);
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = settings.edit();
+                if (isChecked) {
+                    // The music is playable with toggle checked
+                    editor.putBoolean(AppConstants.sharePreferenceMusicPlayable, true);
+
+                } else {
+                    // The music is playable with toggle not checked
+                    editor.putBoolean(AppConstants.sharePreferenceMusicPlayable, false);
+                }
+                editor.commit();
             }
         });
     }
@@ -175,6 +203,11 @@ public class MenuActivity extends AppCompatActivity {
 
     public void sendToAboutActivity (View view) {
         Intent intent = new Intent(getBaseContext(), AboutActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendToShapeSelectable (View view) {
+        Intent intent = new Intent(getBaseContext(), ShapeSelectable.class);
         startActivity(intent);
     }
 

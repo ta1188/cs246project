@@ -68,6 +68,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onUserInteraction() {
+
+        // For hiding status the bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        super.onUserInteraction();
+    }
+
+    @Override
     protected void onResume() {
 
         // For hiding status the bar
