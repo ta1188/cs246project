@@ -62,6 +62,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         disableQuestionButtons(true);
 
         playInstructions(_model.getActivityInstructionsIndex());
+        _model.displayInstuctionToast();
     }
 
     public void viewSetUp() {
@@ -259,6 +260,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         disableQuestionButtons(true);
         playInstructions(_instructionsAudioResourceIndex);
 
+        _model.displayInstuctionToast();
 
         _backgroundAudioModel.startBackgroundAudio(this);
     }

@@ -143,6 +143,39 @@ abstract class SelectableModel<T> extends Application {
         toastCountDown.start();
     }
 
+    /**
+     * Handle toast messages
+     * */
+    public void displayInstuctionToast() {
+        CharSequence text = "Tap a Button";
+        String toastColor = "#ffbb33";
+
+        int duration = Toast.LENGTH_SHORT;
+
+        final Toast toast = Toast.makeText(_context, text, duration);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(25);
+        View view = toast.getView();
+        view.setBackgroundColor(Color.parseColor(toastColor));
+        view.setPadding(20, 10, 20, 10);
+
+        // Set the countdown to display the toast
+        CountDownTimer toastCountDown = new CountDownTimer(3000, 1000 /*Tick duration*/) {
+            public void onTick(long millisUntilFinished) {
+                toast.show();
+            }
+            public void onFinish() {
+                toast.cancel();
+            }
+        };
+
+        // Show the toast and starts the countdown
+        toast.show();
+        toastCountDown.start();
+    }
+
     public String getBtnColor() {
         if (randomNum % 10 == 0) {
             randomNum = 1;
