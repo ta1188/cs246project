@@ -129,7 +129,7 @@ abstract class SelectableModel<T> extends Application {
         view.setPadding(20, 10, 20, 10);
 
         // Set the countdown to display the toast
-        CountDownTimer toastCountDown = new CountDownTimer(800, 1000 /*Tick duration*/) {
+        CountDownTimer toastCountDown = new CountDownTimer(2000, 1000 /*Tick duration*/) {
             public void onTick(long millisUntilFinished) {
                 toast.show();
             }
