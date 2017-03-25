@@ -44,6 +44,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:backgroundTint="@android:color/holo_blue_bright"
+        android:elevation="10dp"
         android:fontFamily="Casual"
         android:onClick="goToMainMenu"
         android:text="Go"
