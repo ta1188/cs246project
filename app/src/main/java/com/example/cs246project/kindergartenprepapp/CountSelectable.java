@@ -116,6 +116,7 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
         Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
         imageView.setImageDrawable(res);
         final Context context = this;
+
         /**
          * Setup event listener for main image
          * */
@@ -202,6 +203,23 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
 
     public void returnToMenu(View view) {
         this.finish();
+    }
+
+    /**
+     * Handles stopping audio the buttons might be playing when transitioning to other activities
+     * or moving to another app.
+     */
+    @Override
+    public void stopAudio() {
+        super.stopAudio();
+        for (int i = 0; i < layout_top.getChildCount(); i++) {
+            MediaButton mediaButton = (MediaButton) layout_top.getChildAt(i);
+            mediaButton.stopAudio();
+        }
+        for (int i = 0; i < layout_bottom.getChildCount(); i++) {
+            MediaButton mediaButton = (MediaButton) layout_bottom.getChildAt(i);
+            mediaButton.stopAudio();
+        }
     }
 
 }
