@@ -9,7 +9,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="com.example.cs246project.kindergartenprepapp.LetterTraceActivity">
+    tools:context="com.example.cs246project.kindergartenprepapp.LetterTraceableActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnClear"

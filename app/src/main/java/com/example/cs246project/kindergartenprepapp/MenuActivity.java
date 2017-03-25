@@ -167,7 +167,7 @@ public class MenuActivity extends AppCompatActivity {
      * @param view the button that called this action.
      */
     public void sendToNameTraceActivity(View view) {
-        Intent intent = new Intent(getBaseContext(), NameTraceActivity.class);
+        Intent intent = new Intent(getBaseContext(), NameTraceableActivity.class);
         startActivity(intent);
     }
 
@@ -177,7 +177,7 @@ public class MenuActivity extends AppCompatActivity {
      * @param view the button that called this action.
      */
     public void sendToLetterTraceActivity(View view) {
-        Intent intent = new Intent(getBaseContext(), LetterTraceActivity.class);
+        Intent intent = new Intent(getBaseContext(), LetterTraceableActivity.class);
         startActivity(intent);
     }
 
@@ -187,7 +187,7 @@ public class MenuActivity extends AppCompatActivity {
      * @param view the button that called this action.
      */
     public void sendToNumberTraceActivity(View view) {
-        Intent intent = new Intent(getBaseContext(), NumberTraceActivity.class);
+        Intent intent = new Intent(getBaseContext(), NumberTraceableActivity.class);
         startActivity(intent);
     }
 

@@ -17,13 +17,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LetterTraceActivity"
+            android:name=".LetterTraceableActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".NumberTraceActivity"
+            android:name=".NumberTraceableActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".NameTraceActivity"
+            android:name=".NameTraceableActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".SightWordTraceableActivity"

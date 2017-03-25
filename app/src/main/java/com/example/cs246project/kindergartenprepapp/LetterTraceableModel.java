@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The model class associated with a number tracing activity which handles all of the logic of
+ * The model class associated with a letter tracing activity which handles all of the logic of
  * building the image resource files and tracking values.
  * <p>
  * @author  Dan Rix
@@ -14,38 +14,38 @@ import java.util.List;
  * @since   2017-03-09
  */
 
-public class NumberTraceModel extends CharacterTraceModel {
+public class LetterTraceableModel extends CharacterTraceableModel {
 
-
-    public NumberTraceModel(Context context) {
+    public LetterTraceableModel(Context context) {
         super(context);
     }
 
     /**
      * {@inheritDoc}
-     * Generate Value Bank
-     * Initializes _values with 0 - 10
+     * Initializes _values with "a" - "z"
      */
     @Override
     protected void generateValueBank() {
         // Instantiate _values
         _valueBank = new ArrayList<String>();
 
-        // Fill values with 0 - 9 using ascii values (48 = "0")
-        for (int i = 48; i < (48 + 10); i++) {
+        // Fill values with a - z using ascii values (97 = "a")
+        for (int i = 97; i < (97 + 26); i++) {
             _valueBank.add((Character.valueOf((char) i)).toString());
         }
-        _valueBank.add("10");
     }
 
     /**
      * {@inheritDoc}
-     * Gets the current filename value(s) from _values;
+     * Get Current Values
+     * Gets the current filename value(s) from _values in upper and lower case forms;
      * @return a list of values (1 or more).
      */
+    @Override
     public List<String> getCurrentValues() {
         List<String> values = new ArrayList<>();
 
+        values.add(_valueBank.get(_currentValueIndex).toUpperCase());
         values.add(_valueBank.get(_currentValueIndex));
 
         return values;
@@ -57,11 +57,11 @@ public class NumberTraceModel extends CharacterTraceModel {
      * @return the file name of the instructions audio file
      */
     protected String getInstructionsFileName() {
-        return "instruct_trace_number_with_finger";
+        return "instruct_trace_letter_with_finger";
     }
 
     public int getCurrentValueAudioResourceIndex() {
-        String audioFileName = "number_" + _valueBank.get(_currentValueIndex);
+        String audioFileName = _valueBank.get(_currentValueIndex);
         return _context.getResources().getIdentifier(audioFileName, "raw" , _context.getPackageName());
     }
 }

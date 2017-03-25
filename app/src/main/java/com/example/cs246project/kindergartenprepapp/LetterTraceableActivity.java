@@ -1,8 +1,5 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,10 +14,10 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NumberTraceActivity extends CharacterTraceActivity {
+public class LetterTraceableActivity extends CharacterTraceableActivity {
 
     protected void initializeModel() {
-        _model = new NumberTraceModel(this);
+        _model = new LetterTraceableModel(this);
     }
 
     protected void initializeLayoutIndex() {
@@ -33,6 +30,6 @@ public class NumberTraceActivity extends CharacterTraceActivity {
 
     protected void setTraceBackgroundFromValues(List<String> values) {
         TextView myTextView=(TextView)findViewById(R.id.textView);
-        myTextView.setText(values.get(0));
+        myTextView.setText(values.get(0) + values.get(1));
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
  * @since   2017-03-09
  */
 
-public class NameTraceModel {
+public class NameTraceableModel {
 
     protected String _firstName;
     protected String _lastName;
@@ -24,10 +24,10 @@ public class NameTraceModel {
 
     /**
      * {@inheritDoc}
-     * Creates a NameTraceModel using a name
+     * Creates a NameTraceableModel using a name
      * @param context The Context in which the activity will be working in
      */
-    public NameTraceModel(Context context) {
+    public NameTraceableModel(Context context) {
         _context = context;
 
         SharedPreferences settings = context.getSharedPreferences(AppConstants.sharePreferenceSettings, context.MODE_PRIVATE);

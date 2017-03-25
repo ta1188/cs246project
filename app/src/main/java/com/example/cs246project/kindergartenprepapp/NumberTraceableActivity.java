@@ -14,10 +14,10 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class LetterTraceActivity extends CharacterTraceActivity {
+public class NumberTraceableActivity extends CharacterTraceableActivity {
 
     protected void initializeModel() {
-        _model = new LetterTraceModel(this);
+        _model = new NumberTraceableModel(this);
     }
 
     protected void initializeLayoutIndex() {
@@ -30,6 +30,6 @@ public class LetterTraceActivity extends CharacterTraceActivity {
 
     protected void setTraceBackgroundFromValues(List<String> values) {
         TextView myTextView=(TextView)findViewById(R.id.textView);
-        myTextView.setText(values.get(0) + values.get(1));
+        myTextView.setText(values.get(0));
     }
 }

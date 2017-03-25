@@ -1,21 +1,14 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.animation.ObjectAnimator;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.List;
 
 /**
  * An Activity that allows the user to trace letters in the alphabet, numbers, or words (including
@@ -27,10 +20,10 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NameTraceActivity extends SkipTapActivity {
+public class NameTraceableActivity extends SkipTapActivity {
 
     // Model object for managing the name character values.
-    private NameTraceModel _model;
+    private NameTraceableModel _model;
 
     // The view control that allows the user to trace on a transparent canvas.
     private DrawView _drawView;
@@ -45,7 +38,7 @@ public class NameTraceActivity extends SkipTapActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _model = new NameTraceModel(this);
+        _model = new NameTraceableModel(this);
 
         // Set the content view layout
         setContentView(R.layout.name_traceable_activity);

@@ -14,7 +14,7 @@ import java.util.List;
  * @since   2017-03-09
  */
 
-abstract public class CharacterTraceModel {
+abstract public class CharacterTraceableModel {
 
     Context _context;
 
@@ -31,7 +31,7 @@ abstract public class CharacterTraceModel {
      * Non-Default Constructor generating the values and setting the index to the beginning.
      * @param context The Context in which the activity will be working in
      */
-    public CharacterTraceModel(Context context) {
+    public CharacterTraceableModel(Context context) {
         _context = context;
         generateValueBank();
         _currentValueIndex = 0;

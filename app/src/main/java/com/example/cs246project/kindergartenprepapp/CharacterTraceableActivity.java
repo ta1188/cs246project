@@ -21,10 +21,10 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-abstract public class CharacterTraceActivity extends SkipTapActivity {
+abstract public class CharacterTraceableActivity extends SkipTapActivity {
 
     // Model object associated with the activity
-    protected CharacterTraceModel _model;
+    protected CharacterTraceableModel _model;
 
     // DrawView object associated with the activity
     protected DrawView _drawView;

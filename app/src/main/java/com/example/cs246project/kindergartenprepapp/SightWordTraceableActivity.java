@@ -3,17 +3,12 @@ package com.example.cs246project.kindergartenprepapp;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.List;
 
 /**
  * An Activity that allows the user to trace letters in the alphabet, numbers, or words (including
@@ -52,7 +47,7 @@ public class SightWordTraceableActivity extends SkipTapActivity {
         _model = new SightWordTraceableModel(this);
 
         // Set the content view layout
-        setContentView(R.layout.sight_word_activity_trace);
+        setContentView(R.layout.sight_word_traceable_activity);
 
         _frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
 

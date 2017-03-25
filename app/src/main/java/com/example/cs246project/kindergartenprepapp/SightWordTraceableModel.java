@@ -27,7 +27,7 @@ public class SightWordTraceableModel {
 
     /**
      * {@inheritDoc}
-     * Creates a NameTraceModel using a name
+     * Creates a NameTraceableModel using a name
      * @param context The Context in which the activity will be working in
      */
     public SightWordTraceableModel(Context context) {
