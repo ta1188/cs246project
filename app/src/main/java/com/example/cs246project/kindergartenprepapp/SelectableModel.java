@@ -148,7 +148,7 @@ abstract class SelectableModel<T> extends Application {
     /**
      * Handle toast messages
      * */
-    public void displayInstuctionToast() {
+    public void displayInstructionToast(int timeLength) {
         CharSequence text = "Tap a Button";
         String toastColor = "#ffbb33";
 
@@ -164,7 +164,7 @@ abstract class SelectableModel<T> extends Application {
         view.setPadding(20, 10, 20, 10);
 
         // Set the countdown to display the toast
-        CountDownTimer toastCountDown = new CountDownTimer(3000, 1000 /*Tick duration*/) {
+        CountDownTimer toastCountDown = new CountDownTimer(timeLength, 1000 /*Tick duration*/) {
             public void onTick(long millisUntilFinished) {
                 _toast.show();
             }
