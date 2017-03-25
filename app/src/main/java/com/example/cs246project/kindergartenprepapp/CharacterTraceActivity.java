@@ -1,11 +1,13 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -51,6 +53,11 @@ abstract public class CharacterTraceActivity extends SkipTapActivity {
             doneButton.setVisibility(View.INVISIBLE);
         }
 
+        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
+
+        TextView myTextView=(TextView)findViewById(R.id.textView);
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"penmanship_print.ttf");
+        myTextView.setTypeface(typeFace);
     }
 
     @Override

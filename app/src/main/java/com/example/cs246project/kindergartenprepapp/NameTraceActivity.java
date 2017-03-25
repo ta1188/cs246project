@@ -1,6 +1,9 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.animation.ObjectAnimator;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
@@ -8,7 +11,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -22,10 +27,7 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NameTraceActivity extends SkipTapActivity implements Runnable {
-
-    // FrameLayout that holds the drawView and trace background.
-    FrameLayout _frameLayout;
+public class NameTraceActivity extends SkipTapActivity {
 
     // Model object for managing the name character values.
     private NameTraceModel _model;
@@ -33,14 +35,11 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
     // The view control that allows the user to trace on a transparent canvas.
     private DrawView _drawView;
 
-    // The pixel height/width of each image view (set dynamically).
-    int _imageViewWidthHeight;
+    // Width of the characters in pixels.
+    private static int _characterWidth = 300;
 
-    // The pixel height of the views/layouts for tracing (set dynamically).
-    int _layoutHeight;
-
-    // The pixel width of the views/layouts for tracing (set dynamically).
-    int _layoutWidth;
+    // Total width of the traceable area (length of the character * 300dp).
+    private int _totalWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +48,13 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
         _model = new NameTraceModel(this);
 
         // Set the content view layout
-        setContentView(R.layout.name_activity_trace);
-
-        _frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+        setContentView(R.layout.name_traceable_activity);
 
         // Set the _drawView
-        _drawView = (DrawView) findViewById(R.id.nameTraceDrawView);
+        _drawView = (DrawView) findViewById(R.id.drawView);
 
         // Build the background images from the traceCharacters
-        setTraceBackgroundFromValues();
+        setTraceBackgroundFromValues(_model.getValues());
 
         playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
 
@@ -68,62 +65,28 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
         // Hide button if the activity isn't already complete
         FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
         doneButton.setVisibility(View.INVISIBLE);
+
+        TextView myTextView=(TextView)findViewById(R.id.textView);
+        Typeface typeFace=Typeface.createFromAsset(getAssets(),"penmanship_print.ttf");
+        myTextView.setTypeface(typeFace);
     }
 
     /**
      * Set Trace Background From Values
      * Sets the background trace images using a list of string values (file names).
      */
-    private void setTraceBackgroundFromValues() {
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-        frameLayout.post(this);
-    }
+    private void setTraceBackgroundFromValues(String values) {
+        _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
 
-    /**
-     * Run
-     * Used after dynamically getting the runtime height of the _framelayout so the background images
-     * and _drawView can be sized appropriately.
-     */
-    @Override
-    public void run() {
-        // Get the dimensions of all the child views (drawView, bottomLayout, and imageViews).
-        _imageViewWidthHeight = _frameLayout.getHeight();
-        _layoutHeight = _imageViewWidthHeight;
-        _layoutWidth = _model.getNumberOfCharacters() * _frameLayout.getHeight();
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
+        layout.getLayoutParams().width = _totalWidth;
 
-        // Setup layout parameters of the drawView
-        if (_drawView != null) {
-            FrameLayout.LayoutParams drawViewLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, FrameLayout.LayoutParams.MATCH_PARENT);
-            _drawView.setLayoutParams(drawViewLayoutParams);
-        }
+        DrawView drawView = (DrawView) findViewById(R.id.drawView);
+        drawView.getLayoutParams().width = _totalWidth;
 
-        // Setup layout parameters of the bottomLayout
-        LinearLayout bottomLayout = (LinearLayout) findViewById(R.id.layoutBottom);
-        FrameLayout.LayoutParams bottomLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        bottomLayout.setLayoutParams(bottomLayoutParams);
-
-        // Setup layout parameters of the bottomLayout
-        LinearLayout linesLayout = (LinearLayout) findViewById(R.id.LayoutLines);
-        FrameLayout.LayoutParams linesLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        linesLayout.setLayoutParams(linesLayoutParams);
-
-        // Add each letter as an image view to the bottomLayout
-        int linesResourceIndex = this.getResources().getIdentifier("lines", "drawable", this.getPackageName());
-        List<String> values = _model.getValues();
-        for (int i = 0; i < values.size(); i++) {
-            // Set the imageView's image resource using value
-            int resourceIndex = this.getResources().getIdentifier(values.get(i), "drawable", this.getPackageName());
-            AppCompatImageView imageView = new AppCompatImageView(this);
-            imageView.setImageResource(resourceIndex);
-            imageView.setAlpha(0.5f);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
-            bottomLayout.addView(imageView, layoutParams);
-
-            AppCompatImageView linesImageView = new AppCompatImageView(this);
-            linesImageView.setImageResource(linesResourceIndex);
-            LinearLayout.LayoutParams backgroundlayoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
-            linesLayout.addView(linesImageView, backgroundlayoutParams);
-        }
+        TextView myTextView=(TextView)findViewById(R.id.textView);
+        myTextView.getLayoutParams().width = _totalWidth;
+        myTextView.setText(values);
     }
 
     /**
@@ -131,9 +94,10 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
      * @param view The view that activated the function (e.g. button)
      */
     public void goToNextValue(View view) {
-        int x = _frameLayout.getScrollX() + _imageViewWidthHeight;
-        if (x < (_layoutWidth - _imageViewWidthHeight)) {
-            _frameLayout.scrollTo(x, 0);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
+        int x = layout.getScrollX() + 300;
+        if (x < (_totalWidth - 300)) {
+            layout.scrollTo(x, 0);
         }
 
         FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
@@ -143,7 +107,7 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
             previousButton.startAnimation(fadeIn);
         }
 
-        if (x >= (_layoutWidth - (_imageViewWidthHeight * 2))) {
+        if (x >= (_totalWidth - (_characterWidth * 3))) {
             FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
             nextButton.setVisibility(View.INVISIBLE);
 
@@ -159,9 +123,10 @@ public class NameTraceActivity extends SkipTapActivity implements Runnable {
      * @param view The view that activated the function (e.g. button)
      */
     public void goToPreviousValue(View view) {
-        int x = _frameLayout.getScrollX() - _imageViewWidthHeight;
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
+        int x = layout.getScrollX() - _characterWidth;
         if (x >= 0) {
-            _frameLayout.scrollTo(x, 0);
+            layout.scrollTo(x, 0);
         }
 
         FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);

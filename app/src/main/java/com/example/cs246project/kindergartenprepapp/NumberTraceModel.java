@@ -46,7 +46,7 @@ public class NumberTraceModel extends CharacterTraceModel {
     public List<String> getCurrentValues() {
         List<String> values = new ArrayList<>();
 
-        values.add("number_" + _valueBank.get(_currentValueIndex));
+        values.add(_valueBank.get(_currentValueIndex));
 
         return values;
     }

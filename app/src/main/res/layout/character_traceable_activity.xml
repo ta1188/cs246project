@@ -9,41 +9,44 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="com.example.cs246project.kindergartenprepapp.NumberTraceActivity">
+    tools:context="com.example.cs246project.kindergartenprepapp.LetterTraceActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:clickable="true"
         android:onClick="clearDrawView"
         app:backgroundTint="@android:color/holo_orange_light"
         app:fabSize="mini"
         app:srcCompat="@drawable/clear"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnMenuReturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/frameLayout"
         android:clickable="true"
         android:onClick="returnToMenu"
         app:backgroundTint="@android:color/holo_purple"
         app:fabSize="mini"
         app:srcCompat="@drawable/menu"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignParentStart="true"
         android:layout_marginLeft="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="50dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnPrevious"
@@ -56,12 +59,15 @@
         app:backgroundTint="@android:color/holo_blue_bright"
         app:fabSize="mini"
         app:srcCompat="@drawable/arrow_left"
-        app:layout_constraintRight_toLeftOf="@+id/btnClear"
-        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toRightOf="@+id/btnMenuReturn"
         android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintRight_toLeftOf="@+id/btnClear"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.506"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnNext"
@@ -74,79 +80,55 @@
         app:backgroundTint="@android:color/holo_blue_bright"
         app:fabSize="mini"
         app:srcCompat="@drawable/arrow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toRightOf="@+id/btnClear"
         android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="7dp"
         app:layout_constraintRight_toLeftOf="@+id/btnDone"
-        android:layout_marginRight="8dp" />
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/frameLayout"
         android:clickable="true"
-        android:onClick="onDoneButtonClick"
         app:backgroundTint="@android:color/holo_green_light"
         app:fabSize="mini"
         app:srcCompat="@drawable/check"
-        android:layout_marginEnd="50dp"
+        android:onClick="onDoneButtonClick"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="50dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="50dp" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="0dp"
-        android:layout_height="285dp"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/btnPrevious"
-        android:layout_above="@+id/btnClear"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="0dp"
-        android:layout_marginRight="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Aa"
+        android:textSize="250dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnClear"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/drawView"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <RelativeLayout
-            android:id="@+id/LayoutLines"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/btnClear"
-            android:layout_gravity="center">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/numberLines"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                app:srcCompat="@drawable/number_lines" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/LayoutBottom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/btnClear"
-            android:layout_gravity="center">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/number"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
-
-        <com.example.cs246project.kindergartenprepapp.DrawView
-            android:id="@+id/numberTraceDrawView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </FrameLayout>
+    <com.example.cs246project.kindergartenprepapp.DrawView
+        android:id="@+id/drawView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnClear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -23,7 +25,7 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class SightWordTraceableActivity extends SkipTapActivity implements Runnable {
+public class SightWordTraceableActivity extends SkipTapActivity {
 
     // FrameLayout that holds the drawView and trace background.
     FrameLayout _frameLayout;
@@ -55,7 +57,11 @@ public class SightWordTraceableActivity extends SkipTapActivity implements Runna
         _frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
 
         // Set the _drawView
-        _drawView = (DrawView) findViewById(R.id.nameTraceDrawView);
+        _drawView = (DrawView) findViewById(R.id.drawView);
+
+        TextView myTextView = (TextView)findViewById(R.id.textView);
+        Typeface typeFace = Typeface.createFromAsset(getAssets(),"penmanship_print.ttf");
+        myTextView.setTypeface(typeFace);
 
         // Build the background images from the traceCharacters
         setTraceBackgroundFromValues();
@@ -76,58 +82,8 @@ public class SightWordTraceableActivity extends SkipTapActivity implements Runna
      * Sets the background trace images using a list of string values (file names).
      */
     private void setTraceBackgroundFromValues() {
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-        frameLayout.post(this);
-    }
-
-    /**
-     * Run
-     * Used after dynamically getting the runtime height of the _framelayout so the background images
-     * and _drawView can be sized appropriately.
-     */
-    @Override
-    public void run() {
-        // Get the dimensions of all the child views (drawView, bottomLayout, and imageViews).
-        _imageViewWidthHeight = _frameLayout.getWidth() / 3;
-        _layoutHeight = _imageViewWidthHeight;
-        _layoutWidth = _frameLayout.getWidth();
-
-        // Setup layout parameters of the drawView
-        if (_drawView != null) {
-            FrameLayout.LayoutParams drawViewLayoutParams = new FrameLayout.LayoutParams(_layoutWidth, FrameLayout.LayoutParams.MATCH_PARENT);
-            _drawView.setLayoutParams(drawViewLayoutParams);
-        }
-
-        // Setup layout parameters of the bottomLayout
-        LinearLayout bottomLayout = (LinearLayout) findViewById(R.id.layoutBottom);
-        ConstraintLayout.LayoutParams bottomLayoutParams = new ConstraintLayout.LayoutParams(_layoutWidth, _layoutHeight);
-        bottomLayout.setLayoutParams(bottomLayoutParams);
-
-        // Setup layout parameters of the bottomLayout
-        LinearLayout linesLayout = (LinearLayout) findViewById(R.id.LayoutLines);
-        ConstraintLayout.LayoutParams linesLayoutParams = new ConstraintLayout.LayoutParams(_layoutWidth, _layoutHeight);
-        linesLayout.setLayoutParams(linesLayoutParams);
-
-        // Clear the layout for the characters
-        bottomLayout.removeAllViews();
-
-        // Add each letter as an image view to the bottomLayout
-        int linesResourceIndex = this.getResources().getIdentifier("lines_final", "drawable", this.getPackageName());
-        List<String> values = _model.getCurrentValues();
-        for (int i = 0; i < values.size(); i++) {
-            // Set the imageView's image resource using value
-            int resourceIndex = this.getResources().getIdentifier(values.get(i), "drawable", this.getPackageName());
-            AppCompatImageView imageView = new AppCompatImageView(this);
-            imageView.setImageResource(resourceIndex);
-            imageView.setAlpha(0.5f);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
-            bottomLayout.addView(imageView, layoutParams);
-
-            AppCompatImageView linesImageView = new AppCompatImageView(this);
-            linesImageView.setImageResource(linesResourceIndex);
-            LinearLayout.LayoutParams backgroundlayoutParams = new LinearLayout.LayoutParams(_imageViewWidthHeight, _imageViewWidthHeight);
-            linesLayout.addView(linesImageView, backgroundlayoutParams);
-        }
+        TextView myTextView=(TextView)findViewById(R.id.textView);
+        myTextView.setText(_model.getCurrentValues());
     }
 
     /**

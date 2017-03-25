@@ -40,28 +40,8 @@ public class NameTraceModel {
      * Gets the filename of each character in _values (e.g. characters in name);
      * @return a list of values (1 or more).
      */
-    public List<String> getValues() {
-        List<String> values = new ArrayList<String>();
-
-        for (int i = 0; i < _firstName.length(); i++) {
-            if (Character.isUpperCase(_firstName.charAt(i))) {
-                values.add("upper_" + (Character.toString(_firstName.charAt(i))).toLowerCase());
-            } else {
-                values.add("lower_" + (Character.toString(_firstName.charAt(i))).toLowerCase());
-            }
-        }
-
-        if (!_lastName.isEmpty()) {
-            for (int i = 0; i < _lastName.length(); i++) {
-                if (Character.isUpperCase(_lastName.charAt(i))) {
-                    values.add("upper_" + (Character.toString(_lastName.charAt(i))).toLowerCase());
-                } else {
-                    values.add("lower_" + (Character.toString(_lastName.charAt(i))).toLowerCase());
-                }
-            }
-        }
-
-        return values;
+    public String getValues() {
+        return _firstName + _lastName;
     }
 
     /**

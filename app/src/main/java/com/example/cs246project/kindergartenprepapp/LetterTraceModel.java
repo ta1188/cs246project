@@ -45,8 +45,8 @@ public class LetterTraceModel extends CharacterTraceModel{
     public List<String> getCurrentValues() {
         List<String> values = new ArrayList<>();
 
-        values.add("upper_" + _valueBank.get(_currentValueIndex));
-        values.add("lower_" + _valueBank.get(_currentValueIndex));
+        values.add(_valueBank.get(_currentValueIndex).toUpperCase());
+        values.add(_valueBank.get(_currentValueIndex));
 
         return values;
     }

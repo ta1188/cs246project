@@ -1,7 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
+import android.widget.TextView;
+
 import java.util.List;
 
 /**
@@ -16,35 +16,20 @@ import java.util.List;
 
 public class LetterTraceActivity extends CharacterTraceActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
-    }
-
     protected void initializeModel() {
         _model = new LetterTraceModel(this);
     }
 
     protected void initializeLayoutIndex() {
-        setContentView(R.layout.letter_activity_trace);
+        setContentView(R.layout.character_traceable_activity);
     }
 
     protected void initializeDrawView() {
-        _drawView = (DrawView) findViewById(R.id.LetterTraceDrawView);
+        _drawView = (DrawView) findViewById(R.id.drawView);
     }
 
     protected void setTraceBackgroundFromValues(List<String> values) {
-        // Setup the Upper case letter image view
-        int upperCaseResourceIndex = this.getResources().getIdentifier(values.get(0), "drawable", this.getPackageName());
-        AppCompatImageView upperCaseImageView = (AppCompatImageView) findViewById(R.id.upperLetter);
-        upperCaseImageView.setImageResource(upperCaseResourceIndex);
-        upperCaseImageView.setAlpha(0.5f);
-
-        // Setup the Lower case letter image view
-        int lowerCaseResourceIndex = this.getResources().getIdentifier(values.get(1), "drawable", this.getPackageName());
-        AppCompatImageView lowerCaseImageView = (AppCompatImageView) findViewById(R.id.lowerLetter);
-        lowerCaseImageView.setImageResource(lowerCaseResourceIndex);
-        lowerCaseImageView.setAlpha(0.5f);
+        TextView myTextView=(TextView)findViewById(R.id.textView);
+        myTextView.setText(values.get(0) + values.get(1));
     }
 }

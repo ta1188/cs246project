@@ -35,24 +35,27 @@ public class SightWordTraceableModel {
 
         _valueBank = new ArrayList<String>();
         _valueBank.add("the");
-        _valueBank.add("of");
-        _valueBank.add("and");
         _valueBank.add("a");
+        _valueBank.add("for");
+        _valueBank.add("of");
+        _valueBank.add("as");
+        _valueBank.add("and");
+        _valueBank.add("are");
+        _valueBank.add("is");
+        _valueBank.add("was");
+        _valueBank.add("be");
+        _valueBank.add("at");
         _valueBank.add("to");
         _valueBank.add("in");
-        _valueBank.add("is");
-        _valueBank.add("you");
-        _valueBank.add("it");
-        _valueBank.add("he");
-        _valueBank.add("was");
-        _valueBank.add("for");
         _valueBank.add("on");
-        _valueBank.add("are");
-        _valueBank.add("as");
+        _valueBank.add("he");
+        _valueBank.add("she");
+        _valueBank.add("it");
         _valueBank.add("his");
+        _valueBank.add("her");
         _valueBank.add("I");
-        _valueBank.add("at");
-        _valueBank.add("be");
+        _valueBank.add("me");
+        _valueBank.add("you");
     }
 
     /**
@@ -94,19 +97,8 @@ public class SightWordTraceableModel {
      * Gets the filename of each character in _values (e.g. characters in name);
      * @return a list of values (1 or more).
      */
-    public List<String> getCurrentValues() {
-        String currentValue = _valueBank.get(_currentValueIndex);
-        List<String> values = new ArrayList<String>();
-
-        for (int i = 0; i < currentValue.length(); i++) {
-            if (Character.isUpperCase(currentValue.charAt(i))) {
-                values.add("upper_" + (Character.toString(currentValue.charAt(i))).toLowerCase());
-            } else {
-                values.add("lower_" + (Character.toString(currentValue.charAt(i))).toLowerCase());
-            }
-        }
-
-        return values;
+    public String getCurrentValues() {
+        return _valueBank.get(_currentValueIndex);
     }
 
     /**

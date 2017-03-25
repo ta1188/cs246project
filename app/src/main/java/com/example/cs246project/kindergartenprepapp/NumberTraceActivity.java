@@ -1,7 +1,10 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.widget.TextView;
+
 import java.util.List;
 
 /**
@@ -16,28 +19,20 @@ import java.util.List;
 
 public class NumberTraceActivity extends CharacterTraceActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
-    }
-
     protected void initializeModel() {
         _model = new NumberTraceModel(this);
     }
 
     protected void initializeLayoutIndex() {
-        setContentView(R.layout.number_activity_trace);
+        setContentView(R.layout.character_traceable_activity);
     }
 
     protected void initializeDrawView() {
-        _drawView = (DrawView) findViewById(R.id.numberTraceDrawView);
+        _drawView = (DrawView) findViewById(R.id.drawView);
     }
 
     protected void setTraceBackgroundFromValues(List<String> values) {
-        int resourceIndex = this.getResources().getIdentifier(values.get(0), "drawable", this.getPackageName());
-        AppCompatImageView imageView = (AppCompatImageView) findViewById(R.id.number);
-        imageView.setImageResource(resourceIndex);
-        imageView.setAlpha(0.5f);
+        TextView myTextView=(TextView)findViewById(R.id.textView);
+        myTextView.setText(values.get(0));
     }
 }
