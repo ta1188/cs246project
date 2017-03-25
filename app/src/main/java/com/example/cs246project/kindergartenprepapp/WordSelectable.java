@@ -34,6 +34,9 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private ImageView imageView;
     private MediaPlayer mainImageMediaPlayer;
 
+    // Toast instructions should play the length of the audio instructions
+    final int toastTimeLength = 3200;
+
     int count = 1;
 
     @Override
@@ -62,7 +65,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         disableQuestionButtons(true);
 
         playInstructions(_model.getActivityInstructionsIndex());
-        _model.displayInstuctionToast();
+        _model.displayInstructionToast(toastTimeLength);
     }
 
     public void viewSetUp() {
@@ -214,7 +217,9 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     }
 
     /**
-     * Once audio is over then re-enable the
+     * Once instruction audio is over then re-enable the the question buttons. Note the re-enable
+     * will happen in the playMainImageSound() on complete listener as this is the last sound
+     * that will be played before activity is ready to work.
      */
     @Override
     public void onInstructionsAudioComplete() {
@@ -223,7 +228,26 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     }
 
     public void returnToMenu(View view) {
+        if(_model._toast != null) {
+            _model.cancelToast();
+        }
+
         this.finish();
+    }
+
+    /**
+     * Overrides from skiptap activity and calls functions to handle all closing activities like
+     * stopping audio for media players and existing toasts
+     */
+    @Override
+    public void stopEverything() {
+
+        // stop all audio that is playing
+        stopAudio();
+
+        // cancel any toasts that are still showing; done in override
+        // leaving app so
+        _model.cancelToast();
     }
 
     /**
@@ -260,7 +284,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         disableQuestionButtons(true);
         playInstructions(_instructionsAudioResourceIndex);
 
-        _model.displayInstuctionToast();
+        _model.displayInstructionToast(toastTimeLength);
 
         _backgroundAudioModel.startBackgroundAudio(this);
     }

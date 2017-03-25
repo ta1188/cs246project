@@ -16,12 +16,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.io.IOException;
-
 /**
+ * @author  Trevor Adams
+ * edits Michael Lucero
  * Handles finding how many objects are shown
  * */
 public class CountSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
+
 
     // Create a new Array list that will hold the filenames to reference
     private CountSelectableModel _model;
@@ -31,26 +32,42 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
     private LinearLayout layout_bottom;
     private ProgressBar _progBar;
     private boolean wasTrue = false;
-    int count = 1;
+    private boolean isFirstTime = true;
+    Context context = this;
     private ImageView imageView;
 
+    // Toast instructions should play the length of the audio instructions
+    final private int toastTimeLength = 2000;
+
+    int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // set up main activity view in 2 containers
         setContentView(R.layout.count_selectable);
         layout_top = (LinearLayout) findViewById(R.id.layout_count_top);
         layout_bottom = (LinearLayout) findViewById(R.id.layout_count_bottom);
         _progBar = (ProgressBar) findViewById(R.id.progressBarCount);
+
+        // set up model for 4 question buttons and random choices
         _model = new CountSelectableModel(this, 4);
-        playInstructions(_model.getActivityInstructionsIndex());
+
+        // set main media button
+        imageView = (ImageView) findViewById(R.id.countImage);
 
         viewSetUp();
-        imageView = (ImageView) findViewById(R.id.countImage);
-        imageView.setEnabled(false);
         setMainImage();
-        // Disable the buttons
-        enableDisableButtons(true);
+
+        // Instruction audio is now playing so disable main image button and the question buttons
+        //    The buttons will be re-enabled after playinstructions is complete, then the override
+        //    of onInstruction complete will re-enable the buttons.
+        enableMainImageButton(false);
+        disableQuestionButtons(true);
+
+        playInstructions(_model.getActivityInstructionsIndex());
+        _model.displayInstructionToast(toastTimeLength);
     }
 
     public void viewSetUp() {
