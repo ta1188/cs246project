@@ -43,6 +43,7 @@ abstract class SkipTapActivity extends AppCompatActivity {
 
         if (_instructionsMediaPlayer != null) {
             _instructionsMediaPlayer.release();
+            _instructionsMediaPlayer = null;
         }
 
         // Initialize a media player with the audio resource
@@ -80,7 +81,7 @@ abstract class SkipTapActivity extends AppCompatActivity {
     }
 
     /**
-     * Will
+     * Will start audio for background music and instructions
      */
     public void startAudio() {
 
@@ -120,12 +121,13 @@ abstract class SkipTapActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
-        super.onRestart();
 
         // For hiding status the bar
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
+
+        super.onRestart();
     }
 }
 

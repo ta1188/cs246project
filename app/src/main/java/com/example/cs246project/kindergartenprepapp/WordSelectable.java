@@ -1,13 +1,11 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,12 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 /**
  * Handles finding first letter of word image shown
  * @author Trevor Adams
+ * edits Michael Lucero
  * */
 public class WordSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
 
@@ -36,25 +32,36 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private boolean isFirstTime = true;
     Context context = this;
     private ImageView imageView;
+    private MediaPlayer mainImageMediaPlayer;
 
     int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // set up main activity view in 2 containers
         setContentView(R.layout.word_selectable);
         layout_top = (LinearLayout) findViewById(R.id.layout_word_top);
         layout_bottom = (LinearLayout) findViewById(R.id.layout_word_bottom);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
+
+        // set up model for 4 question buttons and random choices
         _model = new WordSelectableModel(this, 4);
-        playInstructions(_model.getActivityInstructionsIndex());
+
+        // set main media button
         imageView = (ImageView) findViewById(R.id.objectImage);
-        imageView.setEnabled(false);
 
         viewSetUp();
         setMainImage();
-        // Disable the buttons
-        enableDisableButtons(true);
+
+        // Instruction audio is now playing so disable main image button and the question buttons
+        //    The buttons will be re-enabled after playinstructions is complete, then the override
+        //    of onInstruction complete will re-enable the buttons.
+        enableMainImageButton(false);
+        disableQuestionButtons(true);
+
+        playInstructions(_model.getActivityInstructionsIndex());
     }
 
     public void viewSetUp() {
@@ -85,6 +92,11 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     @Override
     public void onMediaButtonTouched(MediaButton mediaButton, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            // Disable the buttons first thing after touch
+            disableQuestionButtons(true);
+            enableMainImageButton(false);
+
             if(_model.isCorrect(mediaButton.getValue())) {
                 wasTrue = true;
                 _progBar.incrementProgressBy(1);
@@ -94,16 +106,17 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
                 // Show answer toast
                 _model.displayToast(false);
             }
-
-            // Disable the buttons
-            enableDisableButtons(true);
         }
+    }
+
+    private void enableMainImageButton(Boolean state){
+        imageView.setEnabled(state);
     }
 
     /**
      * Will disable or enable the layout buttons
      * */
-    private void enableDisableButtons(Boolean state){
+    private void disableQuestionButtons(Boolean state){
         for (int i = 0; i < layout_top.getChildCount(); i++) {
             MediaButton mediaButton = (MediaButton) layout_top.getChildAt(i);
             mediaButton.setIsDisabled(state);
@@ -116,26 +129,26 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
 
     private void playMainImageSound() {
         String answer = "object_" + _model.getAnswer();
-        MediaPlayer mp = new MediaPlayer();
-
-        // Reset the media player
-        mp.reset();
-
         int soundId = getResources().getIdentifier(answer, "raw", getPackageName());
+        mainImageMediaPlayer = MediaPlayer.create(this, soundId);
 
-        mp.create(context, soundId);
-        // Load the media player with a new audio resource
-        try {
-            AssetFileDescriptor afd = context.getResources().openRawResourceFd(soundId);
-            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            afd.close();
-            mp.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Release main image audio after it is no longer playing
+        mainImageMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+                mp = null;
+                enableMainImageButton(true);
+                disableQuestionButtons(false);
+                mainImageMediaPlayer = null;
+            }
+        });
+
+        disableQuestionButtons(true);
+
 
         // Play the audio
-        mp.start();
+        mainImageMediaPlayer.start();
     }
 
     private void setMainImage() {
@@ -146,7 +159,6 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
             playMainImageSound();
         }
 
-
         /**
          * Setup event listener for main image
          * */
@@ -155,26 +167,15 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    enableMainImageButton(false);
                     playMainImageSound();
-
-                    imageView.setEnabled(false);
-
-                    Runnable disableImageClick = new Runnable() {
-                        @Override
-                        public void run() {
-                            imageView.setEnabled(true);
-                        }
-                    };
-                    Handler handler = new Handler();
-                    handler.postDelayed(disableImageClick, 1000);
                 }
                 return false;
             }
         });
         // Enable the buttons
-        enableDisableButtons(false);
+        disableQuestionButtons(false);
     }
-
 
     private void resetActivity() {
         layout_top.removeAllViews();
@@ -183,6 +184,10 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         count = 1;
         viewSetUp();
         setMainImage();
+
+        // disable audio
+        enableMainImageButton(false);
+        disableQuestionButtons(true);
     }
 
     @Override
@@ -199,30 +204,62 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
             this.finish();
         } else {
             // Enable the buttons when sound is complete
-            enableDisableButtons(false);
+            disableQuestionButtons(false);
+            enableMainImageButton(true);
             // check for true
             if (wasTrue)
                 resetActivity();
         }
     }
 
+    /**
+     * Once audio is over then re-enable the
+     */
     @Override
     public void onInstructionsAudioComplete() {
         playMainImageSound();
         isFirstTime = false;
-        // Delay a little for object audio to complete
-        try {
-            TimeUnit.MILLISECONDS.sleep(800);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        imageView.setEnabled(true);
-        // Enable the buttons when sound is complete
-        enableDisableButtons(false);
     }
 
     public void returnToMenu(View view) {
         this.finish();
     }
 
+    /**
+     * Handles stopping audio the buttons might be playing when transitioning to other activities
+     * or moving to another app.
+     */
+    @Override
+    public void stopAudio() {
+
+        for (int i = 0; i < layout_top.getChildCount(); i++) {
+            MediaButton mediaButton = (MediaButton) layout_top.getChildAt(i);
+            mediaButton.stopAudio();
+        }
+        for (int i = 0; i < layout_bottom.getChildCount(); i++) {
+            MediaButton mediaButton = (MediaButton) layout_bottom.getChildAt(i);
+            mediaButton.stopAudio();
+        }
+
+        if (mainImageMediaPlayer != null && mainImageMediaPlayer.isPlaying()) {
+            mainImageMediaPlayer.stop();
+            mainImageMediaPlayer.release();
+            mainImageMediaPlayer = null;
+        }
+        super.stopAudio();
+    }
+
+    /**
+     * When activity resumes make sure the the image button and question buttons are disabled.
+     */
+    @Override
+    public void startAudio() {
+
+        enableMainImageButton(false);
+        disableQuestionButtons(true);
+        playInstructions(_instructionsAudioResourceIndex);
+
+
+        _backgroundAudioModel.startBackgroundAudio(this);
+    }
 }

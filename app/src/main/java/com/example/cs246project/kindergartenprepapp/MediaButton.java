@@ -37,6 +37,7 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
                 if (_mediaPlayer != null) {
                     // Release the media player
                     _mediaPlayer.release();
+                    _mediaPlayer = null;
                 }
                 // Reset the _mediaPlayer to have the next audio file
                 _mediaPlayer = MediaPlayer.create(getContext(), _model.getAudioSourceIndex());
@@ -51,6 +52,7 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
                 if (_mediaPlayer != null) {
                     // Release the media player
                     _mediaPlayer.release();
+                    _mediaPlayer = null;
                 }
 
                 // Reset the audio
@@ -117,9 +119,10 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
      */
     private void playAudio() {
         // Only play audio if you have it.
-        if (_model.hasAudio()) {
+        if (_model != null && _model.hasAudio()) {
             if (_mediaPlayer != null) {
                 _mediaPlayer.release();
+                _mediaPlayer = null;
             }
 
             // Initialize the media player with the first audio resource
@@ -132,5 +135,15 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
             _mediaPlayer.start();
         }
     }
+
+    public void stopAudio() {
+        if (_mediaPlayer != null && _mediaPlayer.isPlaying()) {
+            _mediaPlayer.stop();
+            _mediaPlayer.release();
+            _mediaPlayer = null;
+        }
+    }
+
+
 
 }
