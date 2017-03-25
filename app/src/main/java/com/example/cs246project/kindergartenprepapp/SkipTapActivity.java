@@ -71,6 +71,7 @@ abstract class SkipTapActivity extends AppCompatActivity {
     public void stopEverything() {
         // Do nothing here.
         // Descendants Override
+        stopAudio();
     }
 
     /**
