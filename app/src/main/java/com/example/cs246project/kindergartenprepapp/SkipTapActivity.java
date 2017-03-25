@@ -68,6 +68,11 @@ abstract class SkipTapActivity extends AppCompatActivity {
         // Descendants may Override this if they want (not abstract == not required)
     }
 
+    public void stopEverything() {
+        // Do nothing here.
+        // Descendants Override
+    }
+
     /**
      * Will kill the media player
      */
@@ -92,14 +97,14 @@ abstract class SkipTapActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        stopAudio();
+       stopEverything();
 
         super.onStop();
     }
 
     @Override
     protected void onPause() {
-        stopAudio();
+        stopEverything();
 
         super.onPause();
     }

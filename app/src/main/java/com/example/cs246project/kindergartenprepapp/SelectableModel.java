@@ -44,6 +44,8 @@ abstract class SelectableModel<T> extends Application {
     protected Boolean _isActivityDone;
     protected int _optionCount;
 
+    protected Toast _toast;
+
     private static final String TAG = "SelectableModel";
     private ArrayList myColors = new ArrayList(Arrays.asList("#B1D5E5", "#B6D9D6", "#FAE0B8", "#CFE9E5", "#F3D6C8", "#D1C8BE", "#EEC9D7", "#FDF9CD", "#F3E0C4", "#CCD7E4"));
     private Random r;
@@ -119,27 +121,27 @@ abstract class SelectableModel<T> extends Application {
 
         int duration = Toast.LENGTH_SHORT;
 
-        final Toast toast = Toast.makeText(_context, text, duration);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        ViewGroup group = (ViewGroup) toast.getView();
+        _toast = Toast.makeText(_context, text, duration);
+        _toast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) _toast.getView();
         TextView messageTextView = (TextView) group.getChildAt(0);
         messageTextView.setTextSize(25);
-        View view = toast.getView();
+        View view = _toast.getView();
         view.setBackgroundColor(Color.parseColor(toastColor));
         view.setPadding(20, 10, 20, 10);
 
         // Set the countdown to display the toast
         CountDownTimer toastCountDown = new CountDownTimer(2000, 1000 /*Tick duration*/) {
             public void onTick(long millisUntilFinished) {
-                toast.show();
+                _toast.show();
             }
             public void onFinish() {
-                toast.cancel();
+                _toast.cancel();
             }
         };
 
         // Show the toast and starts the countdown
-        toast.show();
+        _toast.show();
         toastCountDown.start();
     }
 
@@ -152,28 +154,32 @@ abstract class SelectableModel<T> extends Application {
 
         int duration = Toast.LENGTH_SHORT;
 
-        final Toast toast = Toast.makeText(_context, text, duration);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        ViewGroup group = (ViewGroup) toast.getView();
+        _toast = Toast.makeText(_context, text, duration);
+        _toast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) _toast.getView();
         TextView messageTextView = (TextView) group.getChildAt(0);
         messageTextView.setTextSize(25);
-        View view = toast.getView();
+        View view = _toast.getView();
         view.setBackgroundColor(Color.parseColor(toastColor));
         view.setPadding(20, 10, 20, 10);
 
         // Set the countdown to display the toast
         CountDownTimer toastCountDown = new CountDownTimer(3000, 1000 /*Tick duration*/) {
             public void onTick(long millisUntilFinished) {
-                toast.show();
+                _toast.show();
             }
             public void onFinish() {
-                toast.cancel();
+                _toast.cancel();
             }
         };
 
         // Show the toast and starts the countdown
-        toast.show();
+        _toast.show();
         toastCountDown.start();
+    }
+
+    public void cancelToast() {
+        _toast.cancel();
     }
 
     public String getBtnColor() {
