@@ -34,9 +34,6 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     private ImageView imageView;
     private MediaPlayer mainImageMediaPlayer;
 
-    // Toast instructions should play the length of the audio instructions
-    final int toastTimeLength = 3200;
-
     int count = 1;
 
     @Override
@@ -64,8 +61,9 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         enableMainImageButton(false);
         disableQuestionButtons(true);
 
+        // show toast for the duration of the instructions and then stop when audio is over
+        displayInstructionToast();
         playInstructions(_model.getActivityInstructionsIndex());
-        _model.displayInstructionToast(toastTimeLength);
     }
 
     public void viewSetUp() {
@@ -105,10 +103,10 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
                 wasTrue = true;
                 _progBar.incrementProgressBy(1);
                 // Show answer toast
-                _model.displayToast(true);
+                displayToast(true);
             } else {
                 // Show answer toast
-                _model.displayToast(false);
+                displayToast(false);
             }
         }
     }
@@ -167,7 +165,6 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
          * Setup event listener for main image
          * */
         imageView.setOnTouchListener(new View.OnTouchListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -207,6 +204,12 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         if (_model._isActivityDone) {
             this.finish();
         } else {
+
+            // stop the correct/incorrect toast when done
+            if (_toast != null) {
+                _toast.cancel();
+            }
+
             // Enable the buttons when sound is complete
             disableQuestionButtons(false);
             enableMainImageButton(true);
@@ -223,15 +226,17 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
      */
     @Override
     public void onInstructionsAudioComplete() {
+
+        // stop the instructions toast when done
+        if (_toast != null) {
+            _toast.cancel();
+        }
+
         playMainImageSound();
         isFirstTime = false;
     }
 
     public void returnToMenu(View view) {
-        if(_model._toast != null) {
-            _model.cancelToast();
-        }
-
         this.finish();
     }
 
@@ -242,12 +247,15 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
     @Override
     public void stopEverything() {
 
+        // cancel any toasts that are still showing; done in override
+        // leaving app
+        if (_toast != null) {
+            _toast.cancel();
+        }
+
         // stop all audio that is playing
         stopAudio();
 
-        // cancel any toasts that are still showing; done in override
-        // leaving app so
-        _model.cancelToast();
     }
 
     /**
@@ -284,7 +292,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         disableQuestionButtons(true);
         playInstructions(_instructionsAudioResourceIndex);
 
-        _model.displayInstructionToast(toastTimeLength);
+        displayInstructionToast();
 
         _backgroundAudioModel.startBackgroundAudio(this);
     }
