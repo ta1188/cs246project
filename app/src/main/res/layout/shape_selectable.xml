@@ -74,16 +74,17 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/shapeContainer"
-        android:layout_width="0dp"
-        android:layout_height="160dp"
+        android:layout_width="495dp"
+        android:layout_height="103dp"
         android:minHeight="50dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="63dp"
         android:gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintHorizontal_bias="0.505">
 
         <LinearLayout
             android:id="@+id/shape_layout"
