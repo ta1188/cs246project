@@ -34,8 +34,7 @@ public class NameSelectableModel extends SelectableModel {
     Character _answerOrder;
 
     // static resource for word activity instruction
-    private static final String _activityInstructions =
-            "instruct_spell_your_name";
+    private static final String _activityInstructions = "instruct_spell_your_name";
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
@@ -60,8 +59,6 @@ public class NameSelectableModel extends SelectableModel {
      */
     public NameSelectableModel(Context context, String whichName) {
         super(context);
-
-
         // get full name from shared preferences
         _sharedPreferences = _context.getSharedPreferences("SETTINGS", MODE_PRIVATE);
         _firstName = _sharedPreferences.getString("FIRST_NAME", ""); // FIX 'NAME' to reference

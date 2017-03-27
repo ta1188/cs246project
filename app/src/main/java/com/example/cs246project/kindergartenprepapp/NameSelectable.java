@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Handles selecting numbers of the user's name
  * @author Trevor Adams
+ * edits Michael Lucero
  * */
 public class NameSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
 
@@ -37,6 +38,9 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     private boolean completedFirstName = false;
     private Boolean _isCorrect;
 
+    private MediaPlayer _soundsOfNameMediaPlayer;
+    private MediaPlayer _answerMediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,36 +53,29 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         SharedPreferences.Editor editor = settings.edit();
 
         if (_model.hasFirstName()) {
-            playInstructions(_model.getActivityInstructionsIndex());
+
             viewSetUp();
             // Disable the buttons
-            enableDisableButtons(true);
+            disableQuestionButtons(true);
             // Update shared preferences
             editor.putString(AppConstants.sharePreferenceUpdatingName, "false");
+
+            // display toast and show for the duration of the instructions
+            displayInstructionToast();
+            playInstructions(_model.getActivityInstructionsIndex());
+
         } else {
             // Update shared preferences
             editor.putString(AppConstants.sharePreferenceUpdatingName, "true");
             editor.commit();
 
-            // Play toast of missing your name
-            CharSequence text = "Missing your name";
-            int duration = Toast.LENGTH_SHORT;
 
-            Toast toast = Toast.makeText(getApplicationContext(), text, duration);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            ViewGroup group = (ViewGroup) toast.getView();
-            TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(25);
-            View view = toast.getView();
-            view.setBackgroundColor(Color.parseColor("#9575cd"));
-            view.setPadding(20, 10, 20, 10);
-            toast.show();
 
             // Redirect to main activity for entry of name
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);
+            displayMissingNameToast();
         }
-
     }
 
     protected void resetToLastName() {
@@ -132,13 +129,13 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     public void onMediaButtonTouched(MediaButton mediaButton, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             // Disable the buttons
-            enableDisableButtons(true);
+            disableQuestionButtons(true);
 
             // checking for the correct value dynamically as button moves along
             _isCorrect = _model.isCorrectOrder((Character) mediaButton.getValue());
             if(_isCorrect) {
                 // Show answer toast
-                _model.displayToast(true);
+                displayToast(true);
 
                 // Remove correct button selection from view
                 mediaButton.setVisibility(View.GONE);
@@ -169,7 +166,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                 position++;
             } else {
                 // Show answer toast
-                _model.displayToast(false);
+                displayToast(false);
             }
         }
     }
@@ -177,7 +174,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
     /**
      * Will disable or enable the layout buttons
      * */
-    private void enableDisableButtons(Boolean state){
+    private void disableQuestionButtons(Boolean state){
         for (int i = 0; i < layout_name.getChildCount(); i++) {
             MediaButton mediaButton = (MediaButton) layout_name.getChildAt(i);
             mediaButton.setIsDisabled(state);
@@ -190,14 +187,15 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
 
         for (int i = 0; i < name.length(); i++) {
             int audioAnswerIndex = this.getResources().getIdentifier(String.valueOf(Character.toLowerCase(name.charAt(i))), "raw", this.getPackageName());
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            _soundsOfNameMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
+            _soundsOfNameMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     mp.release();
+                    mp = null;
                 }
             });
-            mediaPlayer.start();
+            _soundsOfNameMediaPlayer.start();
 
             // Delay a little for audio to complete
             try {
@@ -221,7 +219,6 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
             default:
                 break;
         }
-
     }
 
 
@@ -235,6 +232,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
      * */
     @Override
     public void onAudioComplete() {
+
         if (_model._isActivityDone && _model.hasLastName() && !completedFirstName) {
             // Checking for if it's the first name AND the activity is done W/ a last name
             playSoundsOfName(true, 0);
@@ -246,32 +244,108 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         } else if (_model._isActivityDone && _model.hasLastName() && completedFirstName) {
             // Checking for if it's the last name AND the activity is done
             playSoundsOfName(false, 1);
+
             this.finish();
         } else {
             // Enable the buttons when sound is complete
             int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+             _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
+            _answerMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
+                    // cancel toast after audio
+                    if (_toast != null) {
+                        _toast.cancel();
+                    }
+
                     if (mp != null) {
                         mp.release();
+                        mp = null;
                     }
-                    enableDisableButtons(false);
+                    disableQuestionButtons(false);
                 }
             });
-            mediaPlayer.start();
+            _answerMediaPlayer.start();
         }
     }
 
     @Override
     public void onInstructionsAudioComplete() {
+
+        // stop the instructions toast when done
+        if (_toast != null) {
+            _toast.cancel();
+        }
+
         // Enable the buttons when sound is complete
-        enableDisableButtons(false);
+        disableQuestionButtons(false);
     }
 
     public void returnToMenu(View view) {
+        if (_toast != null) {
+            _toast.cancel();
+        }
+
         this.finish();
+    }
+
+    /**
+     * Overrides from skiptap activity and calls functions to handle all closing activities like
+     * stopping audio for media players and existing toasts
+     */
+    @Override
+    public void stopEverything() {
+
+        // cancel any toasts that are still showing; done in override
+        // leaving app
+        if (_toast != null) {
+            _toast.cancel();
+        }
+        // stop all audio that is playing
+        stopAudio();
+    }
+
+    /**
+     * Handles stopping audio the buttons might be playing when transitioning to other activities
+     * or moving to another app.
+     */
+    @Override
+    public void stopAudio() {
+
+        // name button audio release
+        for (int i = 0; i < layout_name.getChildCount(); i++) {
+            MediaButton mediaButton = (MediaButton) layout_name.getChildAt(i);
+            mediaButton.stopAudio();
+        }
+
+        // if leaving activity release audio for saying name back to you
+        if(_soundsOfNameMediaPlayer != null ) {
+            _soundsOfNameMediaPlayer.release();
+            _soundsOfNameMediaPlayer = null;
+        }
+
+        // release audio for answer
+        if(_answerMediaPlayer != null ) {
+            _answerMediaPlayer.release();
+            _answerMediaPlayer = null;
+        }
+
+        super.stopAudio();
+    }
+
+    /**
+     * When activity resumes make sure the the image button and question buttons are disabled.
+     */
+    @Override
+    public void startAudio() {
+
+        disableQuestionButtons(true);
+
+        playInstructions(_instructionsAudioResourceIndex);
+
+        displayInstructionToast();
+
+        _backgroundAudioModel.startBackgroundAudio(this);
     }
 
 }
