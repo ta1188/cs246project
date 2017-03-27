@@ -2,13 +2,7 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -45,7 +39,6 @@ abstract class SelectableModel<T> extends Application {
     protected int _optionCount;
 
     protected Toast _toast;
-
     private static final String TAG = "SelectableModel";
     private ArrayList myColors = new ArrayList(Arrays.asList("#B1D5E5", "#B6D9D6", "#FAE0B8", "#CFE9E5", "#F3D6C8", "#D1C8BE", "#EEC9D7", "#FDF9CD", "#F3E0C4", "#CCD7E4"));
     private Random r;
@@ -103,84 +96,6 @@ abstract class SelectableModel<T> extends Application {
         return _answerBank.size();
     }
 
-    /**
-     * Handle toast messages
-     * */
-    public void displayToast(boolean correctAnswer) {
-        CharSequence text;
-        String toastColor;
-
-        if (correctAnswer) {
-            text = "Correct!";
-            toastColor = "#00e676";
-        } else {
-            text = "Incorrect!";
-            toastColor = "#ff8a65";
-        }
-
-
-        int duration = Toast.LENGTH_SHORT;
-
-        _toast = Toast.makeText(_context, text, duration);
-        _toast.setGravity(Gravity.CENTER, 0, 0);
-        ViewGroup group = (ViewGroup) _toast.getView();
-        TextView messageTextView = (TextView) group.getChildAt(0);
-        messageTextView.setTextSize(25);
-        View view = _toast.getView();
-        view.setBackgroundColor(Color.parseColor(toastColor));
-        view.setPadding(20, 10, 20, 10);
-
-        // Set the countdown to display the toast
-        CountDownTimer toastCountDown = new CountDownTimer(2000, 1000 /*Tick duration*/) {
-            public void onTick(long millisUntilFinished) {
-                _toast.show();
-            }
-            public void onFinish() {
-                _toast.cancel();
-            }
-        };
-
-        // Show the toast and starts the countdown
-        _toast.show();
-        toastCountDown.start();
-    }
-
-    /**
-     * Handle toast messages
-     * */
-    public void displayInstructionToast(int timeLength) {
-        CharSequence text = "Tap a Button";
-        String toastColor = "#ffbb33";
-
-        int duration = Toast.LENGTH_SHORT;
-
-        _toast = Toast.makeText(_context, text, duration);
-        _toast.setGravity(Gravity.CENTER, 0, 0);
-        ViewGroup group = (ViewGroup) _toast.getView();
-        TextView messageTextView = (TextView) group.getChildAt(0);
-        messageTextView.setTextSize(25);
-        View view = _toast.getView();
-        view.setBackgroundColor(Color.parseColor(toastColor));
-        view.setPadding(20, 10, 20, 10);
-
-        // Set the countdown to display the toast
-        CountDownTimer toastCountDown = new CountDownTimer(timeLength, 1000 /*Tick duration*/) {
-            public void onTick(long millisUntilFinished) {
-                _toast.show();
-            }
-            public void onFinish() {
-                _toast.cancel();
-            }
-        };
-
-        // Show the toast and starts the countdown
-        _toast.show();
-        toastCountDown.start();
-    }
-
-    public void cancelToast() {
-        _toast.cancel();
-    }
 
     public String getBtnColor() {
         if (randomNum % 10 == 0) {
@@ -196,12 +111,6 @@ abstract class SelectableModel<T> extends Application {
      * abstract requires building of a question bank
      */
     abstract protected void buildInitialQuestionAnswerBanks();
-
-//    /**
-//     *  Gets the instruction audio resource index for the activity.
-//     *  @return The audio resource index for the activity instruction.
-//     */
-//    abstract public int getActivityInstructionsIndex();
 
 
     /**

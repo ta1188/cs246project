@@ -1,9 +1,14 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The super Activity of all SkipTap activities which has common member variables and member
@@ -19,6 +24,7 @@ abstract class SkipTapActivity extends AppCompatActivity {
     protected BackgroundAudioModel _backgroundAudioModel;
     protected MediaPlayer _instructionsMediaPlayer;
     protected int _instructionsAudioResourceIndex;
+    protected Toast _toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +53,96 @@ abstract class SkipTapActivity extends AppCompatActivity {
         }
 
         // Initialize a media player with the audio resource
-        _instructionsMediaPlayer = MediaPlayer.create(this, instructionsAudioResourceIndex);
+        if (_instructionsAudioResourceIndex > 0) {
+            _instructionsMediaPlayer = MediaPlayer.create(this, instructionsAudioResourceIndex);
+        }
 
         _instructionsMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 _instructionsMediaPlayer.release();
                 _instructionsMediaPlayer = null;
-                onInstructionsAudioComplete();
 
+                // got to specific things that need to be stopped in the child. Note the
+                //    toast is canceled in this function found in the child to show the
+                //    logical flow where toast is removed and buttons are re-enabled
+                onInstructionsAudioComplete();
             }
         });
 
         // Play the first audio track
         _instructionsMediaPlayer.start();
+    }
+
+    /**
+     * Handle standard toast message where it will display for the length of the correct/incorrect
+     * audio.
+     * */
+    public void displayToast(boolean correctAnswer) {
+        CharSequence text;
+        String toastColor;
+
+        if (correctAnswer) {
+            text = "Correct!";
+            toastColor = "#00e676";
+        } else {
+            text = "Incorrect!";
+            toastColor = "#ff8a65";
+        }
+
+        int duration = Toast.LENGTH_SHORT;
+
+        _toast = Toast.makeText(this, text, duration);
+        _toast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) _toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(25);
+        View view = _toast.getView();
+        view.setBackgroundColor(Color.parseColor(toastColor));
+        view.setPadding(20, 10, 20, 10);
+
+        // Show the toast
+        _toast.show();
+    }
+
+    /**
+     * Handle instruction toast messages that will play for the length of the beginning instructions
+     * */
+    public void displayInstructionToast() {
+        CharSequence text = "Tap a Button";
+        String toastColor = "#ffbb33";
+
+        int duration = Toast.LENGTH_SHORT;
+
+        _toast = Toast.makeText(this, text, duration);
+        _toast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) _toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(25);
+        View view = _toast.getView();
+        view.setBackgroundColor(Color.parseColor(toastColor));
+        view.setPadding(20, 10, 20, 10);
+        _toast.show();
+    }
+
+    /**
+     * Handle instruction toast messages that will play for the length of the beginning instructions
+     * */
+    public void displayMissingNameToast() {
+        CharSequence text = "Missing your name";
+        String toastColor = "#9575cd";
+
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast missingNameToast = Toast.makeText(this, text, duration);
+        missingNameToast.setGravity(Gravity.CENTER, 0, 0);
+        ViewGroup group = (ViewGroup) missingNameToast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(25);
+        View view = missingNameToast.getView();
+        view.setBackgroundColor(Color.parseColor(toastColor));
+        view.setPadding(20, 10, 20, 10);
+        missingNameToast.show();
     }
 
     public void onInstructionsAudioComplete() {
@@ -69,6 +151,9 @@ abstract class SkipTapActivity extends AppCompatActivity {
     }
 
     public void stopEverything() {
+        if (_toast != null) {
+            _toast.cancel();
+        }
         // Do nothing here.
         // Descendants Override
         stopAudio();
@@ -134,6 +219,12 @@ abstract class SkipTapActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
 
         super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopEverything();
+        super.onDestroy();
     }
 }
 
