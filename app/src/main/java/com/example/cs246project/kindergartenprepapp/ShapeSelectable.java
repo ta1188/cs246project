@@ -1,13 +1,8 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.content.res.AssetFileDescriptor;
+import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.os.Build;
-import android.os.Handler;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
+/**
+ * Handles finding first letter of word image shown
+ * @author Trevor Adams
+ * edits Michael Lucero
+ * */
 public class ShapeSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
@@ -27,25 +24,45 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
 
     // Find the horizontal scroll view
     private LinearLayout _shape_layout;
-    private boolean isFirstTime = true;
-    private Button _shapeButton;
+    //private LinearLayout layout_bottom;
     private ProgressBar _progBar;
     private boolean wasTrue = false;
+    private boolean isFirstTime = true;
+    Context context = this;
+    private Button _shapeButton;
+    private ImageView imageView;
+    private MediaPlayer _mainButtonMediaPlayer;
 
+    int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // set up main activity view in 2 containers
         setContentView(R.layout.shape_selectable);
         _shape_layout = (LinearLayout) findViewById(R.id.shape_layout);
+        ////layout_bottom = (LinearLayout) findViewById(R.id.layout_word_bottom);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
-        _model = new ShapeSelectableModel(this, 3);
+
+        // set up model for 4 question buttons and random choices
+        _model = new ShapeSelectableModel(this, 4);
+
+        // set main media button
         _shapeButton = (Button) findViewById(R.id.shapeButton);
 
         viewSetUp();
-        setAnswerButtonVal();
-        // Disable the buttons
-        enableDisableButtons(true);
+        setAnswerButtonValue();
+
+        // Instruction audio is now playing so disable main image button and the question buttons
+        //    The buttons will be re-enabled after playinstructions is complete, then the override
+        //    of onInstruction complete will re-enable the buttons.
+        enableMainImageButton(false);
+        disableQuestionButtons(true);
+
+        // show toast for the duration of the instructions and then stop when audio is over
+        displayInstructionToast();
+        playInstructions(_model.getActivityInstructionsIndex());
     }
 
     public void viewSetUp() {
@@ -62,15 +79,40 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
             btn.setPadding(5, 5, 5, 5);
             btn.setElevation(10);
             ((ViewGroup.MarginLayoutParams) btn.getLayoutParams()).setMargins(10, 5, 30, 5);
+            btn.setBackgroundColor(Color.TRANSPARENT);
 
             _shape_layout.addView(btn);
         }
     }
 
+    @Override
+    public void onMediaButtonTouched(MediaButton mediaButton, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            // Disable the buttons first thing after touch
+            disableQuestionButtons(true);
+            enableMainImageButton(false);
+
+            if(_model.isCorrect(mediaButton.getValue())) {
+                wasTrue = true;
+                _progBar.incrementProgressBy(1);
+                // Show answer toast
+                displayToast(true);
+            } else {
+                // Show answer toast
+                displayToast(false);
+            }
+        }
+    }
+
+    private void enableMainImageButton(Boolean state){
+        _shapeButton.setEnabled(state);
+    }
+
     /**
      * Will disable or enable the layout buttons
      * */
-    private void enableDisableButtons(Boolean state){
+    private void disableQuestionButtons(Boolean state){
         for (int i = 0; i < _shape_layout.getChildCount(); i++) {
             MediaButton mediaButton = (MediaButton) _shape_layout.getChildAt(i);
             mediaButton.setIsDisabled(state);
@@ -79,73 +121,63 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
 
     private void playMainImageSound() {
         String answer = "shape_" + _model.getAnswer();
-        MediaPlayer mp = new MediaPlayer();
+        int soundId = getResources().getIdentifier("a", "raw", getPackageName()); // todo need to get correct audio resource
+        _mainButtonMediaPlayer = MediaPlayer.create(this, soundId);
 
-        // Reset the media player
-        mp.reset();
+        // Release main image audio after it is no longer playing
+        _mainButtonMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+                mp = null;
+                enableMainImageButton(true);
+                disableQuestionButtons(false);
+                _mainButtonMediaPlayer = null;
+            }
+        });
 
-        int soundId = getResources().getIdentifier(answer, "raw", getPackageName());
+        disableQuestionButtons(true);
 
-        mp.create(this, soundId);
-        // Load the media player with a new audio resource
-        try {
-            AssetFileDescriptor afd = this.getResources().openRawResourceFd(soundId);
-            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            afd.close();
-            mp.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         // Play the audio
-        mp.start();
+        _mainButtonMediaPlayer.start();
     }
 
-    private void setAnswerButtonVal() {
-        // Grab the image resource and set the image drawable
-        Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
+    private void setAnswerButtonValue() {
+        // Grab the text and set field of button
+        _shapeButton.setText(_model.getAnswer());
 
-        // Need to get string value of button from model...
-//        _shapeButton.setImageDrawable(res);
         if (!isFirstTime) {
-            //
             playMainImageSound();
         }
-
 
         /**
          * Setup event listener for main image
          * */
         _shapeButton.setOnTouchListener(new View.OnTouchListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    enableMainImageButton(false);
                     playMainImageSound();
-
-                    _shapeButton.setEnabled(false);
-
-                    Runnable disableImageClick = new Runnable() {
-                        @Override
-                        public void run() {
-                            _shapeButton.setEnabled(true);
-                        }
-                    };
-                    Handler handler = new Handler();
-                    handler.postDelayed(disableImageClick, 1000);
                 }
                 return false;
             }
         });
         // Enable the buttons
-        enableDisableButtons(false);
+        disableQuestionButtons(false);
     }
 
     private void resetActivity() {
         _shape_layout.removeAllViews();
         wasTrue = false;
+        count = 1;
         viewSetUp();
-        setAnswerButtonVal();
+        setAnswerButtonValue();
+
+        // disable audio
+        enableMainImageButton(false);
+        disableQuestionButtons(true);
     }
 
     @Override
@@ -161,49 +193,92 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
         if (_model._isActivityDone) {
             this.finish();
         } else {
+
+            // stop the correct/incorrect toast when done
+            if (_toast != null) {
+                _toast.cancel();
+            }
+
             // Enable the buttons when sound is complete
-            enableDisableButtons(false);
+            disableQuestionButtons(false);
+            enableMainImageButton(true);
             // check for true
             if (wasTrue)
                 resetActivity();
         }
     }
 
-    @Override
-    public void onMediaButtonTouched(MediaButton mediaButton, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if(_model.isCorrect(mediaButton.getValue())) {
-                wasTrue = true;
-                _progBar.incrementProgressBy(1);
-                // Show answer toast
-                _model.displayToast(true);
-            } else {
-                // Show answer toast
-                _model.displayToast(false);
-            }
-
-            // Disable the buttons
-            enableDisableButtons(true);
-        }
-    }
-
+    /**
+     * Once instruction audio is over then re-enable the the question buttons. Note the re-enable
+     * will happen in the playMainImageSound() on complete listener as this is the last sound
+     * that will be played before activity is ready to work.
+     */
     @Override
     public void onInstructionsAudioComplete() {
+
+        // stop the instructions toast when done
+        if (_toast != null) {
+            _toast.cancel();
+        }
+
         playMainImageSound();
         isFirstTime = false;
-        // Delay a little for object audio to complete
-        try {
-            TimeUnit.MILLISECONDS.sleep(800);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        _shapeButton.setEnabled(true);
-        // Enable the buttons when sound is complete
-        enableDisableButtons(false);
     }
-
 
     public void returnToMenu(View view) {
         this.finish();
+    }
+
+    /**
+     * Overrides from skiptap activity and calls functions to handle all closing activities like
+     * stopping audio for media players and existing toasts
+     */
+    @Override
+    public void stopEverything() {
+
+        // cancel any toasts that are still showing; done in override
+        // leaving app
+        if (_toast != null) {
+            _toast.cancel();
+        }
+
+        // stop all audio that is playing
+        stopAudio();
+
+    }
+
+    /**
+     * Handles stopping audio the buttons might be playing when transitioning to other activities
+     * or moving to another app.
+     */
+    @Override
+    public void stopAudio() {
+
+        for (int i = 0; i < _shape_layout.getChildCount(); i++) {
+            MediaButton mediaButton = (MediaButton) _shape_layout.getChildAt(i);
+            mediaButton.stopAudio();
+        }
+
+        if (_mainButtonMediaPlayer != null && _mainButtonMediaPlayer.isPlaying()) {
+            _mainButtonMediaPlayer.stop();
+            _mainButtonMediaPlayer.release();
+            _mainButtonMediaPlayer = null;
+        }
+        super.stopAudio();
+    }
+
+    /**
+     * When activity resumes make sure the the image button and question buttons are disabled.
+     */
+    @Override
+    public void startAudio() {
+
+        enableMainImageButton(false);
+        disableQuestionButtons(true);
+        playInstructions(_instructionsAudioResourceIndex);
+
+        displayInstructionToast();
+
+        _backgroundAudioModel.startBackgroundAudio(this);
     }
 }

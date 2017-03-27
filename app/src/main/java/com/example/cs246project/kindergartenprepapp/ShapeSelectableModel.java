@@ -10,7 +10,10 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 /**
- * Created by Michael Lucero on 3/23/17.
+ * <p>
+ * @author  Michael Lucero
+ * @version 1.0
+ * @since   2017-03-23
  */
 
 public class ShapeSelectableModel extends SelectableModel {
@@ -19,13 +22,13 @@ public class ShapeSelectableModel extends SelectableModel {
 
     // static resource for word activity instruction
     private static final String _activityInstructions =
-            "instruct_pick_letter_that_matches_first_sound_of_picture";
+            "instruct_pick_letter_that_matches_first_sound_of_picture"; // todo update instructions
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
         add("motivate_great_job");
         add("motivate_you_did_it");
-        add("motivate_you_found_the_letter");
+        add("motivate_you_found_the_letter"); // TODO update audio
     }};
 
     // for changing up the motivational messages
@@ -37,11 +40,11 @@ public class ShapeSelectableModel extends SelectableModel {
 
     public ShapeSelectableModel(Context context, int optionCount) {
         super(context);
-        if((optionCount > 0) && (optionCount <= 26)) {
+        if((optionCount > 0) && (optionCount <= 10)) {
             _optionCount = optionCount;
             _isActivityDone = false;
         } else {
-            Log.i(TAG, "CountSelectableModel: 0 < option count <= 26; out of possible range");
+            Log.i(TAG, "ShapeSelectableModel: 0 < option count <= 10; out of possible range");
         }
 
         // initialize question bank
@@ -63,20 +66,38 @@ public class ShapeSelectableModel extends SelectableModel {
      * Build values that can be randomly pulled from.
      */
     protected void buildInitialQuestionAnswerBanks() {
-        _answerBank  = new ArrayList<>();
-        _questionBank = new ArrayList<>();
+        _answerBank  = new ArrayList<String>() {{
+            add("circle");
+            add("diamond");
+            add("heart");
+            add("hexagon");
+            add("octagon");
+            add("pentagon");
+            add("rectangle");
+            add("square");
+            add("star");
+            add("triangle");
+        }};
 
-        for (char i = 'a' ; i <= 'z'; i++) {
-            _questionBank.add(i);
-            _answerBank.add(i);
-        }
+        _questionBank = new ArrayList<String>() {{
+            add("circle");
+            add("diamond");
+            add("heart");
+            add("hexagon");
+            add("octagon");
+            add("pentagon");
+            add("rectangle");
+            add("square");
+            add("star");
+            add("triangle");
+        }};
     }
 
     /**
      * Get the answer for the activity as a resource index.
      */
     public int getAnswerResourceIndex() {
-        int resourceIndex = _context.getResources().getIdentifier("object_" + _answer.toString(), "drawable", _context.getPackageName());
+        int resourceIndex = _context.getResources().getIdentifier("shape_" + _answer.toString(), "drawable", _context.getPackageName());
         return resourceIndex;
     }
 
@@ -86,7 +107,7 @@ public class ShapeSelectableModel extends SelectableModel {
      */
     public List<MediaModel> generateValueList() {
 
-        List<Character> randomValues;
+        List<String> randomValues;
         List<MediaModel> questionsAndAnswer = new ArrayList<>();
 
         // make sure the activity is not over because all values have been selected correctly
@@ -106,19 +127,15 @@ public class ShapeSelectableModel extends SelectableModel {
 
         // Using the random values now associate the images and sounds to buttons to be used
         //    by the calling activity
-        for (Character value : randomValues) {
+        for (String value : randomValues) {
 
             // set the picture to match the letter sound
-            int imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value.toString(), "drawable", _context.getPackageName());
+            int imageFileResourceIndex = _context.getResources().getIdentifier("shape_" + value, "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
 
-            // retrieve letter audio
-            int audioFileResourceIndex1 = _context.getResources().getIdentifier(value.toString(), "raw", _context.getPackageName());
+            // retrieve letter audio // TODO: 3/26/17 get correct audio files
+            int audioFileResourceIndex1 = _context.getResources().getIdentifier("a", "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex1);
-
-            // letter sound
-            int audioFileResourceIndex3 = _context.getResources().getIdentifier("letter_sound_" + value.toString(), "raw", _context.getPackageName());
-            audioFileResourceIndexes.add(audioFileResourceIndex3);
 
             // used to make the motivations different each time
             Collections.shuffle(correct);
@@ -136,7 +153,7 @@ public class ShapeSelectableModel extends SelectableModel {
             }
 
             // retrieve and associate buttons with image and audio
-            MediaModel<Character> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
+            MediaModel<String> mediaModel = new MediaModel<>(imageFileResourceIndex, audioFileResourceIndexes, value);
             questionsAndAnswer.add(mediaModel);
         }
 
