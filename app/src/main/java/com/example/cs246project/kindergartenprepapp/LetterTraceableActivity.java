@@ -1,6 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.widget.TextView;
+import android.support.v7.widget.AppCompatImageView;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class LetterTraceableActivity extends CharacterTraceableActivity {
     }
 
     protected void initializeLayoutIndex() {
-        setContentView(R.layout.character_traceable_activity);
+        setContentView(R.layout.letter_traceable_activity);
     }
 
     protected void initializeDrawView() {
@@ -29,7 +29,16 @@ public class LetterTraceableActivity extends CharacterTraceableActivity {
     }
 
     protected void setTraceBackgroundFromValues(List<String> values) {
-        TextView myTextView=(TextView)findViewById(R.id.textView);
-        myTextView.setText(values.get(0) + values.get(1));
+        // Get the views
+        AppCompatImageView upperLetterImageView = (AppCompatImageView) findViewById(R.id.upperLetter);
+        AppCompatImageView lowerLetterImageView = (AppCompatImageView) findViewById(R.id.lowerLetter);
+
+        // Set the view images
+        upperLetterImageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(0), "drawable", getPackageName()));
+        lowerLetterImageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(1), "drawable", getPackageName()));
+
+        // Set the view opacity
+        upperLetterImageView.setAlpha(0.5f);
+        lowerLetterImageView.setAlpha(0.5f);
     }
 }

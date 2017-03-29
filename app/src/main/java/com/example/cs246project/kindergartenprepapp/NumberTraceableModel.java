@@ -46,7 +46,7 @@ public class NumberTraceableModel extends CharacterTraceableModel {
     public List<String> getCurrentValues() {
         List<String> values = new ArrayList<>();
 
-        values.add(_valueBank.get(_currentValueIndex));
+        values.add("number_" + _valueBank.get(_currentValueIndex));
 
         return values;
     }

@@ -1,14 +1,11 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.support.v7.widget.AppCompatImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
 /**
- * An Activity that allows the user to trace letters in the alphabet, numbers, or words (including
- * their name). This is meant to help them improve their fine motor, writing, and recognition
- * skills.
+ * An Activity that allows the user to trace shapes.
  * <p>
  * @author  Dan Rix
  * @version 1.0
@@ -22,7 +19,7 @@ public class ShapeTraceableActivity extends CharacterTraceableActivity {
     }
 
     protected void initializeLayoutIndex() {
-        setContentView(R.layout.shape_traceable_activity);
+        setContentView(R.layout.single_image_traceable_activity);
     }
 
     protected void initializeDrawView() {
@@ -30,8 +27,13 @@ public class ShapeTraceableActivity extends CharacterTraceableActivity {
     }
 
     protected void setTraceBackgroundFromValues(List<String> values) {
+        // Get the view
         AppCompatImageView imageView = (AppCompatImageView) findViewById(R.id.imageView);
+
+        // Set the view image
         imageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(0), "drawable", getPackageName()));
+
+        // Set the view opacity
         imageView.setAlpha(0.5f);
     }
 }
