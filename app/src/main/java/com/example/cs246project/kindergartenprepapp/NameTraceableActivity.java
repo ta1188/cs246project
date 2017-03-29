@@ -28,13 +28,16 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NameTraceableActivity extends SkipTapActivity {
+public class NameTraceableActivity extends SkipTapActivity implements Runnable {
 
     // Model object for managing the name character values.
     private NameTraceableModel _model;
 
     // The view control that allows the user to trace on a transparent canvas.
     private DrawView _drawView;
+
+    //
+    private AppCompatImageView _singleImageView;
 
     // Width of the characters in pixels.
     private static int _characterWidth = AppConstants.characterTracingImageWidth;
@@ -73,16 +76,7 @@ public class NameTraceableActivity extends SkipTapActivity {
      * Sets the background trace images using a list of string values (file names).
      */
     private void setTraceBackgroundFromValues() {
-        _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
-
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
-        layout.getLayoutParams().width = _totalWidth;
-
-        DrawView drawView = (DrawView) findViewById(R.id.drawView);
-        drawView.getLayoutParams().width = _totalWidth;
-
         LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
-        letterLayout.getLayoutParams().width = _totalWidth;
 
         for (int i = 0; i < _model.getValues().size(); i++) {
             AppCompatImageView imageView = new AppCompatImageView(this);
@@ -94,6 +88,37 @@ public class NameTraceableActivity extends SkipTapActivity {
             imageView.setAdjustViewBounds(true);
 
             letterLayout.addView(imageView);
+        }
+
+        _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
+
+        DrawView drawView = (DrawView) findViewById(R.id.drawView);
+        drawView.getLayoutParams().width = _totalWidth;
+
+        letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
+        letterLayout.getLayoutParams().width = _totalWidth;
+
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
+        layout.getLayoutParams().width = _totalWidth;
+
+    }
+
+    /**
+     * Run
+     * Used after dynamically getting the runtime height of the _framelayout so the background images
+     * and _drawView can be sized appropriately.
+     */
+    @Override
+    public void run() {
+        if (_singleImageView != null) {
+            _characterWidth = _singleImageView.getWidth();
+            _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
+
+            LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
+            letterLayout.getLayoutParams().width = _totalWidth;
+
+            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
+            layout.getLayoutParams().width = _totalWidth;
         }
     }
 
