@@ -144,8 +144,12 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
     }
 
     private void setAnswerButtonValue() {
-        // Grab the text and set field of button
-        _shapeButton.setText(_model.getAnswer());
+        // Grab the text of answer
+        String btnName = _model.getAnswer();
+        // Capitalize first character
+        btnName = Character.toUpperCase(btnName.charAt(0)) + btnName.substring(1);
+        // Set button
+        _shapeButton.setText(btnName);
 
         if (!isFirstTime) {
             playMainImageSound();
