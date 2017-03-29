@@ -179,12 +179,21 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
     }
 
     /**
-     * Clear Draw View
-     * Clears all the tracing from the _drawView.
+     * Clear Last Tracing
+     * Clears the last tracing by the user from the _drawView.
      * @param view the button that caused this action to be called
      */
-    public void clearDrawView(View view) {
-        _drawView.clearView();
+    public void clearLastTracing(View view) {
+        _drawView.clearPreviousPath();
+    }
+
+    /**
+     * Clear All Tracings
+     * Clears all the tracings by the user from the _drawView.
+     * @param view the button that caused this action to be called
+     */
+    public void clearAllTracings(View view) {
+        _drawView.clearAllPaths();
     }
 
     /**

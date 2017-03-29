@@ -96,7 +96,7 @@ public class SightWordTraceableActivity extends SkipTapActivity {
     public void goToNextValue(View view) {
         if (!_model.isComplete()) {
             _model.goToNextValue();
-            clearDrawView(view);
+            clearAllTracings(view);
             setTraceBackgroundFromValues();
             //playCurrentValueAudio();
             FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
@@ -125,7 +125,7 @@ public class SightWordTraceableActivity extends SkipTapActivity {
     public void goToPreviousValue(View view) {
         if (!_model.isAtBeginning()) {
             _model.goToPreviousValue();
-            clearDrawView(view);
+            clearAllTracings(view);
             setTraceBackgroundFromValues();
             //playCurrentValueAudio();
             FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
@@ -148,13 +148,23 @@ public class SightWordTraceableActivity extends SkipTapActivity {
         }
     }
 
+
     /**
-     * Clear Draw View
-     * Clears all the tracing from the _drawView.
+     * Clear Last Tracing
+     * Clears the last tracing by the user from the _drawView.
      * @param view the button that caused this action to be called
      */
-    public void clearDrawView(View view) {
-        _drawView.clearView();
+    public void clearLastTracing(View view) {
+        _drawView.clearPreviousPath();
+    }
+
+    /**
+     * Clear All Tracings
+     * Clears all the tracings by the user from the _drawView.
+     * @param view the button that caused this action to be called
+     */
+    public void clearAllTracings(View view) {
+        _drawView.clearAllPaths();
     }
 
     /**

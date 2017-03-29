@@ -12,6 +12,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Stack;
+
 /**
  * A view for free drawing on a canvas.
  * <p>
@@ -28,8 +33,14 @@ public class DrawView extends View {
     // The canvas for drawing on (like a paint canvas)
     private Canvas _canvas;
 
-    // The series of lines ("path") the user draws on the canvas
+    // A of line ("path") the user draws on the canvas
     private Path _path;
+
+    // The series of lines ("path") the user has drawn on the canvas
+    private List<Path> _paths;
+
+    // The index for the latest path drawn
+    private int _currentPathIndex;
 
     // Variables for tracking the previous coordinates
     private float _previousX;
@@ -38,17 +49,24 @@ public class DrawView extends View {
     // The paint handles the color, style, and width of the stroke
     private Paint _paint;
 
+    // The current color of the paint
+    private int _currentColor;
+
     // Constructs a DrawView
     public DrawView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
         _path = new Path();
+        _paths = new ArrayList<>();
+        _currentPathIndex = -1;
 
         _paint = new Paint();
         _paint.setAntiAlias(true);
-        _paint.setColor(Color.RED);
         _paint.setStyle(Paint.Style.STROKE);
         _paint.setStrokeWidth(10f);
+        randomizeCurrentColor();
+
+        setBackgroundColor(Color.TRANSPARENT);
     }
 
     // Constructs a DrawView
@@ -56,22 +74,34 @@ public class DrawView extends View {
         super(context);
 
         _path = new Path();
+        _paths = new ArrayList<>();
+        _currentPathIndex = -1;
 
         _paint = new Paint();
         _paint.setAntiAlias(true);
-        _paint.setColor(Color.RED);
         _paint.setStyle(Paint.Style.STROKE);
         _paint.setStrokeWidth(10f);
+        randomizeCurrentColor();
 
         setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override
+    /**
+     * {@inheritDoc}
+     * When the view is drawn on the screen, draw the path (or lines) on to the canvas that the user
+     * has drawn already.
+     */
     protected void onDraw(Canvas canvas) {
-        // When the view is drawn on the screen, draw the path
-        // (or lines) on to the canvase that the user has drawn
-        // already
+        // Draw the first path
         canvas.drawPath(_path, _paint);
+
+        // Draw previous paths
+        if (_paths != null) {
+            for (int i = 0; i < _paths.size(); i++) {
+                canvas.drawPath(_paths.get(i), _paint);
+            }
+        }
     }
 
     @Override
@@ -94,6 +124,9 @@ public class DrawView extends View {
                 // We are moving our touch
                 onTouchMove(event.getX(), event.getY());
                 break;
+            case (MotionEvent.ACTION_UP) :
+                // Record the last path drawn
+                onTouchEnd();
         }
 
         // Invalidate means to set the view's state as invalid,
@@ -116,6 +149,8 @@ public class DrawView extends View {
      * @param y is the vertical position of where the user is touching on the view
      */
     private void onTouchStart(float x, float y) {
+        _path = new Path();
+
         // Move the path to where you are currently touching (otherwise a
         // line will be drawn from your last touch to this touch).
         _path.moveTo(x, y);
@@ -142,13 +177,92 @@ public class DrawView extends View {
     }
 
     /**
-     * ClearView
-     * Clears the view of any drawings
+     * OnTouchEnd
+     * Saves the path that was just drawn to the list of paths
      */
-    public void clearView() {
+    private void onTouchEnd() {
+        // Draw the line
+        if (_paths != null) {
+            _paths.add(_path);
+            ++_currentPathIndex;
+        }
+    }
+
+    /**
+     * ClearPreviousPath
+     * Clears the view of the last path drawn
+     */
+    public void clearPreviousPath() {
+        // Clear the path
         _path.reset();
+
+        // Remove that path from the _paths
+        if (!_paths.isEmpty()) {
+            _paths.remove(_currentPathIndex);
+            --_currentPathIndex;
+        }
+
+        // Set the current path to the last one in the list of _paths
+        if (!_paths.isEmpty() && _currentPathIndex >= 0) {
+            _path = _paths.get(_currentPathIndex);
+        }
 
         // Invalidate so that the view will refresh with the changes
         invalidate();
+    }
+
+    /**
+     * ClearAllPaths
+     * Clears the view of any drawings
+     */
+    public void clearAllPaths() {
+        _path.reset();
+
+        for (int i = 0; i < _paths.size(); i++) {
+            _paths.get(i).reset();
+        }
+
+        // Invalidate so that the view will refresh with the changes
+        invalidate();
+    }
+
+    /**
+     * SetPaintColor
+     * Sets the color of the paint to another color
+     */
+    public void randomizeCurrentColor() {
+        int randomColor = _currentColor;
+        Random rand = new Random();
+
+        while (randomColor == _currentColor) {
+            switch (rand.nextInt(5) + 1) {
+                case 1: {
+                    randomColor = Color.MAGENTA; // Color.parseColor("#8CCC2800");// Lime Green
+                    break;
+                }
+                case 2: {
+                    randomColor = Color.BLUE; // Color.parseColor("#FF833300"); // Orange
+                    break;
+                }
+                case 3: {
+                    randomColor = Color.GREEN; // Color.parseColor("#33AFFF00"); // Sky Blue
+                    break;
+                }
+                case 4: {
+                    randomColor = Color.RED; // Color.parseColor("#FF33AF00"); // Pink
+                    break;
+                }
+                case 5: {
+                    randomColor = Color.CYAN; // Color.parseColor("#BA28CC00"); // Purple
+                    break;
+                }
+                default: {
+                    randomColor = Color.RED;
+                    break;
+                }
+            }
+        }
+
+        _paint.setColor(randomColor);
     }
 }

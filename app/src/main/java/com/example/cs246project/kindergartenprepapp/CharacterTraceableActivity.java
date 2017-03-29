@@ -87,12 +87,21 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
     abstract protected void setTraceBackgroundFromValues(List<String> values);
 
     /**
-     * Clear Draw View
-     * Clears all the tracing from the _drawView.
+     * Clear Last Tracing
+     * Clears the last tracing by the user from the _drawView.
      * @param view the button that caused this action to be called
      */
-    public void clearDrawView(View view) {
-        _drawView.clearView();
+    public void clearLastTracing(View view) {
+        _drawView.clearPreviousPath();
+    }
+
+    /**
+     * Clear All Tracings
+     * Clears all the tracings by the user from the _drawView.
+     * @param view the button that caused this action to be called
+     */
+    public void clearAllTracings(View view) {
+        _drawView.clearAllPaths();
     }
 
     /**
@@ -134,7 +143,7 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
     public void goToNextValue(View view) {
         if (!_model.isComplete()) {
             _model.goToNextValue();
-            clearDrawView(view);
+            clearAllTracings(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
             playCurrentValueAudio();
             FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
@@ -163,7 +172,7 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
     public void goToPreviousValue(View view) {
         if (!_model.isAtBeginning()) {
             _model.goToPreviousValue();
-            clearDrawView(view);
+            clearAllTracings(view);
             setTraceBackgroundFromValues(_model.getCurrentValues());
             playCurrentValueAudio();
             FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
