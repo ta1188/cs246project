@@ -52,30 +52,14 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         SharedPreferences settings = this.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
 
-        if (_model.hasFirstName()) {
 
-            viewSetUp();
-            // Disable the buttons
-            disableQuestionButtons(true);
-            // Update shared preferences
-            editor.putString(AppConstants.sharePreferenceUpdatingName, "false");
+        viewSetUp();
+        // Disable the buttons
+        disableQuestionButtons(true);
 
-            // display toast and show for the duration of the instructions
-            displayInstructionToast();
-            playInstructions(_model.getActivityInstructionsIndex());
-
-        } else {
-            // Update shared preferences
-            editor.putString(AppConstants.sharePreferenceUpdatingName, "true");
-            editor.commit();
-
-
-
-            // Redirect to main activity for entry of name
-            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-            startActivity(intent);
-            displayMissingNameToast();
-        }
+        // display toast and show for the duration of the instructions
+        displayInstructionToast();
+        playInstructions(_model.getActivityInstructionsIndex());
     }
 
     protected void resetToLastName() {

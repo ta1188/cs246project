@@ -24,7 +24,6 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
 
     // Find the horizontal scroll view
     private LinearLayout _shape_layout;
-    //private LinearLayout layout_bottom;
     private ProgressBar _progBar;
     private boolean wasTrue = false;
     private boolean isFirstTime = true;
