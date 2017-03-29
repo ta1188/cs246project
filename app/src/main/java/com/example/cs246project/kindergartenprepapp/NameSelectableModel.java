@@ -198,7 +198,7 @@ public class NameSelectableModel extends SelectableModel {
         //    otherwise would result in endless loop in random activity
         if (!_isActivityDone) {
             // get random values with its parameters
-            randomValues = randomValuesNameGenerator();
+            randomValues = randomValuesGenerator();
         }
         else {
             Log.w(TAG, "generateButtonList: able to generate random values " +
@@ -245,7 +245,8 @@ public class NameSelectableModel extends SelectableModel {
      * Values are unique that are not used again if already answered.
      * @return set random random values to be used for media association and buttons
      */
-    protected List<Character> randomValuesNameGenerator() {
+    @Override
+    protected List<Character> randomValuesGenerator() {
 
         List<Character> valueList = new ArrayList<>();
         Random randomValueRetriever = new Random();
