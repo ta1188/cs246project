@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -76,11 +77,16 @@ public class SightWordTraceableActivity extends SkipTapActivity {
         for (int i = 0; i < _model.getCurrentValues().size(); i++) {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(_model.getCurrentValues().get(i));
-            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(_characterWidth, _characterWidth);
+            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             imageView.setLayoutParams(layoutParams);
             imageView.setAlpha(0.5f);
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            imageView.setAdjustViewBounds(true);
+
             layout.addView(imageView);
         }
+
+        //layout.getLayoutParams().width = _model.getNumberOfCharacters() * _characterWidth;
     }
 
     /**
