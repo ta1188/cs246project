@@ -61,10 +61,8 @@ public class NameSelectableModel extends SelectableModel {
         super(context);
         // get full name from shared preferences
         _sharedPreferences = _context.getSharedPreferences("SETTINGS", MODE_PRIVATE);
-        _firstName = _sharedPreferences.getString("FIRST_NAME", ""); // FIX 'NAME' to reference
-                                                                     //    'FIRST_NAME'
-        _lastName = _sharedPreferences.getString("LAST_NAME", "");   // FIX 'NAME' to reference
-                                                                     //    'LAST_NAME'
+        _firstName = _sharedPreferences.getString("FIRST_NAME", "");
+        _lastName = _sharedPreferences.getString("LAST_NAME", "");
 
         // determine proper set up of answer bank based on name requested
         switch (whichName) {
@@ -108,11 +106,6 @@ public class NameSelectableModel extends SelectableModel {
     }
 
     /* METHODS */
-
-    public Boolean hasFirstName() {
-        return (_firstName.length() > 0);
-    }
-
     public Boolean hasLastName() {
         return (_lastName.length() > 0);
     }

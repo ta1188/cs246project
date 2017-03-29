@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * The Login Activity where the user will enter their name to be used in the app's "activities".
@@ -49,22 +50,20 @@ public class MainActivity extends AppCompatActivity {
         EditText firstNameField = (EditText) findViewById(R.id.playerFirstName);
         EditText lastNameField = (EditText) findViewById(R.id.playerLastName);
 
-        // will save the name value
-        editor.putString(AppConstants.sharePreferenceFirstName, firstNameField.getText().toString());
+        // Check if a first name value was entered
+        if (firstNameField.getText().length() == 0) {
+            editor.putString(AppConstants.sharePreferenceFirstName, "SkipTap");
+        } else {
+            // will save the name value
+            editor.putString(AppConstants.sharePreferenceFirstName, firstNameField.getText().toString());
+        }
+        
         editor.putString(AppConstants.sharePreferenceLastName, lastNameField.getText().toString());
         editor.commit();
 
-        String wasUpdating = settings.getString(AppConstants.sharePreferenceUpdatingName, "");
-
-        if (wasUpdating == "true") {
-            // create intent to start menu activity
-            Intent nameIntent = new Intent(getBaseContext(), NameSelectable.class);
-            startActivity(nameIntent);
-        } else {
-            // create intent to start menu activity
-            Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-            startActivity(intent);
-        }
+        // create intent to start menu activity
+        Intent intent = new Intent(getBaseContext(), MenuActivity.class);
+        startActivity(intent);
     }
 
     @Override
