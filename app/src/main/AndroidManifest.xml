@@ -26,6 +26,9 @@
             android:name=".NameTraceableActivity"
             android:screenOrientation="landscape" />
         <activity
+            android:name=".ShapeTraceableActivity"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".SightWordTraceableActivity"
             android:screenOrientation="landscape" />
         <activity

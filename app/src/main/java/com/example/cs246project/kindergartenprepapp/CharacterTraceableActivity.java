@@ -54,10 +54,6 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
         }
 
         playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
-
-        TextView myTextView=(TextView)findViewById(R.id.textView);
-        Typeface typeFace=Typeface.createFromAsset(getAssets(),"penmanship_print.ttf");
-        myTextView.setTypeface(typeFace);
     }
 
     @Override

@@ -12,7 +12,9 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/selectableLayout"
         android:layout_width="400dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp">
         <ImageView
             android:id="@+id/shapeSelectableBtn"
             android:layout_width="106dp"
@@ -55,7 +57,7 @@
 
     <android.support.constraint.ConstraintLayout
             android:id="@+id/drawableLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -63,10 +65,10 @@
             app:layout_constraintTop_toBottomOf="@+id/selectableLayout">
 
             <ImageView
-                android:id="@+id/letterTraceButton"
+                android:id="@+id/shapeTraceButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:onClick="sendToLetterTraceActivity"
+                android:onClick="sendToShapeTraceActivity"
                 android:text="Letter Trace"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

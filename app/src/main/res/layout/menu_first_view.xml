@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/selectableLayout">
 
         <ImageView
-            android:id="@+id/letterTraceButton"
+            android:id="@+id/shapeTraceButton"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:onClick="sendToLetterTraceActivity"
@@ -84,7 +84,7 @@
             android:onClick="sendToNumberTraceActivity"
             android:text="Number Trace"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/letterTraceButton"
+            app:layout_constraintLeft_toRightOf="@+id/shapeTraceButton"
             app:layout_constraintRight_toLeftOf="@+id/nameTraceButton"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/activity_btn_number" />
