@@ -34,14 +34,8 @@ public class SightWordTraceableActivity extends SkipTapActivity {
     // The view control that allows the user to trace on a transparent canvas.
     private DrawView _drawView;
 
-    // The pixel height/width of each image view (set dynamically).
-    int _imageViewWidthHeight;
-
-    // The pixel height of the views/layouts for tracing (set dynamically).
-    int _layoutHeight;
-
-    // The pixel width of the views/layouts for tracing (set dynamically).
-    int _layoutWidth;
+    // Width of the characters in pixels.
+    private static int _characterWidth = AppConstants.characterTracingImageWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +76,7 @@ public class SightWordTraceableActivity extends SkipTapActivity {
         for (int i = 0; i < _model.getCurrentValues().size(); i++) {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(_model.getCurrentValues().get(i));
-            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(500, 500);
+            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(_characterWidth, _characterWidth);
             imageView.setLayoutParams(layoutParams);
             imageView.setAlpha(0.5f);
             layout.addView(imageView);

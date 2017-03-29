@@ -34,7 +34,7 @@ public class NameTraceableActivity extends SkipTapActivity {
     private DrawView _drawView;
 
     // Width of the characters in pixels.
-    private static int _characterWidth = 500;
+    private static int _characterWidth = AppConstants.characterTracingImageWidth;
 
     // Total width of the traceable area (length of the character * 300dp).
     private int _totalWidth;
