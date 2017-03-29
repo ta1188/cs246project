@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
  * @author Trevor Adams
  * edits Michael Lucero
  * */
-public class ShapeSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
+public class ShapeSelectable2 extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private ShapeSelectableModel _model;
@@ -30,7 +30,6 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
     private boolean isFirstTime = true;
     Context context = this;
     private Button _shapeButton;
-    private ImageView imageView;
     private MediaPlayer _mainButtonMediaPlayer;
 
     int count = 1;
@@ -79,7 +78,7 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
             btn.setPadding(5, 5, 5, 5);
             btn.setElevation(10);
             ((ViewGroup.MarginLayoutParams) btn.getLayoutParams()).setMargins(10, 5, 30, 5);
-            btn.setBackgroundColor(Color.TRANSPARENT);
+            btn.setBackgroundColor(Color.parseColor(_model.getBtnColor()));
 
             _shape_layout.addView(btn);
         }
@@ -121,7 +120,7 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
 
     private void playMainImageSound() {
         String answer = "shape_" + _model.getAnswer();
-        int soundId = getResources().getIdentifier(answer, "raw", getPackageName()); // todo need to get correct audio resource
+        int soundId = getResources().getIdentifier("a", "raw", getPackageName()); // todo need to get correct audio resource
         _mainButtonMediaPlayer = MediaPlayer.create(this, soundId);
 
         // Release main image audio after it is no longer playing
@@ -144,12 +143,8 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
     }
 
     private void setAnswerButtonValue() {
-        // Grab the text of answer
-        String btnName = _model.getAnswer();
-        // Capitalize first character
-        btnName = Character.toUpperCase(btnName.charAt(0)) + btnName.substring(1);
-        // Set button
-        _shapeButton.setText(btnName);
+        // Grab the text and set field of button
+        _shapeButton.setText(_model.getAnswer());
 
         if (!isFirstTime) {
             playMainImageSound();
