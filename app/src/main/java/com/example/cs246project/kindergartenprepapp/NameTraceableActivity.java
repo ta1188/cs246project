@@ -1,5 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
@@ -8,8 +9,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -84,9 +87,12 @@ public class NameTraceableActivity extends SkipTapActivity {
         for (int i = 0; i < _model.getValues().size(); i++) {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(_model.getValues().get(i));
-            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(_characterWidth, _characterWidth);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             imageView.setLayoutParams(layoutParams);
             imageView.setAlpha(0.5f);
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            imageView.setAdjustViewBounds(true);
+
             letterLayout.addView(imageView);
         }
     }

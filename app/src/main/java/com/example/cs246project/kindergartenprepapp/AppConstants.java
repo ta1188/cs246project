@@ -11,5 +11,5 @@ public class AppConstants {
     public static final String sharePreferenceLastName = "LAST_NAME";
     public static final String sharePreferenceMusicPlayable = "IS_MUSIC_PLAYABLE";
     public static final String sharePreferenceUpdatingName = "false";
-    public static final int    characterTracingImageWidth = 375;
+    public static final int    characterTracingImageWidth = 250;
 }
