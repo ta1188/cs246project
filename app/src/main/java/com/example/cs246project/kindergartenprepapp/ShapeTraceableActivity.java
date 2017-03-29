@@ -19,7 +19,7 @@ public class ShapeTraceableActivity extends CharacterTraceableActivity {
     }
 
     protected void initializeLayoutIndex() {
-        setContentView(R.layout.single_image_traceable_activity);
+        setContentView(R.layout.shape_traceable_activity);
     }
 
     protected void initializeDrawView() {

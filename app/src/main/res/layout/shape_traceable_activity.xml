@@ -114,12 +114,13 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
+        android:alpha=".5"
         app:layout_constraintBottom_toTopOf="@+id/btnClear"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/drawView"
         app:layout_constraintTop_toTopOf="@+id/drawView"
         app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/activity_btn_count" />
+        app:srcCompat="@drawable/shape_outline_circle" />
 
     <com.example.cs246project.kindergartenprepapp.DrawView
         android:id="@+id/drawView"
