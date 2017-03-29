@@ -1,6 +1,5 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,7 +11,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 /**
  * An Activity that allows the user to trace letters in the alphabet, numbers, or words (including

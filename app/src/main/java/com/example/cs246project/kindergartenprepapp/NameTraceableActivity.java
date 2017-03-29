@@ -28,7 +28,7 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NameTraceableActivity extends SkipTapActivity implements Runnable {
+public class NameTraceableActivity extends SkipTapActivity {
 
     // Model object for managing the name character values.
     private NameTraceableModel _model;
@@ -37,12 +37,12 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
     private DrawView _drawView;
 
     //
-    private AppCompatImageView _singleImageView;
+    private ConstraintLayout _previewLayout;
 
     // Width of the characters in pixels.
     private static int _characterWidth = AppConstants.characterTracingImageWidth;
 
-    // Total width of the traceable area (length of the character * 300dp).
+    // Total width of the traceable area (length of the character * _characterWidth).
     private int _totalWidth;
 
     @Override
@@ -77,49 +77,37 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
      */
     private void setTraceBackgroundFromValues() {
         LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
+        LinearLayout previewLetterLayout = (LinearLayout) findViewById(R.id.previewLetterLayout);
 
         for (int i = 0; i < _model.getValues().size(); i++) {
+            // Actual image view
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(_model.getValues().get(i));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             imageView.setLayoutParams(layoutParams);
             imageView.setAlpha(0.5f);
-            imageView.setScaleType(ImageView.ScaleType.CENTER);
             imageView.setAdjustViewBounds(true);
 
+            // Preview
+            AppCompatImageView previewImageView = new AppCompatImageView(this);
+            previewImageView.setImageResource(_model.getValues().get(i));
+            LinearLayout.LayoutParams previewLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            previewImageView.setLayoutParams(previewLayoutParams);
+            previewImageView.setAlpha(0.5f);
+            previewImageView.setAdjustViewBounds(true);
+
             letterLayout.addView(imageView);
+            previewLetterLayout.addView(previewImageView);
         }
 
         _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
 
+        letterLayout.getLayoutParams().width = _totalWidth;
+        previewLetterLayout.getLayoutParams().width = _totalWidth;
+
         DrawView drawView = (DrawView) findViewById(R.id.drawView);
         drawView.getLayoutParams().width = _totalWidth;
 
-        letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
-        letterLayout.getLayoutParams().width = _totalWidth;
-
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
-        layout.getLayoutParams().width = _totalWidth;
-
-    }
-
-    /**
-     * Run
-     * Used after dynamically getting the runtime height of the _framelayout so the background images
-     * and _drawView can be sized appropriately.
-     */
-    @Override
-    public void run() {
-        if (_singleImageView != null) {
-            _characterWidth = _singleImageView.getWidth();
-            _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
-
-            LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
-            letterLayout.getLayoutParams().width = _totalWidth;
-
-            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
-            layout.getLayoutParams().width = _totalWidth;
-        }
     }
 
     /**
@@ -127,10 +115,12 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
      * @param view The view that activated the function (e.g. button)
      */
     public void goToNextValue(View view) {
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.drawViewContainer);
+        LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
         int x = layout.getScrollX() + _characterWidth;
         if (x < (_totalWidth)) {
             layout.scrollTo(x, 0);
+            letterLayout.scrollTo(x, 0);
         }
 
         FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
@@ -156,10 +146,12 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
      * @param view The view that activated the function (e.g. button)
      */
     public void goToPreviousValue(View view) {
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
+        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.drawViewContainer);
+        LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
         int x = layout.getScrollX() - _characterWidth;
         if (x >= 0) {
             layout.scrollTo(x, 0);
+            letterLayout.scrollTo(x, 0);
         }
 
         FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);

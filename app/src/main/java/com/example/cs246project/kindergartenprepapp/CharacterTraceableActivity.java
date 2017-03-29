@@ -1,13 +1,11 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
 import java.util.List;
 
