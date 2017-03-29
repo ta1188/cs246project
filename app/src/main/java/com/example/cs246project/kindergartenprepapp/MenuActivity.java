@@ -221,6 +221,9 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void backToMainActivity (View view) {
+        this.finish();
+    }
     public void progressMenu (View view) {
         Log.d("MenuActivity", "This will progress the menu");
     }

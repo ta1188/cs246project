@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             // will save the name value
             editor.putString(AppConstants.sharePreferenceFirstName, firstNameField.getText().toString());
         }
-        
+
         editor.putString(AppConstants.sharePreferenceLastName, lastNameField.getText().toString());
         editor.commit();
 
