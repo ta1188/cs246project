@@ -237,23 +237,23 @@ public class DrawView extends View {
         while (randomColor == _currentColor) {
             switch (rand.nextInt(5) + 1) {
                 case 1: {
-                    randomColor = Color.MAGENTA; // Color.parseColor("#8CCC2800");// Lime Green
+                    randomColor = Color.parseColor("#8CCC28");// Lime Green
                     break;
                 }
                 case 2: {
-                    randomColor = Color.BLUE; // Color.parseColor("#FF833300"); // Orange
+                    randomColor = Color.parseColor("#FF8333"); // Orange
                     break;
                 }
                 case 3: {
-                    randomColor = Color.GREEN; // Color.parseColor("#33AFFF00"); // Sky Blue
+                    randomColor = Color.parseColor("#33AFFF"); // Sky Blue
                     break;
                 }
                 case 4: {
-                    randomColor = Color.RED; // Color.parseColor("#FF33AF00"); // Pink
+                    randomColor = Color.parseColor("#FF33AF"); // Pink
                     break;
                 }
                 case 5: {
-                    randomColor = Color.CYAN; // Color.parseColor("#BA28CC00"); // Purple
+                    randomColor = Color.parseColor("#BA28CC"); // Purple
                     break;
                 }
                 default: {
