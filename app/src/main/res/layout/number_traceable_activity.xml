@@ -9,7 +9,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="com.example.cs246project.kindergartenprepapp.LetterTraceableActivity">
+    tools:context="com.example.cs246project.kindergartenprepapp.NumberTraceableActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnClear"
@@ -128,57 +128,33 @@
         app:layout_constraintVertical_bias="0.461"
         app:srcCompat="@drawable/lines_long_svg" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/lettersLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/imageView"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
+        android:alpha=".5"
         app:layout_constraintBottom_toTopOf="@+id/btnClear"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/drawView"
         app:layout_constraintTop_toTopOf="@+id/drawView"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/upperLetter"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginRight="0dp"
-            android:alpha=".5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/lowerLetter"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            app:srcCompat="@drawable/upper_a" />
-
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/lowerLetter"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:alpha=".5"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5"
-            app:srcCompat="@drawable/lower_a" />
-
-    </android.support.constraint.ConstraintLayout>
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/number_0" />
 
     <com.example.cs246project.kindergartenprepapp.DrawView
         android:id="@+id/drawView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnClear"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

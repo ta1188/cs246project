@@ -19,7 +19,7 @@ public class NumberTraceableActivity extends CharacterTraceableActivity {
     }
 
     protected void initializeLayoutIndex() {
-        setContentView(R.layout.single_image_traceable_activity);
+        setContentView(R.layout.number_traceable_activity);
     }
 
     protected void initializeDrawView() {
@@ -32,8 +32,5 @@ public class NumberTraceableActivity extends CharacterTraceableActivity {
 
         // Set the view image
         imageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(0), "drawable", getPackageName()));
-
-        // Set the view opacity
-        imageView.setAlpha(0.5f);
     }
 }
