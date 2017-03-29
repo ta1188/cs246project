@@ -1,7 +1,9 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -45,6 +47,7 @@ public class WordSelectable extends SkipTapActivity implements View.OnTouchListe
         layout_top = (LinearLayout) findViewById(R.id.layout_word_top);
         layout_bottom = (LinearLayout) findViewById(R.id.layout_word_bottom);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
+        _progBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(AppConstants.progressBarColor)));
 
         // set up model for 4 question buttons and random choices
         _model = new WordSelectableModel(this, 4);

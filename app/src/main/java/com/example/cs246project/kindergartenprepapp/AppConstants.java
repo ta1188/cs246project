@@ -11,4 +11,5 @@ public class AppConstants {
     public static final String sharePreferenceLastName = "LAST_NAME";
     public static final String sharePreferenceMusicPlayable = "IS_MUSIC_PLAYABLE";
     public static final int    characterTracingImageWidth = 500;
+    public static final String progressBarColor = "#0091ea";
 }

@@ -1,6 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
         _shape_layout = (LinearLayout) findViewById(R.id.shape_layout);
         ////layout_bottom = (LinearLayout) findViewById(R.id.layout_word_bottom);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
+        _progBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(AppConstants.progressBarColor)));
+
 
         // set up model for 4 question buttons and random choices
         _model = new ShapeSelectableModel(this, 4);
