@@ -97,8 +97,15 @@ public class SightWordTraceableModel {
      * Gets the filename of each character in _values (e.g. characters in name);
      * @return a list of values (1 or more).
      */
-    public String getCurrentValues() {
-        return _valueBank.get(_currentValueIndex);
+    public List<Integer> getCurrentValues() {
+        List<Integer> result = new ArrayList<>();
+
+        for(int i = 0; i < _valueBank.get(_currentValueIndex).length(); i++) {
+            String filename = "lower_" + (Character)_valueBank.get(_currentValueIndex).charAt(i);
+            result.add(_context.getResources().getIdentifier(filename, "drawable", _context.getPackageName()));
+        }
+
+        return result;
     }
 
     /**

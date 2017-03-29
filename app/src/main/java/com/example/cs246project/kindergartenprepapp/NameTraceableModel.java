@@ -40,8 +40,30 @@ public class NameTraceableModel {
      * Gets the filename of each character in _values (e.g. characters in name);
      * @return a list of values (1 or more).
      */
-    public String getValues() {
-        return _firstName + _lastName;
+    public List<Integer> getValues() {
+        List<Integer> result = new ArrayList<>();
+
+        // Get indexes of first name
+        for (int i = 0; i < _firstName.length(); i++) {
+            Character character = _firstName.charAt(i);
+            if (Character.isUpperCase(character)) {
+                result.add(_context.getResources().getIdentifier("upper_" + character.toLowerCase(character), "drawable", _context.getPackageName()));
+            } else {
+                result.add(_context.getResources().getIdentifier("lower_" + character, "drawable", _context.getPackageName()));
+            }
+        }
+
+        // Get indexes of last name
+        for (int i = 0; i < _lastName.length(); i++) {
+            Character character = _lastName.charAt(i);
+            if (Character.isUpperCase(character)) {
+                result.add(_context.getResources().getIdentifier("upper_" + character.toLowerCase(character), "drawable", _context.getPackageName()));
+            } else {
+                result.add(_context.getResources().getIdentifier("lower_" + character, "drawable", _context.getPackageName()));
+            }
+        }
+
+        return result;
     }
 
     /**

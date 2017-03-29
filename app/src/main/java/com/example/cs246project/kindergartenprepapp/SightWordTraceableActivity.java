@@ -3,11 +3,14 @@ package com.example.cs246project.kindergartenprepapp;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -54,10 +57,6 @@ public class SightWordTraceableActivity extends SkipTapActivity {
         // Set the _drawView
         _drawView = (DrawView) findViewById(R.id.drawView);
 
-        TextView myTextView = (TextView)findViewById(R.id.textView);
-        Typeface typeFace = Typeface.createFromAsset(getAssets(),"penmanship_print.ttf");
-        myTextView.setTypeface(typeFace);
-
         // Build the background images from the traceCharacters
         setTraceBackgroundFromValues();
 
@@ -77,8 +76,17 @@ public class SightWordTraceableActivity extends SkipTapActivity {
      * Sets the background trace images using a list of string values (file names).
      */
     private void setTraceBackgroundFromValues() {
-        TextView myTextView=(TextView)findViewById(R.id.textView);
-        myTextView.setText(_model.getCurrentValues());
+        LinearLayout layout = (LinearLayout) findViewById(R.id.letterLayout);
+        layout.removeAllViews();
+
+        for (int i = 0; i < _model.getCurrentValues().size(); i++) {
+            AppCompatImageView imageView = new AppCompatImageView(this);
+            imageView.setImageResource(_model.getCurrentValues().get(i));
+            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(500, 500);
+            imageView.setLayoutParams(layoutParams);
+            imageView.setAlpha(0.5f);
+            layout.addView(imageView);
+        }
     }
 
     /**

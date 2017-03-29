@@ -3,12 +3,17 @@ package com.example.cs246project.kindergartenprepapp;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * An Activity that allows the user to trace letters in the alphabet, numbers, or words (including
@@ -29,7 +34,7 @@ public class NameTraceableActivity extends SkipTapActivity {
     private DrawView _drawView;
 
     // Width of the characters in pixels.
-    private static int _characterWidth = 300;
+    private static int _characterWidth = 500;
 
     // Total width of the traceable area (length of the character * 300dp).
     private int _totalWidth;
@@ -47,7 +52,7 @@ public class NameTraceableActivity extends SkipTapActivity {
         _drawView = (DrawView) findViewById(R.id.drawView);
 
         // Build the background images from the traceCharacters
-        setTraceBackgroundFromValues(_model.getValues());
+        setTraceBackgroundFromValues();
 
         playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
 
@@ -58,17 +63,13 @@ public class NameTraceableActivity extends SkipTapActivity {
         // Hide button if the activity isn't already complete
         FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
         doneButton.setVisibility(View.INVISIBLE);
-
-        TextView myTextView=(TextView)findViewById(R.id.textView);
-        Typeface typeFace=Typeface.createFromAsset(getAssets(),"penmanship_print.ttf");
-        myTextView.setTypeface(typeFace);
     }
 
     /**
      * Set Trace Background From Values
      * Sets the background trace images using a list of string values (file names).
      */
-    private void setTraceBackgroundFromValues(String values) {
+    private void setTraceBackgroundFromValues() {
         _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
 
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
@@ -77,9 +78,17 @@ public class NameTraceableActivity extends SkipTapActivity {
         DrawView drawView = (DrawView) findViewById(R.id.drawView);
         drawView.getLayoutParams().width = _totalWidth;
 
-        TextView myTextView=(TextView)findViewById(R.id.textView);
-        myTextView.getLayoutParams().width = _totalWidth;
-        myTextView.setText(values);
+        LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
+        letterLayout.getLayoutParams().width = _totalWidth;
+
+        for (int i = 0; i < _model.getValues().size(); i++) {
+            AppCompatImageView imageView = new AppCompatImageView(this);
+            imageView.setImageResource(_model.getValues().get(i));
+            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(_characterWidth, _characterWidth);
+            imageView.setLayoutParams(layoutParams);
+            imageView.setAlpha(0.5f);
+            letterLayout.addView(imageView);
+        }
     }
 
     /**
@@ -88,8 +97,8 @@ public class NameTraceableActivity extends SkipTapActivity {
      */
     public void goToNextValue(View view) {
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.text_and_draw_view_container);
-        int x = layout.getScrollX() + 300;
-        if (x < (_totalWidth - 300)) {
+        int x = layout.getScrollX() + _characterWidth;
+        if (x < (_totalWidth)) {
             layout.scrollTo(x, 0);
         }
 
@@ -100,7 +109,7 @@ public class NameTraceableActivity extends SkipTapActivity {
             previousButton.startAnimation(fadeIn);
         }
 
-        if (x >= (_totalWidth - (_characterWidth * 3))) {
+        if (x >= (_totalWidth - (_characterWidth * 2))) {
             FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
             nextButton.setVisibility(View.INVISIBLE);
 

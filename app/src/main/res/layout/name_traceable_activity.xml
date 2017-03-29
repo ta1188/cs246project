@@ -105,6 +105,28 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginEnd="50dp" />
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/lines"
+        android:layout_width="5940dp"
+        android:layout_height="300dp"
+        android:layout_margin="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:adjustViewBounds="false"
+        android:alpha=".7"
+        android:cropToPadding="false"
+        android:paddingRight="0dp"
+        android:paddingStart="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnClear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.461"
+        app:srcCompat="@drawable/lines_long_svg" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/text_and_draw_view_container"
         android:layout_width="wrap_content"
@@ -123,19 +145,17 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView"
+        <LinearLayout
+            android:id="@+id/letterLayout"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:ellipsize="marquee"
-            android:gravity="left|center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:textSize="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/drawView"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/drawView"></LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
 
