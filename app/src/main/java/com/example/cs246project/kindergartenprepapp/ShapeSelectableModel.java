@@ -134,7 +134,7 @@ public class ShapeSelectableModel extends SelectableModel {
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
 
             // retrieve letter audio // TODO: 3/26/17 get correct audio files
-            int audioFileResourceIndex1 = _context.getResources().getIdentifier("a", "raw", _context.getPackageName());
+            int audioFileResourceIndex1 = _context.getResources().getIdentifier("shape_" + value, "raw", _context.getPackageName());
             audioFileResourceIndexes.add(audioFileResourceIndex1);
 
             // used to make the motivations different each time
