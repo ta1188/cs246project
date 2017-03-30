@@ -140,7 +140,7 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
                 // Get the letter index for the letter of the name selected
                 int resourceIndex;
                 if (position == 0) {
-                    resourceIndex = getResources().getIdentifier("upper_" + mediaButton.getValue().toString().toLowerCase(), "drawable", getPackageName());
+                    resourceIndex = getResources().getIdentifier("upper_wide_" + mediaButton.getValue().toString().toLowerCase(), "drawable", getPackageName());
                 } else {
                     resourceIndex = getResources().getIdentifier("lower_" + mediaButton.getValue().toString().toLowerCase(), "drawable", getPackageName());
                 }

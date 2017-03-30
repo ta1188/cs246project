@@ -214,11 +214,11 @@ public class NameSelectableModel extends SelectableModel {
             char tempLetter = value;
             if (Character.isUpperCase(tempLetter)) {
                // get the image resource for name
-               imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value.toString().toLowerCase(), "drawable", _context.getPackageName());
+               imageFileResourceIndex = _context.getResources().getIdentifier("upper_wide_" + value.toString().toLowerCase(), "drawable", _context.getPackageName());
 
             } else { // lowercase
                 // get the image resource for name
-                imageFileResourceIndex = _context.getResources().getIdentifier("lower_" + value.toString().toLowerCase(), "drawable", _context.getPackageName());
+                imageFileResourceIndex = _context.getResources().getIdentifier("lower_wide_" + value.toString().toLowerCase(), "drawable", _context.getPackageName());
             }
 
             // get the audio resource for name

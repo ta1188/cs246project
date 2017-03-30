@@ -117,7 +117,7 @@ public class CountSelectableModel extends SelectableModel {
         for (Integer value : randomValues) {
 
             // set the picture to match the number
-            int imageFileResourceIndex = _context.getResources().getIdentifier("number_" + String.valueOf(value), "drawable", _context.getPackageName());
+            int imageFileResourceIndex = _context.getResources().getIdentifier("number_wide_" + String.valueOf(value), "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
 
             // number name

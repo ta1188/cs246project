@@ -116,7 +116,7 @@ public class WordSelectableModel extends SelectableModel {
         for (Character value : randomValues) {
 
             // set the picture to match the letter sound
-            int imageFileResourceIndex = _context.getResources().getIdentifier("upper_" + value.toString(), "drawable", _context.getPackageName());
+            int imageFileResourceIndex = _context.getResources().getIdentifier("upper_wide_" + value.toString(), "drawable", _context.getPackageName());
             List<Integer> audioFileResourceIndexes = new ArrayList<>();
 
             // retrieve letter audio
