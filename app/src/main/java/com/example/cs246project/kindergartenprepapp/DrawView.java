@@ -102,6 +102,9 @@ public class DrawView extends View {
                 canvas.drawPath(_paths.get(i), _paint);
             }
         }
+
+        // Invalidate so that the view will refresh with the changes
+        invalidate();
     }
 
     @Override
@@ -189,6 +192,23 @@ public class DrawView extends View {
     }
 
     /**
+     * Get the _paths drawn on the canvas.
+     * @return the drawn paths
+     */
+    public List<Path> getPaths() {
+        return _paths;
+    }
+
+    /**
+     * Get the _paths drawn on the canvas.
+     * @return the drawn paths
+     */
+    public void setPaths(List<Path> paths) {
+        _paths = paths;
+        draw(_canvas);
+    }
+
+    /**
      * ClearPreviousPath
      * Clears the view of the last path drawn
      */
@@ -197,7 +217,7 @@ public class DrawView extends View {
         _path.reset();
 
         // Remove that path from the _paths
-        if (!_paths.isEmpty()) {
+        if (!_paths.isEmpty() && _currentPathIndex < _paths.size() && _currentPathIndex >= 0) {
             _paths.remove(_currentPathIndex);
             --_currentPathIndex;
         }

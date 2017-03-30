@@ -36,6 +36,8 @@ public class NumberTraceableModel extends CharacterTraceableModel {
             _valueBank.add((Character.valueOf((char) i)).toString());
         }
         _valueBank.add("10");
+
+        super.generateValueBank();
     }
 
     /**

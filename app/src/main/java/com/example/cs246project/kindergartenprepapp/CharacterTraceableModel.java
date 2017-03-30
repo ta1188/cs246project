@@ -1,6 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
+import android.graphics.Path;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,13 @@ abstract public class CharacterTraceableModel {
     Context _context;
 
     // Instruction audio file resource index
-    protected int _instructionsAudioFileResouceIndex;
+    protected int _instructionsAudioFileResourceIndex;
 
     // A bank of values in which the activity uses.
     protected List<String> _valueBank;
+
+    // A list of drawn Paths corresponding to values in the _valueBank
+    protected List<List<Path>> _valuePaths;
 
     // The current index in the _valueBank.
     protected int _currentValueIndex;
@@ -35,7 +39,7 @@ abstract public class CharacterTraceableModel {
         _context = context;
         generateValueBank();
         _currentValueIndex = 0;
-        _instructionsAudioFileResouceIndex = context.getResources().getIdentifier(getInstructionsFileName(), "raw", _context.getPackageName());
+        _instructionsAudioFileResourceIndex = context.getResources().getIdentifier(getInstructionsFileName(), "raw", _context.getPackageName());
     }
 
     /**
@@ -49,19 +53,39 @@ abstract public class CharacterTraceableModel {
      * @return the file name of the instructions audio file
      */
     public int getInstructionsAudioFileResouceIndex() {
-        return _instructionsAudioFileResouceIndex;
+        return _instructionsAudioFileResourceIndex;
     }
 
     /**
      * Initializes _values with the appropriate values according to the activity's needs.
      */
-    abstract protected void generateValueBank();
+    protected void generateValueBank() {
+        _valuePaths = new ArrayList<>();
+        for (int i = 0; i < _valueBank.size(); i++) {
+            _valuePaths.add(new ArrayList<Path>());
+        }
+    }
 
     /**
      * Gets the current filename value(s) from _values;
      * @return a list of values (1 or more).
      */
     abstract public List<String> getCurrentValues();
+
+    /**
+     * Gets the current path from for the current value;
+     * @return a list of paths.
+     */
+    public List<Path> getCurrentValuePath() {
+        return _valuePaths.get(_currentValueIndex);
+    }
+
+    /**
+     *
+     */
+    public void setCurrentValuePaths(List<Path> paths) {
+        _valuePaths.set(_currentValueIndex, paths);
+    }
 
     /**
      * Increments to the next value in _values if possible.

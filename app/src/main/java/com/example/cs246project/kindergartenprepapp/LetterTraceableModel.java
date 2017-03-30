@@ -33,6 +33,8 @@ public class LetterTraceableModel extends CharacterTraceableModel {
         for (int i = 97; i < (97 + 26); i++) {
             _valueBank.add((Character.valueOf((char) i)).toString());
         }
+
+        super.generateValueBank();
     }
 
     /**
