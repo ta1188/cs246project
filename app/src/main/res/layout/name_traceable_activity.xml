@@ -164,24 +164,24 @@
     <LinearLayout
         android:id="@+id/letterLayout"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="74dp"
         android:maxHeight="250dp"
         android:minHeight="250dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btnClear"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btnClear">
+        app:layout_constraintTop_toTopOf="parent">
 
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/drawViewContainer"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"

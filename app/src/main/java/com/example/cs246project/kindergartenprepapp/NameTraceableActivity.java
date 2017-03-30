@@ -84,7 +84,9 @@ public class NameTraceableActivity extends SkipTapActivity {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(_model.getValues().get(i));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(0, 5, 15, 2);
             imageView.setLayoutParams(layoutParams);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setAlpha(0.5f);
             imageView.setAdjustViewBounds(true);
 
