@@ -32,5 +32,7 @@ public class NumberTraceableActivity extends CharacterTraceableActivity {
 
         // Set the view image
         imageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(0), "drawable", getPackageName()));
+
+        _drawView.randomizeCurrentColor();
     }
 }

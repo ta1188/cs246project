@@ -35,27 +35,29 @@ public class SightWordTraceableModel {
 
         _valueBank = new ArrayList<String>();
         _valueBank.add("the");
-        _valueBank.add("a");
-        _valueBank.add("for");
         _valueBank.add("of");
-        _valueBank.add("as");
         _valueBank.add("and");
-        _valueBank.add("are");
-        _valueBank.add("is");
-        _valueBank.add("was");
-        _valueBank.add("be");
-        _valueBank.add("at");
+        _valueBank.add("a");
         _valueBank.add("to");
         _valueBank.add("in");
-        _valueBank.add("on");
-        _valueBank.add("he");
-        _valueBank.add("she");
-        _valueBank.add("it");
-        _valueBank.add("his");
-        _valueBank.add("her");
-        _valueBank.add("I");
-        _valueBank.add("me");
+        _valueBank.add("is");
         _valueBank.add("you");
+        _valueBank.add("that");
+        _valueBank.add("it");
+        _valueBank.add("he");
+        _valueBank.add("was");
+        _valueBank.add("for");
+        _valueBank.add("on");
+        _valueBank.add("are");
+        _valueBank.add("as");
+        _valueBank.add("with");
+        _valueBank.add("his");
+        _valueBank.add("they");
+        _valueBank.add("I");
+        _valueBank.add("at");
+        _valueBank.add("this");
+        _valueBank.add("have");
+        _valueBank.add("from");
     }
 
     /**
@@ -101,7 +103,15 @@ public class SightWordTraceableModel {
         List<Integer> result = new ArrayList<>();
 
         for(int i = 0; i < _valueBank.get(_currentValueIndex).length(); i++) {
-            String filename = "lower_" + (Character)_valueBank.get(_currentValueIndex).charAt(i);
+            Character character = (Character)_valueBank.get(_currentValueIndex).charAt(i);
+            String filename = "";
+            if (Character.isUpperCase(character)) {
+                character = (Character)_valueBank.get(_currentValueIndex).toLowerCase().charAt(i);
+                filename = "upper_" + character;
+            } else {
+                filename = "lower_" + character;
+            }
+
             result.add(_context.getResources().getIdentifier(filename, "drawable", _context.getPackageName()));
         }
 

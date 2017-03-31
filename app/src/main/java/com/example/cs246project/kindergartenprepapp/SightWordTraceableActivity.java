@@ -76,6 +76,7 @@ public class SightWordTraceableActivity extends SkipTapActivity {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(_model.getCurrentValues().get(i));
             LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(0, 0, 75, 0);
             imageView.setLayoutParams(layoutParams);
             imageView.setAlpha(0.5f);
             imageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -83,8 +84,7 @@ public class SightWordTraceableActivity extends SkipTapActivity {
 
             layout.addView(imageView);
         }
-
-        //layout.getLayoutParams().width = _model.getNumberOfCharacters() * _characterWidth;
+        _drawView.randomizeCurrentColor();
     }
 
     /**

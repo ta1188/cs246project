@@ -108,8 +108,8 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/lines"
-        android:layout_width="5940dp"
-        android:layout_height="300dp"
+        android:layout_width="2000dp"
+        android:layout_height="250dp"
         android:layout_margin="0dp"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
@@ -126,16 +126,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.461"
-        app:srcCompat="@drawable/lines_long_svg" />
+        app:srcCompat="@drawable/ic_dans_number_lines" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
-        android:layout_height="143dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="239dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
         android:adjustViewBounds="true"
         android:alpha=".5"
         app:layout_constraintBottom_toTopOf="@+id/btnClear"

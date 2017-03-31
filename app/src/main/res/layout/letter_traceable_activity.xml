@@ -106,68 +106,72 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="50dp" />
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/topBuffer"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </android.support.constraint.ConstraintLayout>
+
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/lines"
-        android:layout_width="5940dp"
-        android:layout_height="300dp"
+        android:layout_width="3050dp"
+        android:layout_height="0dp"
         android:layout_margin="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:adjustViewBounds="false"
-        android:alpha=".7"
+        android:alpha=".8"
         android:cropToPadding="false"
         android:paddingRight="0dp"
         android:paddingStart="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnClear"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBuffer"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.461"
-        app:srcCompat="@drawable/lines_long_svg" />
+        app:layout_constraintTop_toBottomOf="@+id/topBuffer"
+        app:srcCompat="@drawable/ic_dans_lines_sized" />
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/lettersLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="74dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnClear"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/drawView"
-        app:layout_constraintTop_toTopOf="@+id/drawView"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintVertical_bias="0.517">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBuffer"
+        app:layout_constraintTop_toBottomOf="@+id/topBuffer"
+        app:layout_constraintStart_toStartOf="@id/activity_trace"
+        app:layout_constraintEnd_toEndOf="@id/activity_trace"
+        tools:layout_editor_absoluteX="8dp">
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/upperLetter"
-            android:layout_width="193dp"
-            android:layout_height="193dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="2dp"
-            android:alpha=".5"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:alpha=".3"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/lowerLetter"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/upper_a" />
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/upper_g" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/lowerLetter"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:layout_marginBottom="1dp"
-            android:alpha=".5"
-            android:maxWidth="125dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:alpha=".3"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/lower_a" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/upperLetter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/lower_g" />
 
     </android.support.constraint.ConstraintLayout>
+
 
     <com.example.cs246project.kindergartenprepapp.DrawView
         android:id="@+id/drawView"
@@ -179,5 +183,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/bottomBuffer"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnClear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
@@ -8,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +31,7 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-public class NameTraceableActivity extends SkipTapActivity {
+public class NameTraceableActivity extends SkipTapActivity implements Runnable {
 
     // Model object for managing the name character values.
     private NameTraceableModel _model;
@@ -36,11 +39,14 @@ public class NameTraceableActivity extends SkipTapActivity {
     // The view control that allows the user to trace on a transparent canvas.
     private DrawView _drawView;
 
-    //
-    private ConstraintLayout _previewLayout;
+    // The layout that contains the letters
+    private LinearLayout _letterLayout;
 
-    // Width of the characters in pixels.
-    private static int _characterWidth = AppConstants.characterTracingImageWidth;
+    // The list of all of the widths of each character image view
+    private List<Integer> _characterWidths;
+
+    // The index of the character showing farthest left on the screen
+    private int _currentCharacterIndex;
 
     // Total width of the traceable area (length of the character * _characterWidth).
     private int _totalWidth;
@@ -56,6 +62,11 @@ public class NameTraceableActivity extends SkipTapActivity {
 
         // Set the _drawView
         _drawView = (DrawView) findViewById(R.id.drawView);
+
+        // Initialize variables dealing with width/scrolling
+        _characterWidths = new ArrayList<>();
+        _totalWidth = 0;
+        _currentCharacterIndex = 0;
 
         // Build the background images from the traceCharacters
         setTraceBackgroundFromValues();
@@ -76,7 +87,7 @@ public class NameTraceableActivity extends SkipTapActivity {
      * Sets the background trace images using a list of string values (file names).
      */
     private void setTraceBackgroundFromValues() {
-        LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
+        _letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
         LinearLayout previewLetterLayout = (LinearLayout) findViewById(R.id.previewLetterLayout);
 
         for (int i = 0; i < _model.getValues().size(); i++) {
@@ -84,32 +95,59 @@ public class NameTraceableActivity extends SkipTapActivity {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(_model.getValues().get(i));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(0, 5, 15, 2);
+            layoutParams.setMargins(0, 0, 75, 0);
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setAlpha(0.5f);
+            imageView.setAlpha(0.3f);
+//            imageView.setBackgroundColor(Color.BLUE);
             imageView.setAdjustViewBounds(true);
+            _letterLayout.addView(imageView);
 
             // Preview
             AppCompatImageView previewImageView = new AppCompatImageView(this);
             previewImageView.setImageResource(_model.getValues().get(i));
             LinearLayout.LayoutParams previewLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            previewLayoutParams.setMargins(0, 0, 10, 0);
             previewImageView.setLayoutParams(previewLayoutParams);
-            previewImageView.setAlpha(0.5f);
+            previewImageView.setAlpha(0.3f);
             previewImageView.setAdjustViewBounds(true);
-
-            letterLayout.addView(imageView);
             previewLetterLayout.addView(previewImageView);
+
+            _letterLayout.getLayoutParams().width = 5000;
+            _drawView.getLayoutParams().width = 5000;
+            // Post only on the last view added
+            if ((i + 1) == _model.getValues().size()) {
+                imageView.post(this);
+            }
+        }
+    }
+
+    /**
+     * Run
+     * Used after dynamically getting the runtime height of the _framelayout so the background images
+     * and _drawView can be sized appropriately.
+     */
+    @Override
+    public void run() {
+        for (int i = 0; i < _letterLayout.getChildCount(); i++) {
+            AppCompatImageView imageView = (AppCompatImageView) _letterLayout.getChildAt(i);
+            int characterWidth = imageView.getWidth() + 75;
+            _characterWidths.add(characterWidth);
+            _totalWidth += characterWidth;
+        }
+    }
+
+    private boolean canScrollRight() {
+        int remainingScrollWidth = 0;
+        for (int i = _currentCharacterIndex; i < _characterWidths.size(); i++) {
+            remainingScrollWidth += _characterWidths.get(i);
         }
 
-        _totalWidth = _model.getNumberOfCharacters() * _characterWidth;
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
 
-        letterLayout.getLayoutParams().width = _totalWidth;
-        previewLetterLayout.getLayoutParams().width = _totalWidth;
-
-        DrawView drawView = (DrawView) findViewById(R.id.drawView);
-        drawView.getLayoutParams().width = _totalWidth;
-
+        return remainingScrollWidth <= width;
     }
 
     /**
@@ -117,12 +155,14 @@ public class NameTraceableActivity extends SkipTapActivity {
      * @param view The view that activated the function (e.g. button)
      */
     public void goToNextValue(View view) {
+        int characterWidth = _characterWidths.get(_currentCharacterIndex);
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.drawViewContainer);
         LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
-        int x = layout.getScrollX() + _characterWidth;
+        int x = layout.getScrollX() + characterWidth;
         if (x < (_totalWidth)) {
             layout.scrollTo(x, 0);
             letterLayout.scrollTo(x, 0);
+            ++_currentCharacterIndex;
         }
 
         FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
@@ -132,7 +172,12 @@ public class NameTraceableActivity extends SkipTapActivity {
             previousButton.startAnimation(fadeIn);
         }
 
-        if (x >= (_totalWidth - (_characterWidth * 2))) {
+        int nextCharacterWidth = 0;
+        if (_currentCharacterIndex != _characterWidths.size()) {
+            nextCharacterWidth = _characterWidths.get(_currentCharacterIndex);
+        }
+
+        if (canScrollRight()) {
             FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
             nextButton.setVisibility(View.INVISIBLE);
 
@@ -148,12 +193,17 @@ public class NameTraceableActivity extends SkipTapActivity {
      * @param view The view that activated the function (e.g. button)
      */
     public void goToPreviousValue(View view) {
+        int characterWidth = 0;
+        if (_currentCharacterIndex >= 1) {
+            characterWidth = _characterWidths.get(_currentCharacterIndex - 1);
+        }
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.drawViewContainer);
         LinearLayout letterLayout = (LinearLayout) findViewById(R.id.letterLayout);
-        int x = layout.getScrollX() - _characterWidth;
+        int x = layout.getScrollX() - characterWidth;
         if (x >= 0) {
             layout.scrollTo(x, 0);
             letterLayout.scrollTo(x, 0);
+            --_currentCharacterIndex;
         }
 
         FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);
