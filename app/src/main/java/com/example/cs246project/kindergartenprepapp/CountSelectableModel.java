@@ -147,4 +147,41 @@ public class CountSelectableModel extends SelectableModel {
 
         return results;
     }
+
+    /**
+     * Generate an array of random values to be used for the buttons.
+     * Values are unique that are not used again if already answered.
+     * @return set random random values to be used for media association and buttons
+     */
+    @Override
+    protected List<Integer> randomValuesGenerator() {
+
+        List<Integer> valueList = new ArrayList<>();
+        Random randomValueRetriever = new Random();
+
+        // ensure that 0 is not the first number to appear
+        do {
+            // get random first value with conditions based on available answer bank questions
+            _answer = _answerBank.get(randomValueRetriever.nextInt(_answerBank.size()));
+        } while ((_answer.equals(0)) && (_isFirstTime));
+
+        _isFirstTime = false;
+
+        // add the initial random value to list to start
+        valueList.add((Integer) _answer);
+
+        // generate the rest of the buttons with random values that don't match button 1st
+        //    button made
+        while (valueList.size() < _optionCount) {
+
+            // get random value
+            Integer randomNum = (Integer) _questionBank.get(randomValueRetriever.nextInt(_questionBank.size()));
+
+            // check if number already added, not added if -1 is returned
+            if (valueList.indexOf(randomNum) == -1)
+                valueList.add(randomNum);
+        }
+
+        return valueList;
+    }
 }
