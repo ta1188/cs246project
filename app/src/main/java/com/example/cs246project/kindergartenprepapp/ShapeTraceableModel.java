@@ -28,7 +28,7 @@ public class ShapeTraceableModel extends CharacterTraceableModel {
     protected void generateValueBank() {
         _valueBank = new ArrayList<String>();
         _valueBank.add("shape_outline_circle");
-        _valueBank.add("shape_outline_diamond");
+        _valueBank.add("shape_outline_rhombus");
         _valueBank.add("shape_outline_heart");
         _valueBank.add("shape_outline_hexagon");
         _valueBank.add("shape_outline_octagon");

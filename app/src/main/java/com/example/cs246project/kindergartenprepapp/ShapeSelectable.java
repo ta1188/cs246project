@@ -42,7 +42,6 @@ public class ShapeSelectable extends SkipTapActivity implements View.OnTouchList
         // set up main activity view in 2 containers
         setContentView(R.layout.shape_selectable);
         _shape_layout = (LinearLayout) findViewById(R.id.shape_layout);
-        ////layout_bottom = (LinearLayout) findViewById(R.id.layout_word_bottom);
         _progBar = (ProgressBar) findViewById(R.id.progressBar2);
         _progBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(AppConstants.progressBarColor)));
 

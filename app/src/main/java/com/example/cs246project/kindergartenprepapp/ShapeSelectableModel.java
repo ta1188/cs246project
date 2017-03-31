@@ -68,7 +68,7 @@ public class ShapeSelectableModel extends SelectableModel {
     protected void buildInitialQuestionAnswerBanks() {
         _answerBank  = new ArrayList<String>() {{
             add("circle");
-            add("diamond");
+            add("rhombus");
             add("heart");
             add("hexagon");
             add("octagon");
@@ -81,7 +81,7 @@ public class ShapeSelectableModel extends SelectableModel {
 
         _questionBank = new ArrayList<String>() {{
             add("circle");
-            add("diamond");
+            add("rhombus");
             add("heart");
             add("hexagon");
             add("octagon");
