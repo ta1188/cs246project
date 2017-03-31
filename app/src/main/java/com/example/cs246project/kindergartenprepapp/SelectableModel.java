@@ -112,6 +112,11 @@ abstract class SelectableModel<T> extends Application {
      */
     abstract protected void buildInitialQuestionAnswerBanks();
 
+    /**
+     * abstract Build a set of indexes required for retrieving audio and image files
+     * Functions as follows:
+     */
+    abstract public List<T> generateValueList();
 
     /**
      * Generate an array of random values to be used for the buttons.

@@ -91,6 +91,7 @@ public class WordSelectableModel extends SelectableModel {
      * Build a set of indexes required for retrieving audio and image files
      * Functions as follows:
      */
+    @Override
     public List<MediaModel> generateValueList() {
 
         List<Character> randomValues;

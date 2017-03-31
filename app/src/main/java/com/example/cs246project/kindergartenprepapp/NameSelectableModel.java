@@ -182,6 +182,7 @@ public class NameSelectableModel extends SelectableModel {
     /**
      * Build a set of indexes required for retrieving audio and image files.
      */
+    @Override
     public List<MediaModel> generateValueList() {
 
         List<Character> randomValues;

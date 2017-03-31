@@ -92,6 +92,7 @@ public class CountSelectableModel extends SelectableModel {
     /**
      * GENERATEVALUELIST will build a set of indexes required for retrieving audio and image files
      */
+    @Override
     public List<MediaModel> generateValueList() {
 
         List<Integer> randomValues;
