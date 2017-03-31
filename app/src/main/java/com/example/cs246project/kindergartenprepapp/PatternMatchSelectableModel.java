@@ -156,7 +156,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
      * Get the answer for the activity as a resource indexes for the full length of the given
      * pattern which is 2 times of the answer.
      */
-    public List<Integer> getPatternAnswerResourceIndex() {
+    public List<Integer> getPatternImageAnswerResourceIndex() {
 
         // double the length of the answer pattern
         List<String> temp = new ArrayList<>(doubleQuestionPattern(_answerList));
@@ -164,6 +164,19 @@ public class PatternMatchSelectableModel extends SelectableModel {
 
         for (String value : temp ) {
             resourceIndexes.add(_context.getResources().getIdentifier(value, "drawable", _context.getPackageName()));
+        }
+        return resourceIndexes;
+    }
+
+    public List<Integer> getPatternAudioAnswerResourceIndex() {
+
+        // double the length of the answer pattern
+        List<String> temp = new ArrayList<>(doubleQuestionPattern(_answerList));
+        List<Integer> resourceIndexes = new ArrayList<>();
+
+        for (String value : temp ) {
+            // retrieve object audio
+            resourceIndexes.add(_context.getResources().getIdentifier(value, "raw", _context.getPackageName()));
         }
         return resourceIndexes;
     }
@@ -224,6 +237,10 @@ public class PatternMatchSelectableModel extends SelectableModel {
     public Boolean isPatternQuestionDone() {
 
         return _currentPatternType._isPatternQuestionDone;
+    }
+
+    public int getCurrentPatternLengh() {
+        return _currentPatternType._patternLength;
     }
 
     /**
