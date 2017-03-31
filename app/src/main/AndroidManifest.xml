@@ -45,12 +45,13 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".AboutActivity"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ShapeSelectable"
-            android:screenOrientation="landscape" >
-        </activity>
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".PatternMatchSelectable"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

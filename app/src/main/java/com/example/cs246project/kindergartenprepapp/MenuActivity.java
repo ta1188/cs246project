@@ -216,6 +216,11 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void sendToPatternMatch (View view) {
+        Intent intent = new Intent(getBaseContext(), PatternMatchSelectable.class);
+        startActivity(intent);
+    }
+
     public void sendToShapeSelectable (View view) {
         Intent intent = new Intent(getBaseContext(), ShapeSelectable.class);
         startActivity(intent);

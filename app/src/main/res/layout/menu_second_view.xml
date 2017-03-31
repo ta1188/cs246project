@@ -33,7 +33,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginStart="6dp"
-            android:onClick="sendToCountSelectable"
+            android:onClick="sendToPatternMatch"
             android:text="Count Selectable"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/shapeSelectableBtn"
