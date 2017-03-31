@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PatternMatchSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
@@ -56,19 +59,26 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
          * */
         for (MediaModel item : _model.generateValueList()) {
             final MediaButton btn = new MediaButton(this, item, this);
-            btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
-            btn.setScaleType(ImageView.ScaleType.CENTER);
+            btn.setScaleType(ImageView.ScaleType.FIT_XY);
             btn.setAdjustViewBounds(true);
             btn.setPadding(5, 5, 5, 5);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(5, 5, 30, 5);
+            btn.setLayoutParams(lp);
+
             btn.setElevation(10);
-            ((ViewGroup.MarginLayoutParams) btn.getLayoutParams()).setMargins(10, 5, 10, 5);
-            btn.setBackgroundColor(Color.parseColor(_model.getBtnColor()));
+            btn.setBackgroundColor(Color.TRANSPARENT);
 
             layout_pattern.addView(btn);
+        }
 
+        // Loop for setting up answers
+        for (int item = 0; item < _model.getCurrentPatternLengh(); item++) {
             // Add letter options on Top
             ImageView imageView = new ImageView(this);
-            imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            LinearLayout.LayoutParams lp = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            lp.setMargins(5, 5, 10, 5);
+            imageView.setLayoutParams(lp);
             imageView.setPadding(6, 0, 6, 0);
             imageView.setScaleType(ImageView.ScaleType.CENTER);
             imageView.setAdjustViewBounds(true);
@@ -76,6 +86,20 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
             imageView.setId(count);
 
             if (count == 0) {
+                for (Integer patternIndex : _model.getPatternImageAnswerResourceIndex()) {
+                    ImageButton imageButton = new ImageButton(this);
+                    LinearLayout.LayoutParams lpBtn = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                    lpBtn.setMargins(5, 5, 10, 5);
+                    imageButton.setLayoutParams(lpBtn);
+
+                    imageButton.setPadding(6, 0, 6, 0);
+                    imageButton.setScaleType(ImageView.ScaleType.CENTER);
+                    imageButton.setAdjustViewBounds(true);
+                    imageButton.setBackgroundColor(Color.TRANSPARENT);
+                    imageButton.setImageResource(patternIndex);
+                    layout_top_pattern.addView(imageButton);
+                }
+
                 imageView.setImageResource(R.drawable.underline);
                 Drawable res = this.getResources().getDrawable(R.drawable.button_border, getTheme());
                 imageView.setBackground(res);

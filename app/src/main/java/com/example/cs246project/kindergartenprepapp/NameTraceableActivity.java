@@ -99,7 +99,6 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setAlpha(0.3f);
-//            imageView.setBackgroundColor(Color.BLUE);
             imageView.setAdjustViewBounds(true);
             _letterLayout.addView(imageView);
 
@@ -115,6 +114,7 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
 
             _letterLayout.getLayoutParams().width = 5000;
             _drawView.getLayoutParams().width = 5000;
+
             // Post only on the last view added
             if ((i + 1) == _model.getValues().size()) {
                 imageView.post(this);
@@ -242,12 +242,10 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
 
     /**
      * On Done Button Click
-     * Runs the the actionst that should take place when a user is done with tracing their name.
+     * Runs the the actions that should take place when a user is done with tracing their name.
      * @param view that activated this action.
      */
     public void onDoneButtonClick(View view) {
-        // TODO: Display the snapshot popup
-
         // Play a completion sound
         MediaPlayer mediaPlayer = MediaPlayer.create(this, _model.getCompletionAudioIndex());
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

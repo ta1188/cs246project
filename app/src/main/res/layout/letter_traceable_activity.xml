@@ -117,13 +117,12 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/lines"
-        android:layout_width="3050dp"
+        android:layout_width="4000dp"
         android:layout_height="0dp"
         android:layout_margin="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
         android:adjustViewBounds="false"
-        android:alpha=".8"
         android:cropToPadding="false"
         android:paddingRight="0dp"
         android:paddingStart="0dp"
