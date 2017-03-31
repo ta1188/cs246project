@@ -201,7 +201,7 @@ public class NameSelectableModel extends SelectableModel {
             return questionsAndAnswer;
         }
 
-        // shuffle list to make is random
+        // shuffle list to make it random
         Collections.shuffle(randomValues);
 
         // Using the random values now associate the images and sounds to buttons to be used
@@ -245,8 +245,6 @@ public class NameSelectableModel extends SelectableModel {
         List<Character> valueList = new ArrayList<>();
         Random randomValueRetriever = new Random();
 
-        // generate the rest of the buttons with random values that don't match button 1st
-        //    button made
         while (valueList.size() < _optionCount) {
 
             // get random value
