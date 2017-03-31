@@ -44,6 +44,8 @@ abstract class SkipTapActivity extends AppCompatActivity {
      */
     protected void playInstructions(int instructionsAudioResourceIndex) {
 
+        displayInstructionToast();
+
         // keep track for onResume
         _instructionsAudioResourceIndex = instructionsAudioResourceIndex;
 
@@ -90,7 +92,7 @@ abstract class SkipTapActivity extends AppCompatActivity {
             toastColor = "#ff8a65";
         }
 
-        int duration = Toast.LENGTH_SHORT;
+        int duration = Toast.LENGTH_LONG;
 
         _toast = Toast.makeText(this, text, duration);
         _toast.setGravity(Gravity.CENTER, 0, 0);

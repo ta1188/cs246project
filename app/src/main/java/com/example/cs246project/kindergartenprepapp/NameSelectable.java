@@ -57,8 +57,8 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         // Disable the buttons
         disableQuestionButtons(true);
 
-        // display toast and show for the duration of the instructions
-        displayInstructionToast();
+        // During play instructions will show toast for the duration of the instructions
+        //    and then stop when audio is over
         playInstructions(_model.getActivityInstructionsIndex());
     }
 
@@ -326,8 +326,6 @@ public class NameSelectable extends SkipTapActivity implements View.OnTouchListe
         disableQuestionButtons(true);
 
         playInstructions(_instructionsAudioResourceIndex);
-
-        displayInstructionToast();
 
         _backgroundAudioModel.startBackgroundAudio(this);
     }

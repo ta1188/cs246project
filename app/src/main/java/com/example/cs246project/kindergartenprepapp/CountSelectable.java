@@ -62,8 +62,8 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
         enableMainImageButton(false);
         disableQuestionButtons(true);
 
-        // show toast for the duration of the instructions and then stop when audio is over
-        displayInstructionToast();
+        // During play instructions will show toast for the duration of the instructions
+        //    and then stop when audio is over
         playInstructions(_model.getActivityInstructionsIndex());
     }
 
@@ -244,8 +244,6 @@ public class CountSelectable extends SkipTapActivity implements View.OnTouchList
         enableMainImageButton(false);
         disableQuestionButtons(true);
         playInstructions(_instructionsAudioResourceIndex);
-
-        displayInstructionToast();
 
         _backgroundAudioModel.startBackgroundAudio(this);
     }
