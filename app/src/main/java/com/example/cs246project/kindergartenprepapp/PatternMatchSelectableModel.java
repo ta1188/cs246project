@@ -195,7 +195,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
         // check if activity is done and if the question activity is done.
         if(!_isActivityDone && !_currentPatternType._isPatternQuestionDone) {
             Log.w(TAG, "answer is " + _answerOrder);
-            if (value == _answerOrder) {
+            if (value.equals(_answerOrder)) {
 
                 // remove the value from the possibilities where because the value is in order
                 //    the first item in the list will be the correct answer
@@ -228,7 +228,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
             }
 
         }
-        return (value == _answer);
+        return (value.equals(_answer));
     }
 
     /**
