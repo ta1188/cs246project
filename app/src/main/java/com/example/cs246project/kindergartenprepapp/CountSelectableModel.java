@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import static android.content.ContentValues.TAG;
 
@@ -20,6 +21,8 @@ import static android.content.ContentValues.TAG;
  * activities. Subclass of Selectable Model
  */
 public class CountSelectableModel extends SelectableModel {
+
+    private Boolean _isFirstTime;
 
     // static resource for word activity instruction
     private static final String _activityInstructions =
@@ -47,6 +50,7 @@ public class CountSelectableModel extends SelectableModel {
         if((optionCount > 0) && (optionCount <= 10)) {
             _optionCount = optionCount;
             _isActivityDone = false;
+            _isFirstTime = true;
         }
         else {
             Log.i(TAG, "CountSelectableModel: 0 < option count <= 10; out of range");
@@ -151,7 +155,8 @@ public class CountSelectableModel extends SelectableModel {
     /**
      * Generate an array of random values to be used for the buttons.
      * Values are unique that are not used again if already answered.
-     * @return set random random values to be used for media association and buttons
+     * Also ensures that 0 is never the first value to be shown.
+     * @return set random random values to be used for media association and buttons.
      */
     @Override
     protected List<Integer> randomValuesGenerator() {
