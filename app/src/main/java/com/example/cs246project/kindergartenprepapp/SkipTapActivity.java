@@ -4,9 +4,11 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -111,20 +113,43 @@ abstract class SkipTapActivity extends AppCompatActivity {
      * Handle instruction toast messages that will play for the length of the beginning instructions
      * */
     public void displayInstructionToast() {
-        CharSequence text = "Tap a Button";
-        String toastColor = "#ffbb33";
+        String color = "#ffbb33";
 
-        int duration = Toast.LENGTH_SHORT;
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
-        _toast = Toast.makeText(this, text, duration);
+        if (getInstructionToastImageResource() != -1) {
+            AppCompatImageView imageView = new AppCompatImageView(this);
+            imageView.setImageResource(getInstructionToastImageResource());
+            imageView.setBackgroundColor(Color.parseColor(color));
+            imageView.setPadding(20, 20, 20, 20);
+            layout.addView(imageView);
+        }
+
+        TextView textView = new TextView(this);
+        textView.setText(getInstructionToastText());
+        textView.setBackgroundColor(Color.parseColor(color));
+        textView.setTextSize(25);
+        textView.setPadding(20, 20, 20, 20);
+        layout.addView(textView);
+
+        _toast = new Toast(this);
+        _toast.setView(layout);
+        _toast.setDuration(Toast.LENGTH_SHORT);
         _toast.setGravity(Gravity.CENTER, 0, 0);
-        ViewGroup group = (ViewGroup) _toast.getView();
-        TextView messageTextView = (TextView) group.getChildAt(0);
-        messageTextView.setTextSize(25);
-        View view = _toast.getView();
-        view.setBackgroundColor(Color.parseColor(toastColor));
-        view.setPadding(20, 10, 20, 10);
         _toast.show();
+    }
+
+    /**
+     * Gets the text to put into the instructions toast.
+     */
+    abstract protected String getInstructionToastText();
+
+    /**
+     * Gets the resource index of the image to display in the instruction toast.
+     */
+    protected int getInstructionToastImageResource() {
+        return -1;
     }
 
     /**

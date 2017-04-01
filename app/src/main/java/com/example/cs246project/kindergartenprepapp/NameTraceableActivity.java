@@ -268,5 +268,11 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
     public void returnToMenu(View view) {
         finish();
     }
+
+    @Override
+    protected String getInstructionToastText() {
+        return "Trace your name with your finger";
+    }
+
 }
 

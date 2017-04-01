@@ -133,7 +133,7 @@ public class SightWordTraceableModel {
      * @return the file name of the instructions audio file
      */
     protected String getInstructionsFileName() {
-        return "instruct_trace_letters_in_name_using_finger";
+        return "instruct_trace_the_sight_word_with_your_finger";
     }
 
     public int getCompletionAudioIndex() {
