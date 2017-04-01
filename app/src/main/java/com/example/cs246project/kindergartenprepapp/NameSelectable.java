@@ -200,6 +200,43 @@ public class NameSelectable extends SelectableActivity implements View.OnTouchLi
         }
     }
 
+    private void playResultAudio() {
+        // Enable the buttons when sound is complete
+        int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
+        _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
+        _answerMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // cancel toast after audio
+                if (_toast != null) {
+                    _toast.cancel();
+                }
+
+                if (mp != null) {
+                    mp.release();
+                    mp = null;
+                }
+
+                if (_model._isActivityDone && _model.hasLastName() && !completedFirstName) {
+                    // Checking for if it's the first name AND the activity is done W/ a last name
+                    playSoundsOfName(true, 0);
+                    completedFirstName = true;
+                } else if (_model._isActivityDone && !_model.hasLastName()) {
+                    // Checking for if it's the first name AND the activity is done W/O a last name
+                    playSoundsOfName(true, 1);
+                } else if (_model._isActivityDone && _model.hasLastName() && completedFirstName) {
+                    // Checking for if it's the last name AND the activity is done
+                    playSoundsOfName(false, 1);
+                } else {
+                    // Enable the buttons when sound is complete
+                    disableQuestionButtons(false);
+                }
+
+            }
+        });
+        _answerMediaPlayer.start();
+    }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -211,41 +248,7 @@ public class NameSelectable extends SelectableActivity implements View.OnTouchLi
      * */
     @Override
     public void onAudioComplete() {
-
-        if (_model._isActivityDone && _model.hasLastName() && !completedFirstName) {
-            // Checking for if it's the first name AND the activity is done W/ a last name
-            playSoundsOfName(true, 0);
-            completedFirstName = true;
-        } else if (_model._isActivityDone && !_model.hasLastName()) {
-            // Checking for if it's the first name AND the activity is done W/O a last name
-            playSoundsOfName(true, 1);
-            this.finish();
-        } else if (_model._isActivityDone && _model.hasLastName() && completedFirstName) {
-            // Checking for if it's the last name AND the activity is done
-            playSoundsOfName(false, 1);
-
-            this.finish();
-        } else {
-            // Enable the buttons when sound is complete
-            int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
-             _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
-            _answerMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    // cancel toast after audio
-                    if (_toast != null) {
-                        _toast.cancel();
-                    }
-
-                    if (mp != null) {
-                        mp.release();
-                        mp = null;
-                    }
-                    disableQuestionButtons(false);
-                }
-            });
-            _answerMediaPlayer.start();
-        }
+        playResultAudio();
     }
 
     @Override
