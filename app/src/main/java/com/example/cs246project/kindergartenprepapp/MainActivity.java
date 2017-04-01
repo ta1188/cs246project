@@ -40,11 +40,14 @@ public class MainActivity extends AppCompatActivity {
         EditText lastNameField = (EditText) findViewById(R.id.playerLastName);
         lastNameField.setText(lastname);
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.instruct_enter_your_name_to_get_started);
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.instruct_enter_your_name_to_get_started);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
+                if(mediaPlayer != null) {
+                    mediaPlayer.release();
+                }
             }
         });
 

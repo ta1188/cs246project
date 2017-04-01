@@ -30,18 +30,25 @@ public class PatternMatchSelectableModel extends SelectableModel {
 
     // static resource for word activity instruction
     private static final String _activityInstructions =
-            "instruct_finish_the_pattern_of_the_shapes";
+            "instruct_finish_the_pattern";
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
         add("motivate_great_job");
         add("motivate_you_did_it");
+        add("motivate_way_to_go");
+        add("motivate_you_are_awesome");
+        add("motivate_stupendous");
         add("motivate_you_found_the_pattern");
     }};
 
     // for changing up the motivational messages
     static final List<String> incorrect = new ArrayList<String>(){{
         add("motivate_try_again");
+        add("motivate_dont_give_up");
+        add("motivate_keep_practicing");
+        add("motivate_give_it_another_try");
+        add("motivate_not_quite");
     }};
 
     int _activityRoundLength;
