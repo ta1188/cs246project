@@ -67,7 +67,28 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
 
         _patternCount = _totalPatternCount;
 
-        patternSoundPlayer();
+        playPrePatternAudio();
+    }
+
+    private void playPrePatternAudio() {
+        if (_indexNum <= (_model.getShownPatternLength() - 1)) {
+            int index = getResources().getIdentifier("instruct_the_pattern_is", "raw", getPackageName());
+            _soundsOfPatternMediaPlayer = MediaPlayer.create(this, index);
+
+            // Release pattern image audio after it is no longer playing
+            _soundsOfPatternMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                    mp = null;
+                    _soundsOfPatternMediaPlayer = null;
+                    patternSoundPlayer();
+                }
+            });
+
+            // Play the audio
+            _soundsOfPatternMediaPlayer.start();
+        }
     }
 
     private void patternSoundPlayer() {
