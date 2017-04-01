@@ -190,7 +190,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
                 Drawable res = this.getResources().getDrawable(R.drawable.button_border, getTheme());
                 imageView.setBackground(res);
             }
-            count ++;
+            count++;
             layout_top_pattern.addView(imageView);
         }
 
@@ -262,7 +262,8 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
     private void resetActivity() {
         layout_top_pattern.removeAllViews();
         layout_pattern.removeAllViews();
-        count = 1;
+        position = 0;
+        count = 0;
         viewSetUp();
 
         // disable audio
@@ -285,9 +286,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         if (_model._isActivityDone) {
             // Checking for if the activity is done
             this.finish();
-        } else if (!_model._isActivityDone && _model.isPatternQuestionDone()){
+        } else if (!_model._isActivityDone && _model.isPatternQuestionsDone()){
             resetActivity();
-        } else if (!_model._isActivityDone && !_model.isPatternQuestionDone()){
+        } else if (!_model._isActivityDone && !_model.isPatternQuestionsDone()){
             // Enable the buttons when sound is complete
             int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
             _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
