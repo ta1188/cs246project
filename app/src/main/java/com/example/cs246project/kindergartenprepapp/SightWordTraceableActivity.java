@@ -1,14 +1,11 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 

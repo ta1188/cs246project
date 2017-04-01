@@ -30,40 +30,45 @@ public class PatternMatchSelectableModel extends SelectableModel {
 
     // static resource for word activity instruction
     private static final String _activityInstructions =
-            // todo new instructions
-            "instruct_finish_the_pattern_of_the_shapes";
+            "instruct_finish_the_pattern";
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
         add("motivate_great_job");
         add("motivate_you_did_it");
-        // TODO: 3/24/17 change to you found the pattern
-        add("motivate_you_found_the_letter");
+        add("motivate_way_to_go");
+        add("motivate_you_are_awesome");
+        add("motivate_stupendous");
+        add("motivate_you_found_the_pattern");
     }};
 
     // for changing up the motivational messages
     static final List<String> incorrect = new ArrayList<String>(){{
         add("motivate_try_again");
+        add("motivate_dont_give_up");
+        add("motivate_keep_practicing");
+        add("motivate_give_it_another_try");
+        add("motivate_not_quite");
     }};
 
     int _activityRoundLength;
     protected PatternType _currentPatternType;
     protected List<String> _answerList;
     protected String _answerOrder;
-
+    protected Boolean _isCurrentPatternQuestionsDone;
 
     private class PatternType {
 
         protected int _patternLength;
         protected int _completeQuestionPatternLength;
         protected int _patternVariation;
-        protected Boolean _isPatternQuestionDone;
+        //protected Boolean _isPatternQuestionDone;
 
         public PatternType(int patternLength, int patternVariation) {
             _patternLength = patternLength;
             _patternVariation = patternVariation;
             _completeQuestionPatternLength = patternLength + patternLength + patternLength;
-            _isPatternQuestionDone = false;
+            //_isPatternQuestionDone = false;
         }
     }
 
@@ -74,6 +79,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
 
             _activityRoundLength = activityRoundLength;
 
+            _isCurrentPatternQuestionsDone = false;
             _isActivityDone = false;
 
             // initialize question bank
@@ -193,7 +199,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
         _answer = _answerOrder;
 
         // check if activity is done and if the question activity is done.
-        if(!_isActivityDone && !_currentPatternType._isPatternQuestionDone) {
+        if(!_isActivityDone && !_isCurrentPatternQuestionsDone) {
             Log.w(TAG, "answer is " + _answerOrder);
             if (value.equals(_answerOrder)) {
 
@@ -206,7 +212,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
                 if (_answerList.size() > 0) {
                     // set the answer for the next letter in the name which will be the first value
                     //    in the array because the correct answer was just removed from that spot.
-                    _answerOrder = (String) _answerList.get(0);
+                    _answerOrder = _answerList.get(0);
                 }
             } else {
 
@@ -218,7 +224,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
         if (_answerList.size() == 0) {
             // grab the current pattern type from the question bank and find out how many times it has
             // been used. If over 3 times then set to null so it can not be used in the selection any more
-            _currentPatternType._isPatternQuestionDone = true;
+            _isCurrentPatternQuestionsDone = true;
 
             // one round is complete
             _activityRoundLength--;
@@ -234,9 +240,9 @@ public class PatternMatchSelectableModel extends SelectableModel {
     /**
      * Tells if the activity is over and all values in the question bank have been used
      */
-    public Boolean isPatternQuestionDone() {
+    public Boolean isPatternQuestionsDone() {
 
-        return _currentPatternType._isPatternQuestionDone;
+        return _isCurrentPatternQuestionsDone;
     }
 
     public int getCurrentPatternLength() {
@@ -267,6 +273,8 @@ public class PatternMatchSelectableModel extends SelectableModel {
      */
     @Override
     public List<MediaModel> generateValueList() {
+
+        _isCurrentPatternQuestionsDone = false;
 
         List<String> randomObjectValueList;
         List<MediaModel> questionsAndAnswerOptions = new ArrayList<>();
@@ -319,6 +327,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
     @Override
     protected List<String> randomValuesGenerator() {
 
+
         List<String> valueList = new ArrayList<>();
         Random randomValueRetriever = new Random();
 
@@ -354,6 +363,16 @@ public class PatternMatchSelectableModel extends SelectableModel {
                     }
                 }
             }
+
+            // store the answer list for question generation
+            _answerList = new ArrayList<>(valueList);
+            _answerOrder = _answerList.get(0);
+
+            // remove the duplicate value;
+            valueList.remove(1);
+
+
+
         } else {  // for all other pattern types
 
             while (valueList.size() < _currentPatternType._patternLength) {
@@ -364,11 +383,17 @@ public class PatternMatchSelectableModel extends SelectableModel {
                 // add the random to the list
                 valueList.add(randomObject);
             }
+
+            // store the answer list for question generation
+            _answerList = new ArrayList<>(valueList);
+            _answerOrder = _answerList.get(0);
+
+
         }
 
-        // store the answer list for question generation
-        _answerList = new ArrayList<>(valueList);
-        _answerOrder = _answerList.get(0);
+//        // store the answer list for question generation
+//        _answerList = new ArrayList<>(valueList);
+//        _answerOrder = _answerList.get(0);
 
         // add random values to make a total of 2 extra options
         while (valueList.size() < (_currentPatternType._patternLength + 2)) {

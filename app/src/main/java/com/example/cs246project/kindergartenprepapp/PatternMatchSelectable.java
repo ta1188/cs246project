@@ -1,23 +1,18 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 public class PatternMatchSelectable extends SelectableActivity implements View.OnTouchListener, MediaButtonHandler {
 
@@ -190,7 +185,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
                 Drawable res = this.getResources().getDrawable(R.drawable.button_border, getTheme());
                 imageView.setBackground(res);
             }
-            count ++;
+            count++;
             layout_top_pattern.addView(imageView);
         }
 
@@ -262,7 +257,8 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
     private void resetActivity() {
         layout_top_pattern.removeAllViews();
         layout_pattern.removeAllViews();
-        count = 1;
+        position = 0;
+        count = 0;
         viewSetUp();
 
         // disable audio
@@ -285,9 +281,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         if (_model._isActivityDone) {
             // Checking for if the activity is done
             this.finish();
-        } else if (!_model._isActivityDone && _model.isPatternQuestionDone()){
+        } else if (!_model._isActivityDone && _model.isPatternQuestionsDone()){
             resetActivity();
-        } else if (!_model._isActivityDone && !_model.isPatternQuestionDone()){
+        } else if (!_model._isActivityDone && !_model.isPatternQuestionsDone()){
             // Enable the buttons when sound is complete
             int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
             _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);

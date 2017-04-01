@@ -40,12 +40,19 @@ public class NameSelectableModel extends SelectableModel {
     static final List<String> correct = new ArrayList<String>(){{
         add("motivate_great_job");
         add("motivate_you_did_it");
+        add("motivate_way_to_go");
+        add("motivate_you_are_awesome");
+        add("motivate_stupendous");
         add("motivate_you_found_the_letter");
     }};
 
     // for changing up the motivational messages
     static final List<String> incorrect = new ArrayList<String>(){{
         add("motivate_try_again");
+        add("motivate_dont_give_up");
+        add("motivate_keep_practicing");
+        add("motivate_give_it_another_try");
+        add("motivate_not_quite");
     }};
 
     /* CONSTRUCTORS */

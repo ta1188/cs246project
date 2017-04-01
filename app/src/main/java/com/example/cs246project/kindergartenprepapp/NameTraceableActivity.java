@@ -1,22 +1,16 @@
 package com.example.cs246project.kindergartenprepapp;
 
-import android.graphics.Color;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.graphics.Path;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The abstract class associated with character tracing activities which handles all of the logic of
