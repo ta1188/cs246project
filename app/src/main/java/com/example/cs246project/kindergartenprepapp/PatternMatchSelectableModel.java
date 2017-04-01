@@ -31,7 +31,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
     // static resource for word activity instruction
     private static final String _activityInstructions =
             // todo new instructions
-            "instruct_pick_letter_that_matches_first_sound_of_picture";
+            "instruct_finish_the_pattern_of_the_shapes";
 
     // for changing up the motivational messages
     static final List<String> correct = new ArrayList<String>(){{
@@ -239,8 +239,11 @@ public class PatternMatchSelectableModel extends SelectableModel {
         return _currentPatternType._isPatternQuestionDone;
     }
 
-    public int getCurrentPatternLengh() {
+    public int getCurrentPatternLength() {
         return _currentPatternType._patternLength;
+    }
+    public int getShownPatternLength() {
+        return _currentPatternType._patternLength * 2;
     }
 
     /**
