@@ -1,10 +1,10 @@
 package com.example.cs246project.kindergartenprepapp;
 
-        import android.content.Context;
-        import android.content.SharedPreferences;
-        import android.media.MediaPlayer;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 
-        import static android.content.Context.MODE_PRIVATE;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * The Background Audio Model supports the playing on theme music and can be muted by

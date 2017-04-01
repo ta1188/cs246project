@@ -1,7 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;

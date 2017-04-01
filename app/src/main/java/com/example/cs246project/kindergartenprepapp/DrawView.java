@@ -8,14 +8,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
 /**
  * A view for free drawing on a canvas.
