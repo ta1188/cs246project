@@ -35,6 +35,8 @@ public class ShapeTraceableActivity extends CharacterTraceableActivity {
 
         // Set the view opacity
         imageView.setAlpha(0.5f);
+
+        _drawView.randomizeCurrentColor();
     }
 
 }
