@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class PatternMatchSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
+public class PatternMatchSelectable extends SelectableActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private PatternMatchSelectableModel _model;

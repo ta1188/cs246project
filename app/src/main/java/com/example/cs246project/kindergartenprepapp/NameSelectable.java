@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @author Trevor Adams
  * edits Michael Lucero
  * */
-public class NameSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
+public class NameSelectable extends SelectableActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private NameSelectableModel _model;

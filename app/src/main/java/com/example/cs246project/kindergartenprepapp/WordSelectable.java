@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
  * @author Trevor Adams
  * edits Michael Lucero
  * */
-public class WordSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
+public class WordSelectable extends SelectableActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private WordSelectableModel _model;

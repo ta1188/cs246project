@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
  * edits Michael Lucero
  * Handles finding how many objects are shown
  * */
-public class CountSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
+public class CountSelectable extends SelectableActivity implements View.OnTouchListener, MediaButtonHandler {
 
 
     // Create a new Array list that will hold the filenames to reference

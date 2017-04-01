@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
  * @author Trevor Adams
  * edits Michael Lucero
  * */
-public class ShapeSelectable extends SkipTapActivity implements View.OnTouchListener, MediaButtonHandler {
+public class ShapeSelectable extends SelectableActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
     private ShapeSelectableModel _model;
