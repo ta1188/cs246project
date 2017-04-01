@@ -25,12 +25,13 @@
             android:id="@+id/previewLetterLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/previewLayout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/previewLayout">
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="@+id/previewLayout"
+            android:layout_marginTop="8dp"></LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
