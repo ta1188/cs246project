@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,12 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
     private int count = 0;
     private int position = 0;
     private Boolean _isCorrect;
+    private boolean isFirstTime = true;
+    private int _totalPatternCount = 0;
+    private int _patternCount = 0;
+    private int _indexNum = 0;
+    private ArrayList<Integer> _patternIndexes;
+
 
     private MediaPlayer _soundsOfPatternMediaPlayer;
     private MediaPlayer _answerMediaPlayer;
@@ -43,13 +50,57 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
         _model = new PatternMatchSelectableModel(this, 9);
 
         viewSetUp();
+        _totalPatternCount = _model.getShownPatternLength();
+
         // Disable the buttons
+        enablePatternButtons(false);
         disableQuestionButtons(true);
 
         // During play instructions will show toast for the duration of the instructions
         //    and then stop when audio is over
         playInstructions(_model.getActivityInstructionsIndex());
     }
+
+    private void playPatternSound() {
+        enablePatternButtons(false);
+        disableQuestionButtons(true);
+
+        _patternCount = _totalPatternCount;
+
+        patternSoundPlayer();
+    }
+
+    private void patternSoundPlayer() {
+        if (_indexNum <= (_model.getShownPatternLength() - 1)) {
+            _soundsOfPatternMediaPlayer = MediaPlayer.create(this, _patternIndexes.get(_indexNum));
+
+            // Release pattern image audio after it is no longer playing
+            _soundsOfPatternMediaPlayer.setOnCompletionListener(onPatternComplete);
+
+            // Play the audio
+            _soundsOfPatternMediaPlayer.start();
+        }
+    }
+
+
+    MediaPlayer.OnCompletionListener onPatternComplete = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            mp.release();
+            mp = null;
+            _soundsOfPatternMediaPlayer = null;
+            if (_patternCount > 1) {
+                _patternCount -= 1;
+                _indexNum += 1;
+                patternSoundPlayer();
+            } else {
+                _indexNum = 0;
+                enablePatternButtons(true);
+                disableQuestionButtons(false);
+            }
+
+        }
+    };
 
     public void viewSetUp() {
         /**
@@ -73,7 +124,7 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
         }
 
         // Loop for setting up answers
-        for (int item = 0; item < _model.getCurrentPatternLengh(); item++) {
+        for (int item = 0; item < _model.getCurrentPatternLength(); item++) {
             // Add letter options on Top
             ImageView imageView = new ImageView(this);
             LinearLayout.LayoutParams lp = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -87,17 +138,31 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
 
             if (count == 0) {
                 for (Integer patternIndex : _model.getPatternImageAnswerResourceIndex()) {
-                    ImageButton imageButton = new ImageButton(this);
+                    ImageView imagePatternView = new ImageView(this);
                     LinearLayout.LayoutParams lpBtn = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
                     lpBtn.setMargins(5, 5, 10, 5);
-                    imageButton.setLayoutParams(lpBtn);
+                    imagePatternView.setLayoutParams(lpBtn);
 
-                    imageButton.setPadding(6, 0, 6, 0);
-                    imageButton.setScaleType(ImageView.ScaleType.CENTER);
-                    imageButton.setAdjustViewBounds(true);
-                    imageButton.setBackgroundColor(Color.TRANSPARENT);
-                    imageButton.setImageResource(patternIndex);
-                    layout_top_pattern.addView(imageButton);
+                    imagePatternView.setPadding(6, 0, 6, 0);
+                    imagePatternView.setScaleType(ImageView.ScaleType.CENTER);
+                    imagePatternView.setAdjustViewBounds(true);
+                    imagePatternView.setBackgroundColor(Color.TRANSPARENT);
+                    imagePatternView.setImageResource(patternIndex);
+
+                    /**
+                     * Setup event listener for pattern image
+                     * */
+                    imagePatternView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                playPatternSound();
+                            }
+                            return false;
+                        }
+                    });
+
+                    layout_top_pattern.addView(imagePatternView);
                 }
 
                 imageView.setImageResource(R.drawable.underline);
@@ -106,6 +171,12 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
             }
             count ++;
             layout_top_pattern.addView(imageView);
+        }
+
+        _patternIndexes = (ArrayList) _model.getPatternAudioAnswerResourceIndex();
+
+        if (!isFirstTime) {
+            playPatternSound();
         }
     }
 
@@ -121,11 +192,8 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
                 // Show answer toast
                 displayToast(true);
 
-                // Remove correct button selection from view
-                mediaButton.setVisibility(View.GONE);
-
-                ImageView letterTopLine = (ImageView) findViewById(position);
-                letterTopLine.setBackgroundResource(0);
+                ImageView patternTopLine = (ImageView) findViewById(position);
+                patternTopLine.setBackgroundResource(0);
 
                 // Progress name position indicator
                 if (position < (count - 1)) {
@@ -138,20 +206,25 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
 
                 }
                 // Get the letter index for the letter of the name selected
-                int resourceIndex;
-                if (position == 0) {
-                    resourceIndex = getResources().getIdentifier("upper_wide_" + mediaButton.getValue().toString().toLowerCase(), "drawable", getPackageName());
-                } else {
-                    resourceIndex = getResources().getIdentifier("lower_wide_" + mediaButton.getValue().toString().toLowerCase(), "drawable", getPackageName());
-                }
-
-                letterTopLine.setImageResource(resourceIndex);
+                int resourceIndex = getResources().getIdentifier(mediaButton.getValue().toString(), "drawable", getPackageName());
+                patternTopLine.setImageResource(resourceIndex);
 
                 position++;
             } else {
                 // Show answer toast
                 displayToast(false);
             }
+        }
+    }
+
+    /**
+     * Will disable or enable the pattern buttons
+     * */
+    private void enablePatternButtons(Boolean state){
+        for (int i = 0; i < layout_top_pattern.getChildCount(); i++) {
+            ImageView imagePatternView = (ImageView) layout_top_pattern.getChildAt(i);
+            imagePatternView.setClickable(state);
+            imagePatternView.setEnabled(state);
         }
     }
 
@@ -163,6 +236,17 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
             MediaButton mediaButton = (MediaButton) layout_pattern.getChildAt(i);
             mediaButton.setIsDisabled(state);
         }
+    }
+
+    private void resetActivity() {
+        layout_top_pattern.removeAllViews();
+        layout_pattern.removeAllViews();
+        count = 1;
+        viewSetUp();
+
+        // disable audio
+        enablePatternButtons(false);
+        disableQuestionButtons(true);
     }
 
 
@@ -180,7 +264,9 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
         if (_model._isActivityDone) {
             // Checking for if the activity is done
             this.finish();
-        } else {
+        } else if (!_model._isActivityDone && _model.isPatternQuestionDone()){
+            resetActivity();
+        } else if (!_model._isActivityDone && !_model.isPatternQuestionDone()){
             // Enable the buttons when sound is complete
             int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
             _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
@@ -196,6 +282,7 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
                         mp.release();
                         mp = null;
                     }
+                    enablePatternButtons(true);
                     disableQuestionButtons(false);
                 }
             });
@@ -212,7 +299,10 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
         }
 
         // Enable the buttons when sound is complete
+        enablePatternButtons(true);
         disableQuestionButtons(false);
+        playPatternSound();
+        isFirstTime = false;
     }
 
     public void returnToMenu(View view) {
@@ -273,6 +363,7 @@ public class PatternMatchSelectable extends SkipTapActivity implements View.OnTo
     @Override
     public void startAudio() {
 
+        enablePatternButtons(false);
         disableQuestionButtons(true);
 
         playInstructions(_instructionsAudioResourceIndex);
