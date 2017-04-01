@@ -320,6 +320,7 @@ public class PatternMatchSelectableModel extends SelectableModel {
     @Override
     protected List<String> randomValuesGenerator() {
 
+
         List<String> valueList = new ArrayList<>();
         Random randomValueRetriever = new Random();
 
@@ -355,6 +356,16 @@ public class PatternMatchSelectableModel extends SelectableModel {
                     }
                 }
             }
+
+            // store the answer list for question generation
+            _answerList = new ArrayList<>(valueList);
+            _answerOrder = _answerList.get(0);
+
+            // remove the duplicate value;
+            valueList.remove(1);
+
+
+
         } else {  // for all other pattern types
 
             while (valueList.size() < _currentPatternType._patternLength) {
@@ -365,11 +376,17 @@ public class PatternMatchSelectableModel extends SelectableModel {
                 // add the random to the list
                 valueList.add(randomObject);
             }
+
+            // store the answer list for question generation
+            _answerList = new ArrayList<>(valueList);
+            _answerOrder = _answerList.get(0);
+
+
         }
 
-        // store the answer list for question generation
-        _answerList = new ArrayList<>(valueList);
-        _answerOrder = _answerList.get(0);
+//        // store the answer list for question generation
+//        _answerList = new ArrayList<>(valueList);
+//        _answerOrder = _answerList.get(0);
 
         // add random values to make a total of 2 extra options
         while (valueList.size() < (_currentPatternType._patternLength + 2)) {
