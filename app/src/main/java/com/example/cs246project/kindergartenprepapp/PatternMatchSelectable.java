@@ -45,7 +45,6 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         _model = new PatternMatchSelectableModel(this, 9);
 
         viewSetUp();
-        _totalPatternCount = _model.getShownPatternLength();
 
         // Disable the buttons
         enablePatternButtons(false);
@@ -59,6 +58,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
     private void playPatternSound() {
         enablePatternButtons(false);
         disableQuestionButtons(true);
+        _totalPatternCount = _model.getShownPatternLength();
 
         _patternCount = _totalPatternCount;
 
@@ -261,7 +261,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         count = 0;
         viewSetUp();
 
-        // disable audio
+        // disable buttons
         enablePatternButtons(false);
         disableQuestionButtons(true);
     }
