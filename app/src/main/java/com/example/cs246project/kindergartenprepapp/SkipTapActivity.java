@@ -8,6 +8,8 @@ import android.support.v7.widget.AppCompatImageView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -119,11 +121,50 @@ abstract class SkipTapActivity extends AppCompatActivity {
         layout.setOrientation(LinearLayout.VERTICAL);
 
         if (getInstructionToastImageResource() != -1) {
-            AppCompatImageView imageView = new AppCompatImageView(this);
+            final AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(getInstructionToastImageResource());
             imageView.setBackgroundColor(Color.parseColor(color));
             imageView.setPadding(20, 20, 20, 20);
             layout.addView(imageView);
+            final ScaleAnimation growAnim = new ScaleAnimation(1.0f, 1.15f, 1.0f, 1.15f);
+            final ScaleAnimation shrinkAnim = new ScaleAnimation(1.15f, 1.0f, 1.15f, 1.0f);
+
+            growAnim.setDuration(600);
+            shrinkAnim.setDuration(600);
+
+            imageView.setAnimation(growAnim);
+            growAnim.start();
+
+            growAnim.setAnimationListener(new Animation.AnimationListener()
+            {
+                @Override
+                public void onAnimationStart(Animation animation){}
+
+                @Override
+                public void onAnimationRepeat(Animation animation){}
+
+                @Override
+                public void onAnimationEnd(Animation animation)
+                {
+                    imageView.setAnimation(shrinkAnim);
+                    shrinkAnim.start();
+                }
+            });
+            shrinkAnim.setAnimationListener(new Animation.AnimationListener()
+            {
+                @Override
+                public void onAnimationStart(Animation animation){}
+
+                @Override
+                public void onAnimationRepeat(Animation animation){}
+
+                @Override
+                public void onAnimationEnd(Animation animation)
+                {
+                    imageView.setAnimation(growAnim);
+                    growAnim.start();
+                }
+            });
         }
 
         TextView textView = new TextView(this);
