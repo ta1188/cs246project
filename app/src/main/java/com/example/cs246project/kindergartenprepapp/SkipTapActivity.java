@@ -172,6 +172,7 @@ abstract class SkipTapActivity extends AppCompatActivity {
         textView.setBackgroundColor(Color.parseColor(color));
         textView.setTextSize(25);
         textView.setPadding(20, 20, 20, 20);
+        textView.setGravity(Gravity.CENTER);
         layout.addView(textView);
 
         _toast = new Toast(this);
