@@ -44,11 +44,14 @@ public class LetterTraceableModel extends CharacterTraceableModel {
      * @return a list of values (1 or more).
      */
     @Override
-    public List<String> getCurrentValues() {
-        List<String> values = new ArrayList<>();
+    public List<Integer> getCurrentValues() {
+        List<Integer> values = new ArrayList<>();
 
-        values.add("upper_" + _valueBank.get(_currentValueIndex));
-        values.add("lower_" + _valueBank.get(_currentValueIndex));
+        int upperLetter = _context.getResources().getIdentifier("upper_" + _valueBank.get(_currentValueIndex), "drawable", _context.getPackageName());
+        int lowerLetter = _context.getResources().getIdentifier("lower_" + _valueBank.get(_currentValueIndex), "drawable", _context.getPackageName());
+
+        values.add(upperLetter);
+        values.add(lowerLetter);
 
         return values;
     }

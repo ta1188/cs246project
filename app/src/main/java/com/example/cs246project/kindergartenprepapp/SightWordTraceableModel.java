@@ -15,7 +15,7 @@ import java.util.List;
  * @since   2017-03-09
  */
 
-public class SightWordTraceableModel {
+public class SightWordTraceableModel extends TraceableModel {
 
     // A bank of values in which the activity uses.
     protected List<String> _valueBank;
@@ -76,6 +76,11 @@ public class SightWordTraceableModel {
         if ((_currentValueIndex + 1) > 0) {
             _currentValueIndex--;
         }
+    }
+
+    @Override
+    public int getCurrentValueAudioResourceIndex() {
+        return _context.getResources().getIdentifier("sight_" + _valueBank.get(_currentValueIndex).toLowerCase(), "raw", _context.getPackageName());
     }
 
     /**

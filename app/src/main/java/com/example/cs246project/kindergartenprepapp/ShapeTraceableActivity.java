@@ -26,14 +26,15 @@ public class ShapeTraceableActivity extends CharacterTraceableActivity {
         _drawView = (DrawView) findViewById(R.id.drawView);
     }
 
-    protected void setTraceBackgroundFromValues(List<String> values) {
+    protected void setTraceBackgroundFromValues(List<Integer> values) {
         // Get the view
         AppCompatImageView imageView = (AppCompatImageView) findViewById(R.id.imageView);
 
         // Set the view image
-        imageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(0), "drawable", getPackageName()));
+        imageView.setImageResource(_model.getCurrentValues().get(0));
 
         // Set the view opacity
         imageView.setAlpha(0.5f);
     }
+
 }

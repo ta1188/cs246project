@@ -19,43 +19,11 @@ import java.util.List;
  * @since   2017-02-20
  */
 
-abstract public class CharacterTraceableActivity extends SkipTapActivity {
-
-    // Model object associated with the activity
-    protected CharacterTraceableModel _model;
-
-    // DrawView object associated with the activity
-    protected DrawView _drawView;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Set the model object
-        initializeModel();
-        // Set the layout
-        initializeLayoutIndex();
-        // Set the draw view
-        initializeDrawView();
-        // Set the background
-        setTraceBackgroundFromValues(_model.getCurrentValues());
-
-        // Hide the previous button since the activity is at the start
-        if (_model.isAtBeginning()) {
-            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
-            previousButton.setVisibility(View.INVISIBLE);
-        }
-
-        // Hide button if the activity isn't already complete
-        if (!_model.isComplete()) {
-            FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
-            doneButton.setVisibility(View.INVISIBLE);
-        }
-
-        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
-    }
+abstract public class CharacterTraceableActivity extends TraceableActivity {
 
     @Override
     public void onInstructionsAudioComplete() {
+        super.onInstructionsAudioComplete();
         playCurrentValueAudio();
     }
 
@@ -82,7 +50,7 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
      * Sets the background trace images using a list of string values (file names).
      * @param values used as the background to trace over
      */
-    abstract protected void setTraceBackgroundFromValues(List<String> values);
+    abstract protected void setTraceBackgroundFromValues(List<Integer> values);
 
     /**
      * Clear Last Tracing
@@ -112,34 +80,12 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
     }
 
     /**
-     * On Done Button Click
-     * Checks if the user has completed the activity or not and handles new values if not complete.
-     * @param view the button that caused this action to be called
-     */
-    public void onDoneButtonClick(View view) {
-        if (_model.isComplete()) {
-
-            // Play a completion sound
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, _model.getCompletionAudioIndex());
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.release();
-
-                    // Go back to the main menu
-                    finish();
-                }
-            });
-            mediaPlayer.start();
-        };
-    }
-
-    /**
      * Go Back To Next Value
      * Displays the next value (un-traced), if any.
      */
     public void goToNextValue(View view) {
         if (!_model.isComplete()) {
+            enableAllButtons(false);
             // Save the paths of the letter to be used again
 //            _model.setCurrentValuePaths(_drawView.getPaths());
 
@@ -176,6 +122,7 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
      */
     public void goToPreviousValue(View view) {
         if (!_model.isAtBeginning()) {
+            enableAllButtons(false);
             // Save the paths of the letter to be used again
 //            _model.setCurrentValuePaths(_drawView.getPaths());
 
@@ -206,23 +153,5 @@ abstract public class CharacterTraceableActivity extends SkipTapActivity {
         if (doneButton.getVisibility() == View.VISIBLE && !_model.isComplete()) {
             doneButton.setVisibility(View.INVISIBLE);
         }
-    }
-
-    /**
-     * Plays the audio resource that applies to the currently viewed value.
-     */
-    protected void playCurrentValueAudio() {
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, _model.getCurrentValueAudioResourceIndex());
-
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                if (mp != null) {
-                    mp.release();
-                }
-            }
-        });
-
-        mediaPlayer.start();
     }
 }

@@ -28,15 +28,14 @@ public class LetterTraceableActivity extends CharacterTraceableActivity {
         _drawView = (DrawView) findViewById(R.id.drawView);
     }
 
-    protected void setTraceBackgroundFromValues(List<String> values) {
+    protected void setTraceBackgroundFromValues(List<Integer> values) {
         // Get the views
         AppCompatImageView upperLetterImageView = (AppCompatImageView) findViewById(R.id.upperLetter);
         AppCompatImageView lowerLetterImageView = (AppCompatImageView) findViewById(R.id.lowerLetter);
 
         // Set the view images
-        upperLetterImageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(0), "drawable", getPackageName()));
-        lowerLetterImageView.setImageResource(getResources().getIdentifier(_model.getCurrentValues().get(1), "drawable", getPackageName()));
-
+        upperLetterImageView.setImageResource(_model.getCurrentValues().get(0));
+        lowerLetterImageView.setImageResource(_model.getCurrentValues().get(1));
         // Set the view opacity
         upperLetterImageView.setAlpha(0.5f);
         lowerLetterImageView.setAlpha(0.5f);

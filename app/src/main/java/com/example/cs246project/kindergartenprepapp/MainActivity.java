@@ -2,6 +2,7 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,7 +40,15 @@ public class MainActivity extends AppCompatActivity {
         EditText lastNameField = (EditText) findViewById(R.id.playerLastName);
         lastNameField.setText(lastname);
 
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.instruct_enter_your_name_to_get_started);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+            }
+        });
 
+        mediaPlayer.start();
     }
 
     public void goToMainMenu(View view) {

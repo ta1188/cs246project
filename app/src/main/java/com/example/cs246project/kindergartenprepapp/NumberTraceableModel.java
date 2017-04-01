@@ -45,10 +45,10 @@ public class NumberTraceableModel extends CharacterTraceableModel {
      * Gets the current filename value(s) from _values;
      * @return a list of values (1 or more).
      */
-    public List<String> getCurrentValues() {
-        List<String> values = new ArrayList<>();
-
-        values.add("number_" + _valueBank.get(_currentValueIndex));
+    public List<Integer> getCurrentValues() {
+        List<Integer> values = new ArrayList<>();
+        int value = _context.getResources().getIdentifier("number_" + _valueBank.get(_currentValueIndex), "drawable", _context.getPackageName());
+        values.add(value);
 
         return values;
     }

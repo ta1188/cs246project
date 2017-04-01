@@ -27,16 +27,16 @@ public class ShapeTraceableModel extends CharacterTraceableModel {
     @Override
     protected void generateValueBank() {
         _valueBank = new ArrayList<String>();
-        _valueBank.add("shape_outline_circle");
-        _valueBank.add("shape_outline_rhombus");
-        _valueBank.add("shape_outline_heart");
-        _valueBank.add("shape_outline_hexagon");
-        _valueBank.add("shape_outline_octagon");
-        _valueBank.add("shape_outline_pentagon");
-        _valueBank.add("shape_outline_rectangle");
-        _valueBank.add("shape_outline_square");
-        _valueBank.add("shape_outline_star");
-        _valueBank.add("shape_outline_triangle");
+        _valueBank.add("circle");
+        _valueBank.add("heart");
+        _valueBank.add("hexagon");
+        _valueBank.add("octagon");
+        _valueBank.add("pentagon");
+        _valueBank.add("rhombus");
+        _valueBank.add("rectangle");
+        _valueBank.add("square");
+        _valueBank.add("star");
+        _valueBank.add("triangle");
     }
 
     /**
@@ -46,10 +46,10 @@ public class ShapeTraceableModel extends CharacterTraceableModel {
      * @return a list of values (1 or more).
      */
     @Override
-    public List<String> getCurrentValues() {
-        List<String> values = new ArrayList<>();
-
-        values.add(_valueBank.get(_currentValueIndex));
+    public List<Integer> getCurrentValues() {
+        List<Integer> values = new ArrayList<>();
+        int value = _context.getResources().getIdentifier("shape_outline_" + _valueBank.get(_currentValueIndex), "drawable", _context.getPackageName());
+        values.add(value);
 
         return values;
     }
@@ -60,11 +60,11 @@ public class ShapeTraceableModel extends CharacterTraceableModel {
      * @return the file name of the instructions audio file
      */
     protected String getInstructionsFileName() {
-        return "instruct_trace_letter_with_finger";
+        return "instruct_trace_the_shape_with_your_finger";
     }
 
     public int getCurrentValueAudioResourceIndex() {
-        String audioFileName = "a"; // TODO: CHANGE THIS!!! //_valueBank.get(_currentValueIndex);
+        String audioFileName = "shape_" + _valueBank.get(_currentValueIndex);
         return _context.getResources().getIdentifier(audioFileName, "raw" , _context.getPackageName());
     }
 }
