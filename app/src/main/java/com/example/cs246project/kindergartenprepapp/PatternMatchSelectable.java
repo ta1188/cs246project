@@ -31,6 +31,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
     private int _patternCount = 0;
     private int _indexNum = 0;
     private ArrayList<Integer> _patternIndexes;
+    private Boolean _isResuming = false;
 
 
     private MediaPlayer _soundsOfPatternMediaPlayer;
@@ -191,9 +192,10 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
 
         _patternIndexes = (ArrayList) _model.getPatternAudioAnswerResourceIndex();
 
-        if (!isFirstTime) {
+        if (!isFirstTime && !_isResuming) {
             playPatternSound();
         }
+        _isResuming = false;
     }
 
     @Override
@@ -396,6 +398,17 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         playInstructions(_instructionsAudioResourceIndex);
 
         _backgroundAudioModel.startBackgroundAudio(this);
+    }
+
+    @Override
+    protected void onResume() {
+
+        if(_model.isPatternQuestionsDone()) {
+            _isResuming = true;
+            resetActivity();
+        }
+
+        super.onResume();
     }
 
 }
