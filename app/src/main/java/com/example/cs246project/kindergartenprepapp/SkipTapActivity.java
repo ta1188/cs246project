@@ -120,60 +120,54 @@ abstract class SkipTapActivity extends AppCompatActivity {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        if (getInstructionToastImageResource() != -1) {
-            final AppCompatImageView imageView = new AppCompatImageView(this);
-            imageView.setImageResource(getInstructionToastImageResource());
-            imageView.setBackgroundColor(Color.parseColor(color));
-            imageView.setPadding(20, 20, 20, 20);
-            layout.addView(imageView);
-            final ScaleAnimation growAnim = new ScaleAnimation(1.0f, 1.15f, 1.0f, 1.15f);
-            final ScaleAnimation shrinkAnim = new ScaleAnimation(1.15f, 1.0f, 1.15f, 1.0f);
 
-            growAnim.setDuration(600);
-            shrinkAnim.setDuration(600);
+        final AppCompatImageView imageView = new AppCompatImageView(this);
+        imageView.setImageResource(R.drawable.touch_icon);
+        imageView.setBackgroundColor(Color.parseColor(color));
+        imageView.setPadding(50, 50, 50, 50);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(250, 250);
+        imageView.setLayoutParams(layoutParams);
+        layout.addView(imageView);
+        final ScaleAnimation growAnim = new ScaleAnimation(1.0f, 1.15f, 1.0f, 1.15f);
+        final ScaleAnimation shrinkAnim = new ScaleAnimation(1.15f, 1.0f, 1.15f, 1.0f);
 
-            imageView.setAnimation(growAnim);
-            growAnim.start();
+        growAnim.setDuration(600);
+        shrinkAnim.setDuration(600);
 
-            growAnim.setAnimationListener(new Animation.AnimationListener()
+        imageView.setAnimation(growAnim);
+        growAnim.start();
+
+        growAnim.setAnimationListener(new Animation.AnimationListener()
+        {
+            @Override
+            public void onAnimationStart(Animation animation){}
+
+            @Override
+            public void onAnimationRepeat(Animation animation){}
+
+            @Override
+            public void onAnimationEnd(Animation animation)
             {
-                @Override
-                public void onAnimationStart(Animation animation){}
+                imageView.setAnimation(shrinkAnim);
+                shrinkAnim.start();
+            }
+        });
+        shrinkAnim.setAnimationListener(new Animation.AnimationListener()
+        {
+            @Override
+            public void onAnimationStart(Animation animation){}
 
-                @Override
-                public void onAnimationRepeat(Animation animation){}
+            @Override
+            public void onAnimationRepeat(Animation animation){}
 
-                @Override
-                public void onAnimationEnd(Animation animation)
-                {
-                    imageView.setAnimation(shrinkAnim);
-                    shrinkAnim.start();
-                }
-            });
-            shrinkAnim.setAnimationListener(new Animation.AnimationListener()
+            @Override
+            public void onAnimationEnd(Animation animation)
             {
-                @Override
-                public void onAnimationStart(Animation animation){}
+                imageView.setAnimation(growAnim);
+                growAnim.start();
+            }
+        });
 
-                @Override
-                public void onAnimationRepeat(Animation animation){}
-
-                @Override
-                public void onAnimationEnd(Animation animation)
-                {
-                    imageView.setAnimation(growAnim);
-                    growAnim.start();
-                }
-            });
-        }
-
-        TextView textView = new TextView(this);
-        textView.setText(getInstructionToastText());
-        textView.setBackgroundColor(Color.parseColor(color));
-        textView.setTextSize(25);
-        textView.setPadding(20, 20, 20, 20);
-        textView.setGravity(Gravity.CENTER);
-        layout.addView(textView);
 
         _toast = new Toast(this);
         _toast.setView(layout);
@@ -186,13 +180,6 @@ abstract class SkipTapActivity extends AppCompatActivity {
      * Gets the text to put into the instructions toast.
      */
     abstract protected String getInstructionToastText();
-
-    /**
-     * Gets the resource index of the image to display in the instruction toast.
-     */
-    protected int getInstructionToastImageResource() {
-        return -1;
-    }
 
     /**
      * Handle instruction toast messages that will play for the length of the beginning instructions

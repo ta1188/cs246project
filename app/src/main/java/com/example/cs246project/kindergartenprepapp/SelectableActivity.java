@@ -11,9 +11,5 @@ public abstract class SelectableActivity extends SkipTapActivity {
         return "Tap a Button";
     }
 
-    @Override
-    protected int getInstructionToastImageResource() {
-        return R.drawable.touch_icon;
-    }
 
 }
