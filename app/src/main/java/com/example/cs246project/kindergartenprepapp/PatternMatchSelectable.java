@@ -266,6 +266,35 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         disableQuestionButtons(true);
     }
 
+    private void playResultAudio() {
+        // Enable the buttons when sound is complete
+        int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
+        _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
+        _answerMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                // cancel toast after audio
+                if (_toast != null) {
+                    _toast.cancel();
+                }
+
+                if (mp != null) {
+                    mp.release();
+                    mp = null;
+                }
+
+                if (!_model._isActivityDone && _model.isPatternQuestionsDone()){
+                    resetActivity();
+                } else {
+                    enablePatternButtons(true);
+                    disableQuestionButtons(false);
+                }
+
+            }
+        });
+        _answerMediaPlayer.start();
+    }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -282,28 +311,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
             // Checking for if the activity is done
             this.finish();
         } else if (!_model._isActivityDone && _model.isPatternQuestionsDone()){
-            resetActivity();
+            playResultAudio();
         } else if (!_model._isActivityDone && !_model.isPatternQuestionsDone()){
-            // Enable the buttons when sound is complete
-            int audioAnswerIndex = _model.getAnswerAudioIndex(_isCorrect);
-            _answerMediaPlayer = MediaPlayer.create(this, audioAnswerIndex);
-            _answerMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    // cancel toast after audio
-                    if (_toast != null) {
-                        _toast.cancel();
-                    }
-
-                    if (mp != null) {
-                        mp.release();
-                        mp = null;
-                    }
-                    enablePatternButtons(true);
-                    disableQuestionButtons(false);
-                }
-            });
-            _answerMediaPlayer.start();
+            playResultAudio();
         }
     }
 
