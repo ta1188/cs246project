@@ -12,9 +12,7 @@ import android.widget.LinearLayout;
 import java.util.List;
 
 /**
- * An Activity that allows the user to trace letters in the alphabet, numbers, or words (including
- * their name). This is meant to help them improve their fine motor, writing, and recognition
- * skills.
+ * An Activity that allows the user to trace sight-words from "Fry's list of words".
  * <p>
  * @author  Dan Rix
  * @version 1.0
@@ -62,7 +60,7 @@ public class SightWordTraceableActivity extends TraceableActivity {
     }
 
     /**
-     *
+     * Actions for when the instructions audio is complete.
      */
     @Override
     public void onInstructionsAudioComplete() {

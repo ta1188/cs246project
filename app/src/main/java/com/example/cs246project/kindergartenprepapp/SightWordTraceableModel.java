@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The model class associated with a name tracing activity which handles all of the logic of
+ * The model class associated with a sight word tracing activity which handles all of the logic of
  * building the image resource files and tracking values.
  * <p>
  * @author  Dan Rix
@@ -140,6 +140,10 @@ public class SightWordTraceableModel extends TraceableModel {
         return "instruct_trace_the_sight_word_with_your_finger";
     }
 
+    /**
+     * Gets the audio index of the audio that should play at the completion of the activity.
+     * @return return the audio index of the completion audio.
+     */
     public int getCompletionAudioIndex() {
         return _context.getResources().getIdentifier("motivate_great_job", "raw", _context.getPackageName());
     }

@@ -56,13 +56,18 @@ public class ShapeTraceableModel extends CharacterTraceableModel {
 
     /**
      * {@inheritDoc}
-     * Gets the file name fo the instructions audio raw file
+     * Gets the file name fo the instructions audio raw file.
      * @return the file name of the instructions audio file
      */
     protected String getInstructionsFileName() {
         return "instruct_trace_the_shape_with_your_finger";
     }
 
+    /**
+     * {@inheritDoc}
+     * Gets the audio resource index for the current value.
+     * @return The audio index for the current value in _valueBank.
+     */
     public int getCurrentValueAudioResourceIndex() {
         String audioFileName = "shape_" + _valueBank.get(_currentValueIndex);
         return _context.getResources().getIdentifier(audioFileName, "raw" , _context.getPackageName());

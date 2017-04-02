@@ -68,7 +68,7 @@ public class MediaModel<T> {
     }
 
     /**
-     *
+     * Increments the _currentAudioResourceIndex by 1.
      */
     public void incrementCurrentAudioResourceIndex() {
         _currentAudioResourceIndex++;

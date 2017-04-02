@@ -84,15 +84,12 @@ abstract public class CharacterTraceableActivity extends TraceableActivity {
     public void goToNextValue(View view) {
         if (!_model.isComplete()) {
             enableAllButtons(false);
-            // Save the paths of the letter to be used again
-//            _model.setCurrentValuePaths(_drawView.getPaths());
 
             // Go to the next character
             _model.goToNextValue();
 
             // Setup the tracing background with the next letter
             clearAllTracings(view);
-//            _drawView.setPaths(_model.getCurrentValuePath());
             setTraceBackgroundFromValues(_model.getCurrentValues());
             playCurrentValueAudio();
             FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
@@ -121,8 +118,6 @@ abstract public class CharacterTraceableActivity extends TraceableActivity {
     public void goToPreviousValue(View view) {
         if (!_model.isAtBeginning()) {
             enableAllButtons(false);
-            // Save the paths of the letter to be used again
-//            _model.setCurrentValuePaths(_drawView.getPaths());
 
             // Go to the previous character
             _model.goToPreviousValue();
@@ -130,7 +125,6 @@ abstract public class CharacterTraceableActivity extends TraceableActivity {
 
             // Setup the tracing background with the next letter
             clearAllTracings(view);
-//            _drawView.setPaths(_model.getCurrentValuePath());
             setTraceBackgroundFromValues(_model.getCurrentValues());
             playCurrentValueAudio();
             FloatingActionButton nextButton = (FloatingActionButton) findViewById(R.id.btnNext);

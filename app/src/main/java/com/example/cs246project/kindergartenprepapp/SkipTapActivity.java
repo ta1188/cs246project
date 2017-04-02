@@ -25,9 +25,16 @@ import android.widget.Toast;
 
 abstract class SkipTapActivity extends AppCompatActivity {
 
+    // The class that handles the background music audio
     protected BackgroundAudioModel _backgroundAudioModel;
+
+    // The media player than handles the instructions
     protected MediaPlayer _instructionsMediaPlayer;
+
+    // The resource index for the audio for instructions
     protected int _instructionsAudioResourceIndex;
+
+    // Toast for displaying correct/incorrect/instructions
     protected Toast _toast;
 
     @Override
@@ -203,11 +210,17 @@ abstract class SkipTapActivity extends AppCompatActivity {
         missingNameToast.show();
     }
 
+    /**
+     * Actions to perform when the instructions audio has completed.
+     */
     public void onInstructionsAudioComplete() {
         // Do nothing here.
         // Descendants may Override this if they want (not abstract == not required)
     }
 
+    /**
+     * Stops all audio, toasts, etc.
+     */
     public void stopEverything() {
         if (_toast != null) {
             _toast.cancel();

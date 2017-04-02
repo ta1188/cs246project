@@ -8,7 +8,11 @@ import android.view.View;
 import java.util.List;
 
 /**
- * Created by Dan on 3/31/2017.
+ * The common ancestor for all Tracing Activities.
+ * <p>
+ * @author  Dan Rix
+ * @version 1.0
+ * @since   2017-02-20
  */
 
 public abstract class TraceableActivity extends SkipTapActivity {

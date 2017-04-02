@@ -62,6 +62,10 @@ public class NumberTraceableModel extends CharacterTraceableModel {
         return "instruct_trace_number_with_finger";
     }
 
+    /**
+     * Gets the current value's audio resource index.
+     * @return the audio index of the current value in the _valueBank.
+     */
     public int getCurrentValueAudioResourceIndex() {
         String audioFileName = "number_" + _valueBank.get(_currentValueIndex);
         return _context.getResources().getIdentifier(audioFileName, "raw" , _context.getPackageName());

@@ -26,7 +26,9 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
     // Is the button disabled (not allowed to call the internal touch event actions)?
     private boolean _isDisabled;
 
-    // The On Completion Listener for when the button's audio is played.
+    /**
+     * The On Completion Listener for when the button's audio is played.
+     */
     private MediaPlayer.OnCompletionListener _onCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -136,6 +138,9 @@ public class MediaButton<T> extends android.support.v7.widget.AppCompatImageButt
         }
     }
 
+    /**
+     * Stops the audio playing in the _mediaPlayer member variable.
+     */
     public void stopAudio() {
         if (_mediaPlayer != null && _mediaPlayer.isPlaying()) {
             _mediaPlayer.stop();
