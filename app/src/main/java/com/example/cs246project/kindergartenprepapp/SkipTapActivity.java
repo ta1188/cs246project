@@ -168,7 +168,9 @@ abstract class SkipTapActivity extends AppCompatActivity {
             }
         });
 
-
+        if (_toast != null) {
+            _toast.cancel();
+        }
         _toast = new Toast(this);
         _toast.setView(layout);
         _toast.setDuration(Toast.LENGTH_SHORT);
