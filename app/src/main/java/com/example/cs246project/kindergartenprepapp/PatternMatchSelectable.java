@@ -16,6 +16,10 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 
 
+/**
+ * Handles pattern recognition and completion
+ * @author Trevor Adams
+ * */
 public class PatternMatchSelectable extends SelectableActivity implements View.OnTouchListener, MediaButtonHandler {
 
     // Create a new Array list that will hold the filenames to reference
@@ -63,16 +67,23 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         playInstructions(_model.getActivityInstructionsIndex());
     }
 
+    /**
+     * Handles triggering of audio and locking of buttons
+     * */
     private void playPatternSound() {
         enablePatternButtons(false);
         disableQuestionButtons(true);
         _totalPatternCount = _model.getShownPatternLength();
 
+        // Update _patternCount to the new total count
         _patternCount = _totalPatternCount;
 
         playPrePatternAudio();
     }
 
+    /**
+     * Creates/handles audio before pattern audio is played
+     * */
     private void playPrePatternAudio() {
         if (_indexNum <= (_model.getShownPatternLength() - 1)) {
             int index = getResources().getIdentifier("instruct_the_pattern_is", "raw", getPackageName());
@@ -94,6 +105,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         }
     }
 
+    /**
+     * Plays pattern audio file
+     * */
     private void patternSoundPlayer() {
         if (_indexNum <= (_model.getShownPatternLength() - 1)) {
             _soundsOfPatternMediaPlayer = MediaPlayer.create(this, _patternIndexes.get(_indexNum));
@@ -106,7 +120,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         }
     }
 
-
+    /**
+     * Completion listener creates loop for the number of items in the pattern
+     * */
     MediaPlayer.OnCompletionListener onPatternComplete = new MediaPlayer.OnCompletionListener() {
         @Override
         public void onCompletion(MediaPlayer mp) {
@@ -147,6 +163,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
             layout_pattern.addView(btn);
         }
 
+        /**
+         * This will loop through the patten length to set the pattern shown on top
+         * */
         // Loop for setting up answers
         for (int item = 0; item < _model.getCurrentPatternLength(); item++) {
             // Add letter options on Top
@@ -263,6 +282,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         }
     }
 
+    /**
+     * Called when a round is over, to prepare views for next round
+     * */
     private void resetActivity() {
         layout_top_pattern.removeAllViews();
         layout_pattern.removeAllViews();
@@ -327,6 +349,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         }
     }
 
+    /**
+     * Called when audio has completed (for instructions)
+     * */
     @Override
     public void onInstructionsAudioComplete() {
 
@@ -408,6 +433,9 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         _backgroundAudioModel.startBackgroundAudio(this);
     }
 
+    /**
+     * Helps manage custom onResume actions to check if pattern is done
+     * */
     @Override
     protected void onResume() {
 

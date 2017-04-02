@@ -178,6 +178,9 @@ public class WordSelectable extends SelectableActivity implements View.OnTouchLi
         disableQuestionButtons(false);
     }
 
+    /**
+     * Called when a round is over, to prepare views for next round
+     * */
     private void resetActivity() {
         layout_top.removeAllViews();
         layout_bottom.removeAllViews();

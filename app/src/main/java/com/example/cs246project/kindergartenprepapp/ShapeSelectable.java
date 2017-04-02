@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 /**
- * Handles finding first letter of word image shown
+ * Handles finding the shape that matches the word referenced in the button shown
  * @author Trevor Adams
  * edits Michael Lucero
  * */
@@ -30,7 +30,6 @@ public class ShapeSelectable extends SelectableActivity implements View.OnTouchL
     private boolean isFirstTime = true;
     Context context = this;
     private Button _shapeButton;
-    private ImageView imageView;
     private MediaPlayer _mainButtonMediaPlayer;
 
     int count = 1;
@@ -173,6 +172,9 @@ public class ShapeSelectable extends SelectableActivity implements View.OnTouchL
         disableQuestionButtons(false);
     }
 
+    /**
+     * Called when a round is over, to prepare views for next round
+     * */
     private void resetActivity() {
         _shape_layout.removeAllViews();
         wasTrue = false;

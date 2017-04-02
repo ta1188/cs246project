@@ -129,12 +129,18 @@ public class CountSelectable extends SelectableActivity implements View.OnTouchL
         }
     }
 
+    /**
+     * Obtains image resource for main image and sets it to the imageView
+     * */
     private void setMainImage() {
         // Grab the image resource and set the image drawable
         Drawable res = getResources().getDrawable(_model.getAnswerResourceIndex(), getTheme());
         imageView.setImageDrawable(res);
     }
 
+    /**
+     * Called when a round is over, to prepare views for next round
+     * */
     private void resetActivity() {
         layout_top.removeAllViews();
         layout_bottom.removeAllViews();
