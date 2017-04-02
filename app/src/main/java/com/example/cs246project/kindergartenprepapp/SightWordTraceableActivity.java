@@ -50,13 +50,12 @@ public class SightWordTraceableActivity extends TraceableActivity {
         for (int i = 0; i < values.size(); i++) {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(values.get(i));
-            LinearLayout.LayoutParams layoutParams = new AppBarLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(0, 0, 75, 0);
             imageView.setLayoutParams(layoutParams);
             imageView.setAlpha(0.3f);
-            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setAdjustViewBounds(true);
-
             layout.addView(imageView);
         }
         _drawView.randomizeCurrentColor();
