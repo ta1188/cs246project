@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -62,13 +63,11 @@ public class PatternMatchSelectableModel extends SelectableModel {
         protected int _patternLength;
         protected int _completeQuestionPatternLength;
         protected int _patternVariation;
-        //protected Boolean _isPatternQuestionDone;
 
         public PatternType(int patternLength, int patternVariation) {
             _patternLength = patternLength;
             _patternVariation = patternVariation;
             _completeQuestionPatternLength = patternLength + patternLength + patternLength;
-            //_isPatternQuestionDone = false;
         }
     }
 
@@ -85,7 +84,6 @@ public class PatternMatchSelectableModel extends SelectableModel {
             // initialize question bank
             buildInitialQuestionAnswerBanks();
     }
-
 
     /* METHODS */
 
@@ -388,15 +386,12 @@ public class PatternMatchSelectableModel extends SelectableModel {
             _answerList = new ArrayList<>(valueList);
             _answerOrder = _answerList.get(0);
 
-
+            // used to ensure no duplicates in the option choices
+            valueList = new ArrayList<>(new LinkedHashSet<>(valueList));
         }
 
-//        // store the answer list for question generation
-//        _answerList = new ArrayList<>(valueList);
-//        _answerOrder = _answerList.get(0);
-
         // add random values to make a total of 2 extra options
-        while (valueList.size() < (_currentPatternType._patternLength + 2)) {
+        while (valueList.size() < (4)) {
 
             // get random value
             String randomObject = (String) _questionBank.get(randomValueRetriever.nextInt(_questionBank.size()));
