@@ -19,6 +19,7 @@ public class NameTraceableModel {
 
     protected String _firstName;
     protected String _lastName;
+    protected int _lastLetterOfFirstNameResourceIndex;
 
     protected Context _context;
 
@@ -46,11 +47,21 @@ public class NameTraceableModel {
         // Get indexes of first name
         for (int i = 0; i < _firstName.length(); i++) {
             Character character = _firstName.charAt(i);
+
+            // Set the prefix based on if the character is upper or lower case
+            String resourcePrefix = "lower_";
             if (Character.isUpperCase(character)) {
-                result.add(_context.getResources().getIdentifier("upper_" + character.toLowerCase(character), "drawable", _context.getPackageName()));
-            } else {
-                result.add(_context.getResources().getIdentifier("lower_" + character, "drawable", _context.getPackageName()));
+                resourcePrefix = "upper_";
             }
+
+            int resourceIndex = _context.getResources().getIdentifier(resourcePrefix + character.toLowerCase(character), "drawable", _context.getPackageName());
+
+            // Set the resource index for the last letter in the first name
+            if (i == (_firstName.length() - 1)) {
+                _lastLetterOfFirstNameResourceIndex = resourceIndex;
+            }
+
+            result.add(resourceIndex);
         }
 
         // Get indexes of last name
@@ -90,5 +101,9 @@ public class NameTraceableModel {
 
     public int getCompletionAudioIndex() {
         return _context.getResources().getIdentifier("motivate_great_job", "raw", _context.getPackageName());
+    }
+
+    public boolean isLastLetterOfFirstName(int resourceIndex) {
+        return _lastLetterOfFirstNameResourceIndex == resourceIndex;
     }
 }

@@ -85,9 +85,11 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
         LinearLayout previewLetterLayout = (LinearLayout) findViewById(R.id.previewLetterLayout);
 
         for (int i = 0; i < _model.getValues().size(); i++) {
+            int resourceIndex = _model.getValues().get(i);
+
             // Actual image view
             AppCompatImageView imageView = new AppCompatImageView(this);
-            imageView.setImageResource(_model.getValues().get(i));
+            imageView.setImageResource(resourceIndex);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
             layoutParams.setMargins(0, 0, 75, 0);
             imageView.setLayoutParams(layoutParams);
@@ -98,9 +100,13 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
 
             // Preview
             AppCompatImageView previewImageView = new AppCompatImageView(this);
-            previewImageView.setImageResource(_model.getValues().get(i));
+            previewImageView.setImageResource(resourceIndex);
             LinearLayout.LayoutParams previewLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            previewLayoutParams.setMargins(0, 0, 10, 0);
+            if (_model.isLastLetterOfFirstName(resourceIndex)) {
+                previewLayoutParams.setMargins(0, 0, 75, 0);
+            } else {
+                previewLayoutParams.setMargins(0, 0, 10, 0);
+            }
             previewImageView.setLayoutParams(previewLayoutParams);
             previewImageView.setAlpha(0.3f);
             previewImageView.setAdjustViewBounds(true);
@@ -131,6 +137,10 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
         }
     }
 
+    /**
+     * Can the user still scroll to the right?
+     * @return if the remaining scroll width is less than the viewport width
+     */
     private boolean canScrollRight() {
         int remainingScrollWidth = 0;
         for (int i = _currentCharacterIndex; i < _characterWidths.size(); i++) {
