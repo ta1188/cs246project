@@ -57,6 +57,9 @@ public class NameSelectable extends SelectableActivity implements View.OnTouchLi
         playInstructions(_model.getActivityInstructionsIndex());
     }
 
+    /**
+     * Called when a round is over, only if they have a last name entered
+     * */
     protected void resetToLastName() {
         _model = new NameSelectableModel(this, "last");
         layout_name.removeAllViews();
@@ -160,6 +163,9 @@ public class NameSelectable extends SelectableActivity implements View.OnTouchLi
         }
     }
 
+    /**
+     * On end of name spelling, their name is repeated back to them, letter by letter
+     * */
     private void playSoundsOfName(boolean isFirstName, int transitionType) {
         SharedPreferences _sharedPreferences = this.getSharedPreferences("SETTINGS", MODE_PRIVATE);
         String name = isFirstName ? _sharedPreferences.getString("FIRST_NAME", "") : _sharedPreferences.getString("LAST_NAME", "");
