@@ -1,5 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -10,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
     // Find the horizontal scroll view
     private LinearLayout layout_pattern;
     private LinearLayout layout_top_pattern;
+    private ProgressBar _progBar;
 
     private int count = 0;
     private int position = 0;
@@ -30,6 +33,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
     private int _totalPatternCount = 0;
     private int _patternCount = 0;
     private int _indexNum = 0;
+    private int numRounds = 9;
     private ArrayList<Integer> _patternIndexes;
     private Boolean _isResuming = false;
 
@@ -43,7 +47,10 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
         setContentView(R.layout.pattern_match);
         layout_pattern = (LinearLayout) findViewById(R.id.layout_pattern);
         layout_top_pattern = (LinearLayout) findViewById(R.id.layout_top_pattern);
-        _model = new PatternMatchSelectableModel(this, 9);
+        _model = new PatternMatchSelectableModel(this, numRounds);
+        _progBar = (ProgressBar) findViewById(R.id.patternProgressBar);
+        _progBar.setMax(numRounds);
+        _progBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(AppConstants.progressBarColor)));
 
         viewSetUp();
 
@@ -286,6 +293,7 @@ public class PatternMatchSelectable extends SelectableActivity implements View.O
                 }
 
                 if (!_model._isActivityDone && _model.isPatternQuestionsDone()){
+                    _progBar.incrementProgressBy(1);
                     resetActivity();
                 } else {
                     enablePatternButtons(true);
