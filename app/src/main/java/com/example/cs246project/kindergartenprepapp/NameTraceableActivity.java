@@ -91,7 +91,11 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(resourceIndex);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(0, 0, 75, 0);
+            if (_model.isLastLetterOfFirstName(resourceIndex)) {
+                layoutParams.setMargins(0, 0, 150, 0);
+            } else {
+                layoutParams.setMargins(0, 0, 75, 0);
+            }
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             imageView.setAlpha(0.3f);
@@ -174,11 +178,6 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
             previousButton.setVisibility(View.VISIBLE);
             Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in_animation);
             previousButton.startAnimation(fadeIn);
-        }
-
-        int nextCharacterWidth = 0;
-        if (_currentCharacterIndex != _characterWidths.size()) {
-            nextCharacterWidth = _characterWidths.get(_currentCharacterIndex);
         }
 
         if (canScrollRight()) {
