@@ -11,63 +11,144 @@
     android:paddingTop="0dp"
     tools:context="com.example.cs246project.kindergartenprepapp.NumberTraceableActivity">
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/topBuffer"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBuffer"
+        app:layout_constraintTop_toBottomOf="@+id/topBuffer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/lines"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:srcCompat="@drawable/ic_dans_number_lines" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:alpha=".3"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/number_0" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.example.cs246project.kindergartenprepapp.DrawView
+        android:id="@+id/drawView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnClear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/bottomBuffer"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnClear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+    </android.support.constraint.ConstraintLayout>
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:clickable="true"
         android:onClick="clearLastTracing"
         app:backgroundTint="@android:color/holo_orange_light"
         app:fabSize="mini"
-        app:srcCompat="@drawable/clear"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/clear" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/frameLayout"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:clickable="true"
+        android:onClick="onDoneButtonClick"
+        app:backgroundTint="@android:color/holo_green_light"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/check" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnMenuReturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/frameLayout"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:clickable="true"
         android:onClick="returnToMenu"
         app:backgroundTint="@android:color/holo_purple"
         app:fabSize="mini"
-        app:srcCompat="@drawable/menu"
-        android:layout_below="@+id/frameLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="50dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="50dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:srcCompat="@drawable/menu" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnPrevious"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_toStartOf="@+id/btnClear"
         android:clickable="true"
         android:onClick="goToPreviousValue"
         app:backgroundTint="@android:color/holo_blue_bright"
         app:fabSize="mini"
-        app:srcCompat="@drawable/arrow_left"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/btnMenuReturn"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintRight_toLeftOf="@+id/btnClear"
-        android:layout_marginRight="8dp"
         app:layout_constraintHorizontal_bias="0.506"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintLeft_toRightOf="@+id/btnMenuReturn"
+        app:layout_constraintRight_toLeftOf="@+id/btnClear"
+        app:srcCompat="@drawable/arrow_left" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnNext"
@@ -75,87 +156,18 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/btnClear"
         android:layout_below="@+id/frameLayout"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:clickable="true"
         android:onClick="goToNextValue"
         app:backgroundTint="@android:color/holo_blue_bright"
         app:fabSize="mini"
-        app:srcCompat="@drawable/arrow_right"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toRightOf="@+id/btnClear"
-        android:layout_marginLeft="8dp"
         app:layout_constraintRight_toLeftOf="@+id/btnDone"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:backgroundTint="@android:color/holo_green_light"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/check"
-        android:onClick="onDoneButtonClick"
-        android:layout_below="@+id/frameLayout"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="50dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="50dp" />
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/lines"
-        android:layout_width="2000dp"
-        android:layout_height="250dp"
-        android:layout_margin="0dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:adjustViewBounds="false"
-        android:cropToPadding="false"
-        android:paddingRight="0dp"
-        android:paddingStart="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnClear"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.461"
-        app:srcCompat="@drawable/ic_dans_number_lines" />
-
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="239dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
-        android:adjustViewBounds="true"
-        android:alpha=".3"
-        app:layout_constraintBottom_toTopOf="@+id/btnClear"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="@+id/drawView"
-        app:layout_constraintTop_toTopOf="@+id/drawView"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/number_0" />
-
-    <com.example.cs246project.kindergartenprepapp.DrawView
-        android:id="@+id/drawView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnClear"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0" />
+        app:srcCompat="@drawable/arrow_right" />
 
 </android.support.constraint.ConstraintLayout>
