@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 /**
@@ -30,14 +31,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         SharedPreferences settings = this.getSharedPreferences(AppConstants.sharePreferenceSettings, MODE_PRIVATE);
-        String firstname = settings.getString(AppConstants.sharePreferenceFirstName, "");
-        String lastname = settings.getString(AppConstants.sharePreferenceLastName, "");
+        String firstName = settings.getString(AppConstants.sharePreferenceFirstName, "");
+        String lastName = settings.getString(AppConstants.sharePreferenceLastName, "");
 
         // Retrieve name
         EditText firstNameField = (EditText) findViewById(R.id.playerFirstName);
-        firstNameField.setText(firstname);
+        firstNameField.setText(firstName);
         EditText lastNameField = (EditText) findViewById(R.id.playerLastName);
-        lastNameField.setText(lastname);
+        lastNameField.setText(lastName);
+
+        if (firstName.isEmpty()) {
+            firstNameField.requestFocus();
+        } else {
+            Button goButton = (Button) findViewById(R.id.btnGo);
+            goButton.requestFocus();
+        }
 
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.instruct_enter_your_name_to_get_started);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
