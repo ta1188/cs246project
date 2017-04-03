@@ -65,7 +65,6 @@ public abstract class TraceableActivity extends SkipTapActivity {
     }
 
     public void enableAllButtons(boolean isEnable) {
-        _buttonMenu.setEnabled(isEnable);
         _buttonPrevious.setEnabled(isEnable);
         _buttonClear.setEnabled(isEnable);
         _buttonNext.setEnabled(isEnable);
