@@ -19,7 +19,7 @@ public class NameTraceableModel {
 
     protected String _firstName;
     protected String _lastName;
-    protected int _lastLetterOfFirstNameResourceIndex;
+    protected int _lastIndexInFirstName;
 
     protected Context _context;
 
@@ -58,7 +58,7 @@ public class NameTraceableModel {
 
             // Set the resource index for the last letter in the first name
             if (i == (_firstName.length() - 1)) {
-                _lastLetterOfFirstNameResourceIndex = resourceIndex;
+                _lastIndexInFirstName = i;
             }
 
             result.add(resourceIndex);
@@ -103,7 +103,7 @@ public class NameTraceableModel {
         return _context.getResources().getIdentifier("motivate_great_job", "raw", _context.getPackageName());
     }
 
-    public boolean isLastLetterOfFirstName(int resourceIndex) {
-        return _lastLetterOfFirstNameResourceIndex == resourceIndex;
+    public boolean isLastLetterOfFirstName(int index) {
+        return _lastIndexInFirstName == index;
     }
 }

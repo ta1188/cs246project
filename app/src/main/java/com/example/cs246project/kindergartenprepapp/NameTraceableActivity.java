@@ -91,7 +91,7 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
             AppCompatImageView imageView = new AppCompatImageView(this);
             imageView.setImageResource(resourceIndex);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            if (_model.isLastLetterOfFirstName(resourceIndex)) {
+            if (_model.isLastLetterOfFirstName(i)) {
                 layoutParams.setMargins(0, 0, 150, 0);
             } else {
                 layoutParams.setMargins(0, 0, 75, 0);
@@ -106,7 +106,7 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
             AppCompatImageView previewImageView = new AppCompatImageView(this);
             previewImageView.setImageResource(resourceIndex);
             LinearLayout.LayoutParams previewLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-            if (_model.isLastLetterOfFirstName(resourceIndex)) {
+            if (_model.isLastLetterOfFirstName(i)) {
                 previewLayoutParams.setMargins(0, 0, 75, 0);
             } else {
                 previewLayoutParams.setMargins(0, 0, 10, 0);
@@ -137,7 +137,7 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
         for (int i = 0; i < _letterLayout.getChildCount(); i++) {
             AppCompatImageView imageView = (AppCompatImageView) _letterLayout.getChildAt(i);
             int marginRight = 75;
-            if (_model.isLastLetterOfFirstName(_model.getValues().get(i))) {
+            if (_model.isLastLetterOfFirstName(i)) {
                 marginRight = 150;
             }
             int characterWidth = imageView.getWidth() + marginRight;
