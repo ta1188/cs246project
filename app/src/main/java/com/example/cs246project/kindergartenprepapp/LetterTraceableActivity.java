@@ -37,8 +37,8 @@ public class LetterTraceableActivity extends CharacterTraceableActivity {
         upperLetterImageView.setImageResource(_model.getCurrentValues().get(0));
         lowerLetterImageView.setImageResource(_model.getCurrentValues().get(1));
         // Set the view opacity
-        upperLetterImageView.setAlpha(0.5f);
-        lowerLetterImageView.setAlpha(0.5f);
+        upperLetterImageView.setAlpha(0.3f);
+        lowerLetterImageView.setAlpha(0.3f);
 
         _drawView.randomizeCurrentColor();
     }
