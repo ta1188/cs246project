@@ -41,20 +41,6 @@ public abstract class TraceableActivity extends SkipTapActivity {
         // Set the background
         setTraceBackgroundFromValues(_model.getCurrentValues());
 
-        // Hide the previous button since the activity is at the start
-        if (_model.isAtBeginning()) {
-            FloatingActionButton previousButton = (FloatingActionButton) findViewById(R.id.btnPrevious);
-            previousButton.setVisibility(View.INVISIBLE);
-        }
-
-        // Hide button if the activity isn't already complete
-        if (!_model.isComplete()) {
-            FloatingActionButton doneButton = (FloatingActionButton) findViewById(R.id.btnDone);
-            doneButton.setVisibility(View.INVISIBLE);
-        }
-
-        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
-
         _buttonMenu = (FloatingActionButton) findViewById(R.id.btnMenuReturn);
         _buttonPrevious = (FloatingActionButton) findViewById(R.id.btnPrevious);
         _buttonClear = (FloatingActionButton) findViewById(R.id.btnClear);
@@ -62,8 +48,25 @@ public abstract class TraceableActivity extends SkipTapActivity {
         _buttonDone = (FloatingActionButton) findViewById(R.id.btnDone);
 
         enableAllButtons(false);
+
+
+        // Hide the previous button since the activity is at the start
+        if (_model.isAtBeginning()) {
+            _buttonPrevious.setVisibility(View.INVISIBLE);
+        }
+
+        // Hide button if the activity isn't already complete
+        if (!_model.isComplete()) {
+            _buttonDone.setVisibility(View.INVISIBLE);
+        }
+
+        playInstructions(getResources().getIdentifier(_model.getInstructionsFileName(), "raw", getPackageName()));
     }
 
+    /**
+     * Enables or disables buttons at the bottom of the tracing activity.
+     * @param isEnable Used to enable or disable buttons
+     */
     public void enableAllButtons(boolean isEnable) {
         _buttonPrevious.setEnabled(isEnable);
         _buttonClear.setEnabled(isEnable);
