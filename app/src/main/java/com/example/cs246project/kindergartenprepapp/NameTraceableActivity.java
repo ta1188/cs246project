@@ -117,8 +117,8 @@ public class NameTraceableActivity extends SkipTapActivity implements Runnable {
             previewLetterLayout.addView(previewImageView);
 
             // Have to set these really big so all the letters can fit
-            _letterLayout.getLayoutParams().width = 50000;
-            _drawView.getLayoutParams().width = 50000;
+            _letterLayout.getLayoutParams().width = 10000;
+            _drawView.getLayoutParams().width = 10000;
 
             // Post only on the last view added
             if ((i + 1) == _model.getValues().size()) {
