@@ -125,8 +125,6 @@ public class ShapeSelectableModel extends SelectableModel {
             randomValues = randomValuesGenerator();
         }
         else {
-            Log.w(TAG, "generateButtonList: able to generate random values " +
-                    _answerBank.size() + " > 0");
             return null;
         }
 

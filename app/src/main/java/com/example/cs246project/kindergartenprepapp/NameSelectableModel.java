@@ -103,7 +103,6 @@ public class NameSelectableModel extends SelectableModel {
                     // initialize question bank
                     buildInitialQuestionAnswerBanks();
                 } else {
-                    Log.i(TAG, "NameSelectableModel: No last name entered ");
                     _isActivityDone = true;
                 }
                 break;
@@ -140,12 +139,10 @@ public class NameSelectableModel extends SelectableModel {
 
         // check if activity is done
         if(!_isActivityDone) {
-            Log.w(TAG, "answer is " + _answerOrder);
             if (value == _answerOrder) {
 
                 // remove the value from the possibilities where because the value is in order
                 //    the first item in the list will be the correct answer
-                Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
                 _answerBank.remove(0);
 
                 // make sure not to over extend bounds
@@ -155,7 +152,6 @@ public class NameSelectableModel extends SelectableModel {
                     _answerOrder = (Character) _answerBank.get(0);
                 }
             } else {
-                Log.w(TAG, "The value: " + value + " is NOT correct");
             }
         }
 
@@ -202,8 +198,6 @@ public class NameSelectableModel extends SelectableModel {
             randomValues = randomValuesGenerator();
         }
         else {
-            Log.w(TAG, "generateButtonList: able to generate random values " +
-                    "_answerBank.size() < 1");
 
             return questionsAndAnswer;
         }

@@ -1,15 +1,12 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Algorithm will have 4 possible pattern types that are equally likely to be chosen and will be
@@ -198,12 +195,10 @@ public class PatternMatchSelectableModel extends SelectableModel {
 
         // check if activity is done and if the question activity is done.
         if(!_isActivityDone && !_isCurrentPatternQuestionsDone) {
-            Log.w(TAG, "answer is " + _answerOrder);
             if (value.equals(_answerOrder)) {
 
                 // remove the value from the possibilities where because the value is in order
                 //    the first item in the list will be the correct answer
-                Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
                 _answerList.remove(0);
 
                 // make sure not to over extend bounds
@@ -213,8 +208,6 @@ public class PatternMatchSelectableModel extends SelectableModel {
                     _answerOrder = _answerList.get(0);
                 }
             } else {
-
-                Log.w(TAG, "The value: " + value + " is NOT correct");
             }
         }
 
@@ -290,8 +283,6 @@ public class PatternMatchSelectableModel extends SelectableModel {
             randomObjectValueList = randomValuesGenerator();
         }
         else {
-            Log.w(TAG, "generateButtonList: able to generate random values " +
-                    _answerBank.size() + " > 0");
             return null;
         }
 

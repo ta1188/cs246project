@@ -1,13 +1,10 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * <p>
@@ -60,8 +57,6 @@ public class CountSelectableModel extends SelectableModel {
             _isFirstTime = true;
         }
         else {
-            Log.i(TAG, "CountSelectableModel: 0 < option count <= 10; out of range");
-
         }
 
         // initialize question bank
@@ -116,8 +111,6 @@ public class CountSelectableModel extends SelectableModel {
             randomValues = randomValuesGenerator();
         }
         else {
-            Log.w(TAG, "generateButtonList: able to generate random values " +
-                    _answerBank.size() + " > 0");
             return null;
         }
 

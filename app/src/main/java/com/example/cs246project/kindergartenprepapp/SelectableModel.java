@@ -2,7 +2,6 @@ package com.example.cs246project.kindergartenprepapp;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -66,13 +65,10 @@ abstract class SelectableModel<T> extends Application {
     public Boolean isCorrect(T value) {
 
         if(!_isActivityDone) {
-            Log.w(TAG, "answer is " + _answer);
             if (value == _answer) {
                 // find value in list and then remove it from the possibilities
-                Log.w(TAG, "updateQuestionBank: removed " + value + " from possible questions");
                 _answerBank.remove(value);
             } else {
-                Log.w(TAG, "The value: " + value + " is NOT correct");
             }
         }
 

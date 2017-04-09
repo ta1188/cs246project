@@ -1,7 +1,6 @@
 package com.example.cs246project.kindergartenprepapp;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +54,6 @@ public class WordSelectableModel extends SelectableModel {
             _optionCount = optionCount;
             _isActivityDone = false;
         } else {
-            Log.i(TAG, "CountSelectableModel: 0 < option count <= 26; out of possible range");
         }
 
         // initialize question bank
@@ -111,8 +109,6 @@ public class WordSelectableModel extends SelectableModel {
             randomValues = randomValuesGenerator();
         }
         else {
-            Log.w(TAG, "generateButtonList: able to generate random values " +
-                    _answerBank.size() + " > 0");
             return null;
         }
 
