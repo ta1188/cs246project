@@ -230,7 +230,6 @@ public class MenuActivity extends AppCompatActivity {
         this.finish();
     }
     public void progressMenu (View view) {
-        Log.d("MenuActivity", "This will progress the menu");
     }
 
     @Override

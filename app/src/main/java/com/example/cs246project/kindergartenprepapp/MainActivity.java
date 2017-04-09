@@ -19,6 +19,8 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
             goButton.requestFocus();
         }
 
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.instruct_enter_your_name_to_get_started);
+        playInstructions();
+    }
+
+    protected void playInstructions() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.instruct_enter_your_name_to_get_started);
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -104,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
+        playInstructions();
+
         super.onResume();
     }
 
@@ -116,5 +124,29 @@ public class MainActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
 
         super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        stopAudio();
+
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        stopAudio();
+
+        super.onPause();
+    }
+
+    /**
+     * Will kill the media player
+     */
+    public void stopAudio() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer  = null;
+        }
     }
 }
