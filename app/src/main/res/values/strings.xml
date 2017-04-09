@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SkipTap: The Kindergarten Prep App</string>
+    <string name="app_name">SkipTap: Kindergarten Prep App</string>
     <string name="title_activity_word_selectable">WordSelectable</string>
     <string name="title_activity_number_trace">NumberTraceActivity</string>
     <string name="shapeName">Triangle</string>
